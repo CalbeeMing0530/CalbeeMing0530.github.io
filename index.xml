@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ming Blog</title>
+    <link>https://www.puming.zone/</link>
+    <description>Recent content on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.puming.zone/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>怀念2017的新西兰之旅</title>
+      <link>https://www.puming.zone/post/2021-1-20-23-16-pumingblog/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.puming.zone/post/2021-1-20-23-16-pumingblog/</guid>
+      <description>不知不觉4年过去了，新西兰之旅是与毛蛋的第一次出国行，虽然走之前计划做的很详细，但还是有许多未考虑周全的地方, 凭记忆记录下这次旅行中印象最为</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.puming.zone/search/placeholder/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.puming.zone/search/placeholder/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.puming.zone/top/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.puming.zone/top/about/</guid>
+      <description>Huabing Zhao is an ICT veteran with a passion for open source. He has a solid experience in the telecommunication and information technology industry for more than 17 years.
+Throughout his career, he has built a number of large-scale, cross-country OSS/BSS platforms/systems and operation tools, most of them are still running in productions.
+He loves open source and has been contributing to a variety of open source projects, including Istio(Service Mesh https://istio.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.puming.zone/top/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.puming.zone/top/books/</guid>
+      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.</description>
+    </item>
+    
+  </channel>
+</rss>
