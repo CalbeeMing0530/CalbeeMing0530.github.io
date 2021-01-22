@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ming Blog</title>
-    <link>https://www.puming.zone/</link>
+    <link>https://puming.zone/</link>
     <description>Recent content on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.puming.zone/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://puming.zone/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Music Corner</title>
-      <link>https://www.puming.zone/post/2021-1-22-music-corner/</link>
+      <link>https://puming.zone/post/2021-1-22-music-corner/</link>
       <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/post/2021-1-22-music-corner/</guid>
+      <guid>https://puming.zone/post/2021-1-22-music-corner/</guid>
       <description>喜欢小众音乐，并不是因为小众而喜欢，而是因为小众基本脱离了流行因素，能走入人心 喜欢各种风格的音乐，只要能触及使我感动的点 好的音乐是震撼心灵的</description>
     </item>
     
     <item>
       <title>怀念2017的新西兰之旅</title>
-      <link>https://www.puming.zone/post/2021-1-20-%E6%80%80%E5%BF%B52017%E7%9A%84%E6%96%B0%E8%A5%BF%E5%85%B0%E4%B9%8B%E6%97%85/</link>
+      <link>https://puming.zone/post/2021-1-20-%E6%80%80%E5%BF%B52017%E7%9A%84%E6%96%B0%E8%A5%BF%E5%85%B0%E4%B9%8B%E6%97%85/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/post/2021-1-20-%E6%80%80%E5%BF%B52017%E7%9A%84%E6%96%B0%E8%A5%BF%E5%85%B0%E4%B9%8B%E6%97%85/</guid>
+      <guid>https://puming.zone/post/2021-1-20-%E6%80%80%E5%BF%B52017%E7%9A%84%E6%96%B0%E8%A5%BF%E5%85%B0%E4%B9%8B%E6%97%85/</guid>
       <description>序 不知不觉4年过去了，新西兰之旅是与毛蛋的第一次出国行，虽然走之前计划做的很详细，但还是有许多未考虑周全的地方, 凭记忆记录这次旅行中印象最为</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://www.puming.zone/search/placeholder/</link>
+      <link>https://puming.zone/search/placeholder/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/search/placeholder/</guid>
+      <guid>https://puming.zone/search/placeholder/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>https://www.puming.zone/top/about/</link>
+      <link>https://puming.zone/top/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/top/about/</guid>
+      <guid>https://puming.zone/top/about/</guid>
       <description>博主目前就职于绿盟科技星云实验室，base西安，主要从事云原生安全创新研究及孵化落地工作，欢迎感兴趣的读者一起交流。</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://www.puming.zone/top/books/</link>
+      <link>https://puming.zone/top/books/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/top/books/</guid>
+      <guid>https://puming.zone/top/books/</guid>
       <description></description>
     </item>
     

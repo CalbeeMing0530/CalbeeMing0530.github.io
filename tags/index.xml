@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Ming Blog</title>
-    <link>https://www.puming.zone/tags/</link>
+    <link>https://puming.zone/tags/</link>
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>life</title>
-      <link>https://www.puming.zone/tags/life/</link>
+      <link>https://puming.zone/tags/life/</link>
       <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/tags/life/</guid>
+      <guid>https://puming.zone/tags/life/</guid>
       <description></description>
     </item>
     
     <item>
       <title>music</title>
-      <link>https://www.puming.zone/tags/music/</link>
+      <link>https://puming.zone/tags/music/</link>
       <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/tags/music/</guid>
+      <guid>https://puming.zone/tags/music/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Photography</title>
-      <link>https://www.puming.zone/tags/photography/</link>
+      <link>https://puming.zone/tags/photography/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://www.puming.zone/tags/photography/</guid>
+      <guid>https://puming.zone/tags/photography/</guid>
       <description></description>
     </item>
     
