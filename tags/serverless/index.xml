@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Serverless on Ming Blog</title>
+    <link>https://puming.zone/tags/serverless/</link>
+    <description>Recent content in Serverless on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 24 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/serverless/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Serverless安全研究 — Serverless概述</title>
+      <link>https://puming.zone/post/2021-1-24-serverless%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-1-24-serverless%E6%A6%82%E8%BF%B0/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《Serverless安全研究 — Serverless概述》 一. 背景定义 从“硬件”到“Serverless”的变</description>
+    </item>
+    
+  </channel>
+</rss>

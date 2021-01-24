@@ -6,35 +6,62 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>life</title>
-      <link>https://puming.zone/tags/life/</link>
-      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      <title>Security</title>
+      <link>https://puming.zone/tags/security/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://puming.zone/tags/life/</guid>
+      <guid>https://puming.zone/tags/security/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>music</title>
-      <link>https://puming.zone/tags/music/</link>
-      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      <title>Serverless</title>
+      <link>https://puming.zone/tags/serverless/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://puming.zone/tags/music/</guid>
+      <guid>https://puming.zone/tags/serverless/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Photography</title>
-      <link>https://puming.zone/tags/photography/</link>
+      <title>apple music</title>
+      <link>https://puming.zone/tags/apple-music/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/apple-music/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>netease cloud music</title>
+      <link>https://puming.zone/tags/netease-cloud-music/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/netease-cloud-music/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>new zealand</title>
+      <link>https://puming.zone/tags/new-zealand/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://puming.zone/tags/photography/</guid>
+      <guid>https://puming.zone/tags/new-zealand/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>travel</title>
+      <link>https://puming.zone/tags/travel/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/travel/</guid>
       <description></description>
     </item>
     

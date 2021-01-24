@@ -4,16 +4,46 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2021-01-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2021-01-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/security/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/serverless/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2021-1-24-serverless%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/apple-music/</loc>
     <lastmod>2021-01-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,22 +53,12 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/music/</loc>
-    <lastmod>2021-01-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2021-1-22-music-corner/</loc>
     <lastmod>2021-01-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2021-01-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
+    <loc>https://puming.zone/tags/netease-cloud-music/</loc>
     <lastmod>2021-01-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -48,7 +68,12 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/photography/</loc>
+    <loc>https://puming.zone/tags/new-zealand/</loc>
+    <lastmod>2021-01-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/travel/</loc>
     <lastmod>2021-01-20T00:00:00+00:00</lastmod>
   </url>
   
