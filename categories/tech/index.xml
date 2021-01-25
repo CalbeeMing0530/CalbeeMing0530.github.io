@@ -6,10 +6,19 @@
     <description>Recent content in Tech on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>云原生攻防研究 — 针对AWS Lambda的运行时攻击</title>
+      <link>https://puming.zone/post/2021-1-25-%E9%92%88%E5%AF%B9aws-lambda%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6%E6%94%BB%E5%87%BB/</link>
+      <pubDate>Mon, 25 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-1-25-%E9%92%88%E5%AF%B9aws-lambda%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6%E6%94%BB%E5%87%BB/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生攻防研究 】针对AWS Lambda的运行时攻击》 专题信息 专题：云原生攻防研究 往期回顾： 【云原生攻防研究</description>
+    </item>
     
     <item>
       <title>Serverless安全研究 — Serverless概述</title>
