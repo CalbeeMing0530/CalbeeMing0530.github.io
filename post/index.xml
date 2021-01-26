@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Serverless安全研究 — Serverless安全风险</title>
+      <link>https://puming.zone/post/2021-1-26-serverless%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E4%B8%8E%E5%A8%81%E8%83%81/</link>
+      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-1-26-serverless%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E4%B8%8E%E5%A8%81%E8%83%81/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《Serverless安全研究 — Serverless安全风险》 一.专题信息 专题： Serverless安全研究 标</description>
+    </item>
     
     <item>
       <title>云原生攻防研究 — 针对AWS Lambda的运行时攻击</title>
