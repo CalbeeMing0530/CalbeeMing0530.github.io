@@ -4,7 +4,42 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/security/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/serverless/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2021-1-29-serverless%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2021-01-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -13,37 +48,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/serverless/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2021-1-26-serverless%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E4%B8%8E%E5%A8%81%E8%83%81/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
-    <lastmod>2021-01-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/tech/</loc>
     <lastmod>2021-01-26T00:00:00+00:00</lastmod>
   </url>
   

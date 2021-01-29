@@ -159,7 +159,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/img/Serverless%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4.jpg')
+        background-image: url('/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9.jpg')
     }
 </style>
 <header class="intro-header">
@@ -244,7 +244,7 @@
 <h1 id="三serverless安全架构">三.Serverless安全架构</h1>
 <p>
   <figure>
-    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4/%e5%9b%be1.jpg" alt="image">
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be1.jpg" alt="image">
     <center><figcaption>图1. Serverless安全责任共享模型图</figcaption></center>
   </figure>
 
@@ -254,7 +254,7 @@
 <p>通过近期的调研，笔者总结并绘制了一幅Serverless安全风险脑图，如下所示：</p>
 <p>
   <figure>
-    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4/%e5%9b%be2.jpg" alt="image">
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be2.jpg" alt="image">
     <center><figcaption>图2. Serverless安全风险脑图</figcaption></center>
   </figure>
 
@@ -265,7 +265,7 @@
 <p>应用程序内部由于开发者未对外界输入数据进行过滤或编码，因而经常导致SQL注入、系统命令执行等攻击行为。过去的传统应用程序中，开发者可根据自身实战经验在数量有限的可能性中轻易判定出恶意输入来源，而Serverless模式下的函数调用由事件源触发，输入来源的不确定性限制了开发者的判定，以下是函数的事件源示意图：</p>
 <p>
   <figure>
-    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4/%e5%9b%be3.jpg" alt="image">
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be3.jpg" alt="image">
     <center><figcaption>图3. 函数事件源触发示意图</figcaption></center>
   </figure>
 
@@ -324,7 +324,7 @@ Item={
 <p>由于OpenWhisk并没有对/init调用进行有效限制，所以攻击者可以利用应用程序漏洞强制Serverless函数发送一个HTTP POST请求到http://localhost:8080/init，从而覆盖之前接收到的函数源代码，换而言之，攻击者构造的危险函数体将被执行，下述是简易的攻击流程图【6】：</p>
 <p>
   <figure>
-    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4/%e5%9b%be4.jpg" alt="image">
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be4.jpg" alt="image">
     <center><figcaption>图4. CVE-2018-11756攻击简易图</figcaption></center>
   </figure>
 
@@ -506,6 +506,11 @@ Content-Type: text/plain
                             Previous Post</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/post/2021-1-29-serverless%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4/" data-toggle="tooltip" data-placement="top" title="Serverless安全研究 — Serverless安全防护">Next
+                            Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
