@@ -262,7 +262,7 @@
 <p>为了更好地解决Serverless函数引入第三方库漏洞的风险，业界通常采取软件组成分析（Software Composition Analysis，SCA）技术，其原理是通过对现有应用程序中使用的开源依赖项进行统计，并同时分析依赖项间的关系最后得出依赖项的开源许可证及其详细信息，详细信息包括依赖项是否存在安全漏洞、包含漏洞数量、漏洞严重程度等。最终SCA会根据这些前提条件判定应用程序是否可以继续运行。目前主流的SCA产品有OWASP Dependency Check[5]、SonaType[6]、Snyk[7]、Bunder Audit[8]，其中SonaType、Snyk、Bunder Audit均为开源项目。</p>
 <h2 id="33-应用程序访问控制">3.3 应用程序访问控制</h2>
 <p>传统的访问控制防护方法在Serverless上也同样适用，我们可以从最小特权原则、隔离性这两方面出发进行相应防护。</p>
-<h3 id="331">3.3.1</h3>
+<h3 id="331-最小特权原则">3.3.1 最小特权原则</h3>
 <p>每个用户只能访问指定资源，粒度越细，攻击面暴露的越少。在Serverless中，运行单元为一个个函数，Serverless中最小特权原则通过事先定义一组具有访问权限的角色，并赋予函数不同的角色从而实现函数层面的访问控制，以下是一个简单的Lambda函数部署文件代码片段：</p>
 <pre><code>service: new-service
 provider:
@@ -445,7 +445,9 @@ provider:
                         
                         
                         
-                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
                         
                         
                         
@@ -523,6 +525,15 @@ provider:
                     
                     
                     
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
                     
                     
                     
