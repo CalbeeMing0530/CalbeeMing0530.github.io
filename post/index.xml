@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>主流开源Serverless平台OpenFaaS安全性研究</title>
+      <link>https://puming.zone/post/2021-2-4-%E4%B8%BB%E6%B5%81%E5%BC%80%E6%BA%90serverless%E5%B9%B3%E5%8F%B0openfaas%E5%AE%89%E5%85%A8%E6%80%A7%E7%A0%94%E7%A9%B6/</link>
+      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-2-4-%E4%B8%BB%E6%B5%81%E5%BC%80%E6%BA%90serverless%E5%B9%B3%E5%8F%B0openfaas%E5%AE%89%E5%85%A8%E6%80%A7%E7%A0%94%E7%A9%B6/</guid>
+      <description>专题信息 专题：Serverless安全研究 往期回顾： 《Serverless安全研究 — Serverless概述》 《Serverless安全研究</description>
+    </item>
     
     <item>
       <title>电影《Tschick》观后感</title>
