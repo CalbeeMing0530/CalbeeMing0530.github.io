@@ -101,5 +101,32 @@
       <description></description>
     </item>
     
+    <item>
+      <title>RSA</title>
+      <link>https://puming.zone/tags/rsa/</link>
+      <pubDate>Thu, 20 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/rsa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SaaS</title>
+      <link>https://puming.zone/tags/saas/</link>
+      <pubDate>Thu, 20 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/saas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>API Gateway</title>
+      <link>https://puming.zone/tags/api-gateway/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/api-gateway/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
