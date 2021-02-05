@@ -525,7 +525,7 @@ rolebinding.rbac.authorization.k8s.io/default:psp:restricted created
 </code></pre>
 <p>该角色绑定义一个名为default:psp:restricted的rolebinding并将Pod安全策略psp:restricted 绑定至openfaas-fn命名空间下的默认default账户</p>
 <p>4.部署OpenFaaS函数，验证Pod安全策略</p>
-<p>与3.1中部署过程相同，此处不再赘述。</p>
+<p>与4.1中部署过程相同，此处不再赘述。</p>
 <p>部署完成后，通过kubectl查看此函数的部署状态，发现未部署成功，如下所示：</p>
 <pre><code>root@openfass-master:~# kubectl get pod -n openfaas-fn -o wide
 NAME READY STATUS RESTARTS AGE IP NODE NOMINATED NODE READINESS GATES
