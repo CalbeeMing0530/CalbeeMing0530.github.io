@@ -74,5 +74,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>Istio</title>
+      <link>https://puming.zone/tags/istio/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/istio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Service Mesh</title>
+      <link>https://puming.zone/tags/service-mesh/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/service-mesh/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

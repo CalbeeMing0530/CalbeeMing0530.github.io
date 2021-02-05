@@ -39,15 +39,6 @@
     </item>
     
     <item>
-      <title>夜晚随笔</title>
-      <link>https://puming.zone/post/2021-1-26-%E9%9A%8F%E7%AC%94/</link>
-      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/post/2021-1-26-%E9%9A%8F%E7%AC%94/</guid>
-      <description>“ 努力的大吃大睡，有乐趣，努力做别的事，也会有乐趣。 但「努力会有收获」这种话，有点像悬赏抓逃犯，没有赏金就懒得抓； 没有收获，就提不起努力，这</description>
-    </item>
-    
-    <item>
       <title>云原生攻防研究 — 针对AWS Lambda的运行时攻击</title>
       <link>https://puming.zone/post/2021-1-25-%E9%92%88%E5%AF%B9aws-lambda%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6%E6%94%BB%E5%87%BB/</link>
       <pubDate>Mon, 25 Jan 2021 00:00:00 +0000</pubDate>
@@ -63,6 +54,15 @@
       
       <guid>https://puming.zone/post/2021-1-24-serverless%E6%A6%82%E8%BF%B0/</guid>
       <description>本文转自绿盟科技研究通讯公众号 《Serverless安全研究 — Serverless概述》 一. 背景定义 从“硬件”到“Serverless”的变</description>
+    </item>
+    
+    <item>
+      <title>【云原生攻防研究】Istio访问授权再曝高危漏洞</title>
+      <link>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生攻防研究】Istio访问授权再曝高危漏洞》 一.概述 在过去两年，以Istio为代表的Service Me</description>
     </item>
     
   </channel>
