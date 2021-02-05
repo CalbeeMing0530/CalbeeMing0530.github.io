@@ -334,45 +334,34 @@ tls:
 </code></pre>
 <h2 id="33-安全配置">3.3 安全配置</h2>
 <p>笔者对OpenFaaS提供的安全配置进行了汇总，主要包括如下几个部分：</p>
-<ol>
-<li>
-<p>函数文件系统只读
+<p>1.函数文件系统只读
 开发者可在函数部署文件中配置“readonly_root_filesystem: true“实现，默认为false;</p>
-</li>
-<li>
-<p>函数超时时长
+<p>2.函数超时时长
 开发者可在函数部署文件中配置环境变量实现，下例展示了如何进行配置：</p>
-<p>provider:
+<pre><code>provider:
 ……
 functions:
 ……
-environment:
-read_timeout: 20s #允许函数通过HTTP读取请求的时间为20s
-exec_timeout: 20s #允许函数被终止之前最多运行20s
-write_timeout: 20s#允许函数通过HTTP写入响应的时间为20s</p>
-</li>
-<li>
-<p>函数弹性扩展
+    environment:
+        read_timeout: 20s #允许函数通过HTTP读取请求的时间为20s
+        exec_timeout: 20s #允许函数被终止之前最多运行20s
+        write_timeout: 20s#允许函数通过HTTP写入响应的时间为20s
+</code></pre>
+<p>3.函数弹性扩展
 开发者可从“每秒请求数”和“CPU/内存利用率”两方面实现函数的弹性扩展，详细的配置可以参考官方文档[5]。</p>
-</li>
-<li>
-<p>非特权模式部署容器及non-root用户运行容器
-OpenFaaS函数默认以非特权模式进行部署，且以non-root用户运行，详细信息我们可通过查看函数Dockerfile，下面列举了Dockerfile部分内容：</p>
+<p>4.非特权模式部署容器及non-root用户运行容器</p>
+<p>OpenFaaS函数默认以非特权模式进行部署，且以non-root用户运行，详细信息我们可通过查看函数Dockerfile，下面列举了Dockerfile部分内容：</p>
 <pre><code>#Add non root user
 RUN addgroup -S app &amp;&amp; adduser app -S -G app
 </code></pre>
-</li>
-</ol>
 <h1 id="四针对openfaas函数的进一步防护">四.针对OpenFaaS函数的进一步防护</h1>
 <p>通过以上OpenFaaS安全功能介绍，我们可以大致看出，除了认证、安全配置、数据安全之外，OpenFaaS在访问控制、函数运行时防护方面缺乏相应的安全能力，官方文档也未提供相关信息。</p>
 <p>OpenFaaS部署在Kubernetes之上，其部署的函数也是作为一个Pod运行在集群中，那么理论上讲，Kubernetes的安全机制也应该可以复用在OpenFaaS函数上，笔者从此思路出发，分别从Kubernetes的RBAC、Pod安全策略（Pod Security Policy）、网络策略（NetworkPolicy）三方面对OpenFaaS函数进行了相关实验。</p>
 <h2 id="41-使用rbac实现函数访问控制">4.1 使用RBAC实现函数访问控制</h2>
 <p><strong>实验目的</strong></p>
 <p>通过在默认的函数部署命名空间“openfaas-fn”中部署RBAC策略，，进而验证RBAC能否实现对OpenFaaS函数的访问控制。</p>
-<p><strong>实验过程</strong></p>
-<ol>
-<li>
-<p>部署test-bot函数</p>
+<p><strong>实验过程</strong>
+1.部署test-bot函数</p>
 <pre><code>root@openfass-master:~# faas-cli up -f test-bot.yml
 [0] &gt; Building test-bot.
 ... ...
@@ -380,9 +369,7 @@ RUN addgroup -S app &amp;&amp; adduser app -S -G app
 Deployed. 202 Accepted.
 URL: http://192.168.19.211:31112/function/test-bot.openfaas-fn
 </code></pre>
-</li>
-<li>
-<p>查看部署函数默认使用的ServiceAccount</p>
+<p>2.查看部署函数默认使用的ServiceAccount</p>
 <pre><code>root@openfass-master:~# kubectl get pods test-bot-5c9cdd699c-x64g5 -n openfaas-fn -o yaml
 apiVersion: v1
 ......
@@ -393,12 +380,8 @@ serviceAccount: default  ##默认ServiceAccount
 serviceAccountName: default ##默认ServiceAccount
 ......
 </code></pre>
-</li>
-</ol>
 <p>可以看出该函数使用的为Kubernetes默认为其创建的ServiceAccount，下一步需要建立一个RBAC策略，并将策略中的ServiceAccount绑定至test-bot中。</p>
-<ol start="3">
-<li>创建并部署RBAC策略</li>
-</ol>
+<p>3.创建并部署RBAC策略</p>
 <p>RBAC策略文件内容如下所示：</p>
 <pre><code>---
 apiVersion: v1
@@ -456,9 +439,7 @@ subjects:
   </figure>
 
 </p>
-<ol start="4">
-<li>将RBAC策略中的ServiceAccount绑定至test-bot Pod</li>
-</ol>
+<p>4.将RBAC策略中的ServiceAccount绑定至test-bot Pod</p>
 <p>由于Kubernetes禁止通过kubectl edit直接修改Pod中的ServiceAccount和ServiceAccountName，因此我们可以通过打补丁的方式替换掉test-bot中默认的ServiceAccount，需要注意的是由于Kubernetes的Pod资源由ReplicaSet控制器下发的，而ReplicaSet又是由Deployment资源下发，因此我们需要从Deployment资源中打补丁，具体操作如下：</p>
 <pre><code>kubectl patch -n openfaas-fn deploy test-bot -p '{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;serviceAccountName&quot;:&quot;faas-test-rbac&quot;}}}}'    ##通过打补丁的形式
 </code></pre>
@@ -472,9 +453,7 @@ subjects:
 <p><strong>实验目的</strong></p>
 <p>通过在Kubernetes集群中部署Pod安全策略，进而观察函数创建过程是否满足条件，若不满足则调整策略，最终验证Pod安全策略能否对函数进行细粒度权限控制。</p>
 <p><strong>实验过程</strong></p>
-<ol>
-<li>
-<p>为Kubernetes的kube-apiserver配置添加Pod安全策略项</p>
+<p>1.为Kubernetes的kube-apiserver配置添加Pod安全策略项</p>
 <pre><code>root@openfass-master:~# vi /etc/kubernetes/manifests/kube-apiserver.yaml
 apiVersion: v1
 ... ...
@@ -483,9 +462,7 @@ spec:
     - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy ##添加PodSecurityPolicy项
 ... ...
 </code></pre>
-</li>
-<li>
-<p>部署一个相对严谨的Pod安全策略，策略部分内容如下所示：</p>
+<p>2.部署一个相对严谨的Pod安全策略，策略部分内容如下所示：</p>
 <pre><code>apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 ... ...
@@ -530,13 +507,9 @@ fsGroup:
 #要求容器必须以只读方式挂载根文件系统来运行,（即不允许存在可写入层）
 readOnlyRootFilesystem: false
 </code></pre>
-</li>
-<li>
-<p>授权Pod安全策略</p>
-</li>
-</ol>
+<p>3.授权Pod安全策略</p>
 <p>可通过RBAC授权Pod安全策略至“openfaas-fn“命名空间。</p>
-<p>(1)	创建Role</p>
+<p>(1)创建Role</p>
 <pre><code>root@openfass-master:~# kubectl -n openfaas-fn create role psp:restricted \
 &gt; --verb=use \
 &gt; --resource=podsecuritypolicy \
@@ -544,17 +517,15 @@ readOnlyRootFilesystem: false
 role.rbac.authorization.k8s.io/psp:restricted created
 </code></pre>
 <p>该角色定义一个名为psp:restricted的Role并给予openfaas-fn命名空间中名为restricted的Pod安全策略的权限。</p>
-<p>(2)	创建RoleBinding</p>
+<p>(2)创建RoleBinding</p>
 <pre><code>root@openfass-master:~# kubectl -n openfaas-fn create rolebinding default:psp:restricted \
 &gt; --role=psp:restricted \
 &gt; --serviceaccount=openfaas-fn:default
 rolebinding.rbac.authorization.k8s.io/default:psp:restricted created
 </code></pre>
 <p>该角色绑定义一个名为default:psp:restricted的rolebinding并将Pod安全策略psp:restricted 绑定至openfaas-fn命名空间下的默认default账户</p>
-<ol start="4">
-<li>部署OpenFaaS函数，验证Pod安全策略</li>
-</ol>
-<p>与4.1中部署过程相同，此处不再赘述。</p>
+<p>4.部署OpenFaaS函数，验证Pod安全策略</p>
+<p>与3.1中部署过程相同，此处不再赘述。</p>
 <p>部署完成后，通过kubectl查看此函数的部署状态，发现未部署成功，如下所示：</p>
 <pre><code>root@openfass-master:~# kubectl get pod -n openfaas-fn -o wide
 NAME READY STATUS RESTARTS AGE IP NODE NOMINATED NODE READINESS GATES
@@ -587,9 +558,7 @@ callfromanother-6db9fd5f69-8z7nb 1/1 Running 0 4s
 <p><strong>实验前提</strong></p>
 <p>Kubernetes的网络策略需要指定的CNI插件，笔者使用的Cillum插件。</p>
 <p><strong>实验过程</strong></p>
-<ol>
-<li>部署函数</li>
-</ol>
+<p>1.部署函数</p>
 <p>笔者部署了三个函数,用于后续实验 如下所示：</p>
 <pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# faas-cli list
 Function            Invocations  Replicas
@@ -597,9 +566,7 @@ callfromanother     28           1
 nodeinfo            4           1
 sentimentanalysis   45          1
 </code></pre>
-<ol start="2">
-<li>添加网络策略并验证</li>
-</ol>
+<p>2.添加网络策略并验证</p>
 <p>本实验场景为在openfaas-fn命名空间下，仅指定某函数可对另一函数进行访问
 下发策略内容如下：</p>
 <pre><code>apiVersion: networking.k8s.io/v1
