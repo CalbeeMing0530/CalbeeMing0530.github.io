@@ -4,22 +4,42 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/life/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/categories/music/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
+    <loc>https://puming.zone/tags/netease-cloud-music/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2021-2-23-%E6%96%B0%E5%B9%B4%E5%AF%84%E8%AF%AD/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,17 +48,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/netease-cloud-music/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2021-02-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
+    <loc>https://puming.zone/categories/music/</loc>
     <lastmod>2021-02-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -65,11 +75,6 @@
   <url>
     <loc>https://puming.zone/post/2021-2-4-%E4%B8%BB%E6%B5%81%E5%BC%80%E6%BA%90serverless%E5%B9%B3%E5%8F%B0openfaas%E5%AE%89%E5%85%A8%E6%80%A7%E7%A0%94%E7%A9%B6/</loc>
     <lastmod>2021-02-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/life/</loc>
-    <lastmod>2021-02-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>

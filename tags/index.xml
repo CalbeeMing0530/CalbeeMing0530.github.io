@@ -6,17 +6,26 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Life</title>
+      <title>life</title>
       <link>https://puming.zone/tags/life/</link>
-      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>netease cloud music</title>
+      <link>https://puming.zone/tags/netease-cloud-music/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/netease-cloud-music/</guid>
       <description></description>
     </item>
     
@@ -26,15 +35,6 @@
       <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/music/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>netease cloud music</title>
-      <link>https://puming.zone/tags/netease-cloud-music/</link>
-      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/netease-cloud-music/</guid>
       <description></description>
     </item>
     
