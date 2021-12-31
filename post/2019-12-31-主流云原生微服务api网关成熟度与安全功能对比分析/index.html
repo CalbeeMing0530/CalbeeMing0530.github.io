@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="主流云原生微服务API网关成熟度与安全功能对比分析" />
+    <meta property="og:title" content="主流云原生微服务API网关成熟度与安全功能对比分析" />
+    <meta property="twitter:title" content="主流云原生微服务API网关成熟度与安全功能对比分析" />
+    
+
+    
+    <meta name="description" content="对现有市场上的云原生微服务API网关做了相对详细的分析">
+    <meta property="og:description" content="对现有市场上的云原生微服务API网关做了相对详细的分析" />
+    <meta property="twitter:description" content="对现有市场上的云原生微服务API网关做了相对详细的分析" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>主流云原生微服务API网关成熟度与安全功能对比分析-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2019-12-31-%E4%B8%BB%E6%B5%81%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1api%E7%BD%91%E5%85%B3%E6%88%90%E7%86%9F%E5%BA%A6%E4%B8%8E%E5%AE%89%E5%85%A8%E5%8A%9F%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/kubernetes" title="Kubernetes">
+                            Kubernetes
+                        </a>
+                        
+                        <a class="tag" href="/tags/api-gateway" title="API Gateway">
+                            API Gateway
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                    </div>
+                    <h1>主流云原生微服务API网关成熟度与安全功能对比分析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Tuesday, December 31, 2019
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/DjgJb20pQM9N8Tt1I64Knw">《主流云原生微服务API网关成熟度与安全功能对比分析》</a></p>
+<h1 id="一-概述">一. 概述</h1>
+<p>在整个微服务架构中，API网关充当着非常重要的一环，它不仅要负责外部所有的流量接入，同时还要在网关入口处根据不同类型请求提供流量控制、日志收集、性能分析、速率限制、熔断、重试等细粒度的控制行为。API网关一方面将外部访问与微服务进行了隔离，保障了后台微服务的安全，另一方面也节省了后端服务的开发成本，有益于进行应用层面的扩展。与此同时，API网关也应具备解决外界访问带来的安全问题，例如TLS加密、数据丢失、跨域访问、认证授权、访问控制等。本文尝试分析目前主流的云原生微服务API网关成熟度以及各自具备的安全功能，并比较各自带来的优劣，尤其在安全层面上，开源软件都做了哪些工作，是否全面，若不全面我们又该如何弥补。</p>
+<p>因Kubernetes具备自动化部署、大规模可伸缩、应用容器化管理等优势加上近年来持续保持的高关注度，其成为了微服务标配的运行平台。基本围绕容器生态衍生的各类工具都以在Kubernetes平台上运行为核心去设计，所以我们以此为前提对目前市场比较火热的Ambassador、Zuul、Kong、Gloo这四个开源软件进行分析比对。</p>
+<h1 id="二-开源软件">二. 开源软件</h1>
+<h2 id="21-ambassador">2.1 Ambassador</h2>
+<h3 id="211-背景">2.1.1 背景</h3>
+<p>Ambassador是基于Envoy代理构建的Kubernetes原生微服务API网关，其从设计之初就致力于支持需要频繁发布、监控、为终端用户更新服务的多个独立团队。Ambassador还可以用于处理Kubernetes ingress控制器和负载均衡。另外Ambassador在GitHub上拥有2.4K的star以及356的fork数量。</p>
+<h3 id="212-ambassador架构">2.1.2 Ambassador架构</h3>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1 Ambassador架构</figcaption></center>
+  </figure>
+
+</p>
+<p>Ambassador架构分为控制平面和数据平面，数据平面以Envoy为代理对所有实际流量进行转发，控制平面负责将用户配置（通过Kubernetes annotations的形式）转化为Envoy配置。</p>
+<p>Ambassador工作流程[4]：</p>
+<ol>
+<li>
+<p>服务所有者在Kubernetes中定义test.yaml文件配置路由规则。</p>
+</li>
+<li>
+<p>通过kubectl apply -f test.yaml将yaml文件作用于集群后，Kubernetes会通过API-Server组件将更改信息通知Ambassador。</p>
+</li>
+<li>
+<p>Ambassador解析更改信息并将其转换为Envoy配置的中间信息。</p>
+</li>
+<li>
+<p>通过基于gRPC的聚合服务发现（ADS）API将中间信息转化为Envoy配置并传递至Envoy组件。</p>
+</li>
+<li>
+<p>流量经过重新配置的Envoy从而不会丢失任何连接。</p>
+</li>
+</ol>
+<h3 id="213-安全功能">2.1.3 安全功能</h3>
+<p>Ambassador目前支持的安全功能主要涉及TLS加密、认证授权、限速三方面：</p>
+<ol>
+<li>
+<p>TLS加密</p>
+<p>Ambassador的TLS加密过程主要使用Openssl自签名证书，并将证书密钥存储至Kubernetes的Secret资源中，最后Ambassador利用Kubernetes的CRD资源TLSContext进行TLS声明以便对流量进行加密。</p>
+<p>Ambassador还使用第三方证书管理平台（Jetstack&rsquo;s cert-manager）对证书进行定时更换更新等操作。</p>
+</li>
+<li>
+<p>认证授权</p>
+<p>Ambassador的认证授权过程是基于第三方插件支持的，首先需要部署第三方插件服务（定义一个Kubernetes的Deployment、Service对资源对象），然后在此基础上通过Kubernetes的Annotation机制将其关联到后端运行的服务中从而达到认证授权的目的。</p>
+<p>Ambassador同时还支持自定义过滤器实现细粒度OAuth/OIDC认证。</p>
+</li>
+<li>
+<p>限速</p>
+<p>Ambassador的限速服务通过委托第三方插件管理，与认证授权功能一样，需要先部署第三方插件服务，然后通过Annotation将限速服务与后端服务关联从而达到限速目的。</p>
+<p>Ambassador 同时还提供了细粒度的限速服务，主要用于对每个后端的服务进行独立管理及控制速率限制。</p>
+</li>
+</ol>
+<h3 id="214-优势">2.1.4 优势</h3>
+<p>Ambassador为Kubernetes原生微服务API网关，因此Kubernetes也为Ambassador带来了许多优势，比如Ambassador可将Envoy配置存储至Kubernetes的Etcd组件中从而避免了数据库组件的引入，另外Ambassador以Kubernetes Deployment资源方式部署，因此是无状态的，可以按需对Pod进行扩缩容，相比于以单个集中式控制平面来管理数据平面的多个实例（Istio）来说增加了高可用性。再者Ambassador将Envoy引入作为其数据平面解决了L7层代理无法解决的一些微服务场景，整体提升了流量代理的性能。</p>
+<h3 id="215-不足">2.1.5 不足</h3>
+<p>因Ambassador基于Kubernetes进行设计，所以Kubernetes为其带来好处的同时也间接说明Ambassador与Kubernetes紧耦合，Ambassador更像是Kubernetes生态下的衍生品，针对微服务和云原生模式，但是其对除过Kubernetes以外的平台支持欠佳，目前官网上还没说明对Microsoft Azure、Openshift、Cloud Foundry这些主流云平台的支持。</p>
+<p>安全层面来说，Ambassador在访问控制、TLS加密、限速服务三方面均有所涉及，但比较重要的入口流量异常检测、Web应用防护、黑白名单访问控制等功能目前还未见支持，可见Ambassador在安全方面考虑还不是很周全，另外Ambassador支持的安全插件也没有形成生态，这和Ambassador的开源时间也有一定关系，毕竟没有太多的落地实践，仍需时间的考验。</p>
+<h2 id="22-zuul">2.2 Zuul</h2>
+<h3 id="221-背景">2.2.1 背景</h3>
+<p>Zuul是Netflix 出品的一个基于 JVM 路由和服务端的负载均衡器，在2014年被Pivotal集成至Spring Cloud微服务框架中。其在GitHub上拥有8.5K的star以及1.7K的fork数量。Zuul设计理念在于实现动态路由、监视、弹性、安全性等功能, 其亮点在于可动态发布的过滤器机制。</p>
+<h3 id="222-zuul架构">2.2.2 Zuul架构</h3>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2 Zuul架构</figcaption></center>
+  </figure>
+
+</p>
+<p>Zuul的中心是一系列过滤器，能够在HTTP请求和响应的路由过程中执行一系列操作，因此Zuul提供了一个框架，可对过滤器进行动态的加载，编译，运行。过滤器之间没有直接的相互通信。他们是通过一个RequestContext的静态类来进行数据传递[10]。</p>
+<p>Zuul过滤器是由Groovy[1]写成，这些过滤器文件被放在Zuul Server上的特定目录下面，Zuul会定期轮询这些目录，修改过的过滤器会动态的加载到Zuul Server中以便过滤请求使用，从而具备动态发布的过滤器机制。</p>
+<h3 id="223-安全功能">2.2.3 安全功能</h3>
+<p>Zuul默认的过滤器有很多种，但这些并不能满足特殊安全场景下的需求，因此需要开发者自定义安全过滤器或使用兼容Spring Cloud的安全框架去处理，鉴于Spring Cloud已经是一套成熟的微服务框架，因此相应开源安全产品也非常多，典型的像Spring Security、Shiro安全框架在处理认证、授权、管理会话、管理证书、以及通信加密时都具备非常好的效果。Spring Security因更适用于微服务架构故目前使用者较多，Spring Security在其设计中通过提供一组原语进而构建安全的应用程序及服务，且操作简单，类似Kubernetes，Spring Security也是声明性模型，用于对流量进行更细粒度层面的处理。</p>
+<h3 id="224-优势">2.2.4 优势</h3>
+<p>Zuul基于java开发，java由于拥有大量群众基础，因此对大多数程序员友好。</p>
+<p>API应具备多种定制化流量控制，由于Spring cloud基于Java平台的原因，故对于绝大多数开发人员来说兼容性高。</p>
+<p>开源时间长，落地实践多，生产环境下运行稳定，坑少。</p>
+<h3 id="225-不足">2.2.5 不足</h3>
+<p>Zuul出世尚早，云原生概念还不普及，因此没有针对云原生的理念去设计API网关，也没有原生兼容Kubernetes、Mesos等容器编排平台，网关本身也不是CRD资源。再者就是Spring cloud支持java，所以对于Zuul来说扩展性低。</p>
+<p>有些读者可能会有疑问，既然Zuul是基于Spring Cloud微服务框架设计的API网关，那么在目前流行的Kubernetes平台上岂不是发挥不了其优势了，其实Spring Cloud也考虑过这点，如何在脱离Spring Cloud的情况下在Kubernetes上使用Zuul，于是Spring旗下开发了一个子项目Spring cloud Kubernetes，其作用就是将Kubernetes中的服务模型映射至Spring cloud服务模型中，从而可以使用Spring cloud的sdk去实现对Kubernetes服务的管理。借助于Spring cloud Kubernetes项目，Zuul可以和Kubernetes融合并实现API网关能力，也可勉强称作云原生API网关。但是换个角度想问题， Kubernetes天然具备微服务能力，且有许多相应的原生API网关，我们为何不去使用呢？在Spring Cloud与Kubernetes中间强加一层适配器似乎有点多此一举的意思。</p>
+<p>就安全层面而言，Zuul通过安全框架可以实现绝大多数安全功能，但因为这些安全框架多基于Java编写，很难应用到在以Go语言为主的云原生平台中，这也是Zuul在安全层面面临的现状。</p>
+<h2 id="23-gloo">2.3 Gloo</h2>
+<h3 id="231-背景">2.3.1 背景</h3>
+<p>Gloo是由solo公司开发，以Envoy开源技术为基础打造的一款API网关开源软件，solo公司在Gartner 2019峰会上被评为最酷供应商，其在GitHub上拥有1.9K的star以及130K的fork数量。</p>
+<h3 id="232-gloo架构">2.3.2 Gloo架构</h3>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3 Gloo架构</figcaption></center>
+  </figure>
+
+</p>
+<p>因与Ambassador的架构几乎一样，在此不做赘述，下面我们以Gloo的组件架构说明：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4 Gloo组件架构</figcaption></center>
+  </figure>
+
+</p>
+<p>由Gloo的组件架构可看出核心部分为Translation Engine, Gloo的控制平面其实就是Translation Engine和Envoy xDS服务器结合体，它为数据平面组件Envoy提供配置。Gloo遵循基于事件的体系结构，通过Config Watcher、Secret Watcher、Endpoint Discovery监视各种配置源进行更新，并通过v2 gRPC更新配置以便及时对Envoy做出响应。最终Envoy会将动态更新的配置下发给上游的服务[9]。</p>
+<h3 id="233-安全功能">2.3.3 安全功能</h3>
+<ol>
+<li>
+<p>TLS加密</p>
+<p>TLS加密与Ambassador类似，需要使用Openssl自签名证书，并且将证书密钥作为Kubernetes的secret资源，这样后端的服务将会自动绑定https 443端口并实时监听，当有http请求时则不会收到成功响应，因为http侦听器上不再有路由，此时Envoy将提供宽限期以排出http请求，完成排出后，http端口将关闭。</p>
+<p>Gloo由于支持无缝接入Istio，因此当Istio以auth方式部署时，所有的服务间通信则转化为双向TLS验证，大大增加了安全性。</p>
+</li>
+<li>
+<p>认证授权</p>
+<p>Gloo提供多种认证授权方式，主要有OAuth、JWT(JSON Web Tokens)、API Keys、OPA Authorization、LDAP、Custom Auth server、Plugin Auth。其中OPA Authorization（开放策略代理授权）与Kubernetes自身的RBAC机制相比，允许更细粒度的策略，与RBAC机制的详细比较可以参考官方文档。</p>
+</li>
+<li>
+<p>提供高级的限速服务</p>
+<p>Gloo还提供高级的限速服务，主要通过以下三种方式[9]：</p>
+<p>(1). Gloo API</p>
+<p>可对授权用户及匿名用户设置不同速率限制，覆盖面较广。</p>
+<p>(2）Envoy API</p>
+<p>Gloo默认的限速方式，因为Gloo以Envoy作为其数据平面，故可以使用Envoy限速API去完成。</p>
+<p>(3）Server Config</p>
+<p>默认情况下，Gloo内置的速率限制服务由Redis支持，对于全局速率限制Redis是一个不错的选择，因为它的延迟很短。但在用户需要跨数据中心进行限速这种场景下Redis不支持复制或多主站配置，因此可能无法达到目标。DynamoDB可以通过利用其内置的复制功能（DynamoDB全局表）来弥补这一不足。DynamoDB的设计是为毫秒级延迟而构建。</p>
+</li>
+<li>
+<p>WAF</p>
+<p>Gloo使用第三方WAF开源软件ModSecurity 3.0版本进行Web应用的防护，ModSecurity 3.0提供简单的原语对传入API网关的流量进行检测，并且其自身包含许多公用的规则集非常强大，例如OWASP核心规则集。</p>
+</li>
+<li>
+<p>数据丢失防护（DLP）</p>
+<p>DLP全称为Data Loss Prevention，是一种确保敏感数据泄漏的方法，而具体实现方式是在响应体中进行一系列的正则表达式替换来完成。</p>
+</li>
+<li>
+<p>跨域访问
+Gloo实现跨域访问限制也非常简单，只需在对应下发规则的yaml文件中添加cors配置项即可。</p>
+</li>
+</ol>
+<h3 id="234-优势">2.3.4 优势</h3>
+<ol>
+<li>
+<p>Gloo控制平面研发团队为Envoy资深专家，与开源项目Envoy紧密结合，可以说是做到实时更新。</p>
+</li>
+<li>
+<p>兼容多平台运行，比如 Kubernetes，AWS Lambda，VM，Terraform，EC2，Consul等。</p>
+</li>
+<li>
+<p>被选为Knative项目的第一个Istio替代品。</p>
+</li>
+<li>
+<p>Gloo的控制平面与运行API网关分离，这使得其可以被独立保护和扩展。</p>
+</li>
+<li>
+<p>Gloo 可以发现其它类型的端点，比如 AWS Lambdas。当有混合搭配 Kubernetes与Serverless时，Gloo可作为一种选择。</p>
+</li>
+<li>
+<p>Gloo在安全性上表现突出，基本传统API网关具备的特性Gloo都包含。</p>
+</li>
+</ol>
+<h3 id="235-不足">2.3.5 不足</h3>
+<p>安全层面来说，Gloo和Ambassador虽然都是基于Envoy做流量管理且均属于Kubernetes原生API网关，但在安全功能提供上却有着明显差异，Gloo几乎将全部的安全功能都考虑进去了，并且在每个功能点上都有相应扩展，只是目前社区版本只发布到v1.0.0，还没有成熟的落地案例，所以具体安全层面可以达到什么样的效果还有待观察。不过可以作为Knative项目的第一个Istio替代品，说明Gloo的潜力也是不可估量的，笔者个人还是比较看好Gloo。</p>
+<h2 id="24-kong">2.4 Kong</h2>
+<h3 id="241-背景">2.4.1 背景</h3>
+<p>Kong是一个云原生，快速可扩展的分布式微服务抽象层（通常被称作API网关，API中间件或服务网格），其核心价值是高性能和可扩展性，于2015年作为一个开源项目提供。Kong在GitHub上拥有24.2K的star以及3.1K的fork数量。</p>
+<p>简单的说，Kong在Nginx的反向代理基础上，通过Lua实现了脚本化的扩展，同时所有管理功能都是通过REST来实现。其内部还使用了大量的缓存，所以基本没有阻塞式的操作，性能非常优秀。</p>
+<p>Kong的扩展性主要体现在其插件机制，可方便的为路由添加各种插件，Kong的官网有一页专门体现了其支持的插件，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5 Kong官网Plugin</figcaption></center>
+  </figure>
+
+</p>
+<p>由于本文主要围绕Kubernetes云原生API网关进行分析，因此架构设计着重说明Kong在Kubernetes上的使用场景。</p>
+<h3 id="242-kong-ingress控制器架构设计">2.4.2 Kong Ingress控制器架构设计</h3>
+<p>Kong可以作为Kubernetes的Ingress控制器,  Kong Ingress控制器在集群中通过创建Ingress资源配置Kong。</p>
+<p>Kong Ingress控制器由两个组件构成：</p>
+<ol>
+<li>Kong</li>
+</ol>
+<p>用于处理所有入出口流量的核心代理</p>
+<ol start="2">
+<li>Controller</li>
+</ol>
+<p>通过Controller将代理配置从Kubernetes同步到Kong</p>
+<p>Kong Ingress控制器的功能不仅代理Kubernetes集群的入出口流量，它还可以在独立安装中配置插件，负载均衡，健康检查并充分利用Kong提供的所有功能。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be6.png" alt="image">
+    <center><figcaption>图6 Kong Ingress控制器架构图</figcaption></center>
+  </figure>
+
+</p>
+<p>其工作方式为：</p>
+<ol>
+<li>
+<p>Controller监听Kubernetes集群内部发生的更改（pod、svc等变化），并响应这些更改，最后更新Kong以便正确代理所有流量。</p>
+</li>
+<li>
+<p>Kong包含动态更新配置的机制，以响应围绕Kubernetes集群发生的更改，进而可实时对流量进行管控。</p>
+</li>
+</ol>
+<p>Kong与Kubernetes资源映射转换机制</p>
+<p>在Kong Ingress控制器工作周期中，最重要的一环为如何将Kubernetes资源映射至Kong资源以便正确代理所有流量，下图描述了映射关系：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be7.png" alt="image">
+    <center><figcaption>图7 Kong与Kubernetes资源映射</figcaption></center>
+  </figure>
+
+</p>
+<p>Kubernetes中的Ingress资源定义了一组代理流量的规则，这些规则对应于Kong中的路由配置。</p>
+<p>Kubernetes运行的服务实际上是一个应用程序，在Kubernetes中对应为一组Pod资源，其映射到Kong中主要包含两个资源：Service和Upstream。Kong中的Service资源保存用于与上游服务进行通信的协议信息及其它各种特定于协议的设置。Upstream资源定义负载均衡和健康检查行为。</p>
+<p>Kubernetes中的Pod资源映射为Kong上游的目标服务，Kong会在Pod中做负载均衡，这说明所有经过Kong的请求都不会通过kube-proxy进行重定向而是直接定向到对应的pod。</p>
+<h3 id="243-安全功能">2.4.3 安全功能</h3>
+<p>由于Kong是一个通过插件扩展其功能层面的软件，因此Kong也提供相应的安全插件，笔者统计了目前Kong提供的安全插件：</p>
+<p><strong>安全插件</strong></p>
+<ol>
+<li>
+<p>僵尸网络防护插件</p>
+</li>
+<li>
+<p>防止跨域类插件</p>
+</li>
+<li>
+<p>IP黑白名单限制插件</p>
+</li>
+<li>
+<p>JWT身份验证插件</p>
+</li>
+<li>
+<p>WEB应用防火墙插件</p>
+</li>
+<li>
+<p>防恶意软件类插件</p>
+</li>
+<li>
+<p>AI防护插件（主要针对微服务以及API）</p>
+</li>
+<li>
+<p>Kong的API防护插件</p>
+</li>
+<li>
+<p>针对xss、sql注入、csrf、ddos等常见Web攻击类插件</p>
+</li>
+</ol>
+<p>Kong在安全方面考虑的非常周全，可以说常见的攻击都有相应的防护插件，这些插件的使用也非常简单，Kong提供dashboard以便管理人员可以快速运维，同时Kong也提供强大的Admin API用于对插件以及资源做管理：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e4%ba%91%e5%8e%9f%e7%94%9f%e5%be%ae%e6%9c%8d%e5%8a%a1API%e7%bd%91%e5%85%b3%e6%88%90%e7%86%9f%e5%ba%a6%e4%b8%8e%e5%ae%89%e5%85%a8%e5%8a%9f%e8%83%bd%e5%af%b9%e6%af%94%e5%88%86%e6%9e%90/%e5%9b%be8.png" alt="image">
+    <center><figcaption>图8 Kong的Admin API</figcaption></center>
+  </figure>
+
+</p>
+<p>在service上启动一个IP黑白名单限制插件只需在终端执行：</p>
+<pre><code>$ curl -X POST http://kong:8001/services/{service}/plugins \
+--data &quot;name=ip-restriction&quot;  \
+--data &quot;config.whitelist=54.13.21.1&quot; \
+--data &quot;config.whitelist=143.1.0.0/24&quot;
+</code></pre>
+<h3 id="244-优势">2.4.4 优势</h3>
+<ol>
+<li>
+<p>火热的开源社区</p>
+</li>
+<li>
+<p>丰富健全的文档</p>
+</li>
+<li>
+<p>实践落地经验多</p>
+</li>
+<li>
+<p>覆盖面广，在Serverless、Service mesh、Kubernetes、Microsoft Azure等主流云原生环境中都有涉及相应的子项目研究</p>
+</li>
+<li>
+<p>统一的Admin API管理</p>
+</li>
+<li>
+<p>安全功能全面，插件的生态很丰富</p>
+</li>
+</ol>
+<h3 id="245-不足">2.4.5 不足</h3>
+<p>Kong本身为企业级的API网关，因此自身比较重，学习曲线相对陡峭。</p>
+<p>安全层面而言，Kong作为一款历史悠久的API网关，具有丰富的安全插件生态和实践经验，且插件范围覆盖面广，基本的安全功能Kong都考虑在内了，唯一不足就是Kong作为一款传统的微服务API网关，在复杂多变的云原生环境下无法充分发挥其优势，虽然旗下也开发了子项目kubernetes-ingress-controller，但其star及fork数量相比于Kong相差甚远，但以Kong开源多年的经验，kubernetes-ingress-controller的发展不容小觑，在未来很可能会是最受瞩目的云原生API网关之一。</p>
+<h1 id="三开源软件对比">三．开源软件对比</h1>
+<p>为了阅读起来清晰明了，笔者从基本项、规则配置、部署、可扩展性、基本功能、安全功能这六方面分别对Ambassador、Zuul、Gloo、Kong四者做以比对并汇总为一张表格，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Ambassador</th>
+<th>Zuul</th>
+<th>Gloo</th>
+<th>Kong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>基本项</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>用途</td>
+<td>微服务网关</td>
+<td>微服务网关</td>
+<td>微服务网关</td>
+<td>企业级API管理</td>
+</tr>
+<tr>
+<td>版本</td>
+<td>社区版/Pro版</td>
+<td>社区版</td>
+<td>社区版/企业版</td>
+<td>社区版/企业版</td>
+</tr>
+<tr>
+<td>Star</td>
+<td>2.4k</td>
+<td>8.5k</td>
+<td>1.9k</td>
+<td>24.2k</td>
+</tr>
+<tr>
+<td>Fork</td>
+<td>356</td>
+<td>1.7k</td>
+<td>130[lw1] [PM2]</td>
+<td>3.1k</td>
+</tr>
+<tr>
+<td>开发语言</td>
+<td>Python</td>
+<td>Java</td>
+<td>Go</td>
+<td>Lua</td>
+</tr>
+<tr>
+<td>基于代理</td>
+<td>Envoy</td>
+<td>JVM</td>
+<td>Envoy</td>
+<td>Nginx</td>
+</tr>
+<tr>
+<td>学习曲线</td>
+<td>简单</td>
+<td>适中</td>
+<td>简单</td>
+<td>适中</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>原生支持</td>
+<td>组件支持</td>
+<td>原生支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td><strong>规则配置</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>配置语言</td>
+<td>yaml</td>
+<td>restapi</td>
+<td>yaml</td>
+<td>admin</td>
+</tr>
+<tr>
+<td><strong>部署</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>简单</td>
+<td>适中</td>
+<td>简单</td>
+<td>适中</td>
+</tr>
+<tr>
+<td>部署模式</td>
+<td>金丝雀/灰度</td>
+<td>金丝雀</td>
+<td>金丝雀</td>
+<td>金丝雀</td>
+</tr>
+<tr>
+<td>配置存储</td>
+<td>Kubernetes Etcd组件</td>
+<td>内存</td>
+<td>Kubernetes Etcd组件</td>
+<td>Postgres、Cassandra</td>
+</tr>
+<tr>
+<td>可扩展性</td>
+<td>外部集成</td>
+<td>插件</td>
+<td>插件</td>
+<td>插件</td>
+</tr>
+<tr>
+<td><strong>基本功能</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>服务发现</td>
+<td>动态</td>
+<td>动态</td>
+<td>动态</td>
+<td>动态</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>http、https、grpc、tcp、udp、tcp+ssl</td>
+<td>http、https</td>
+<td>http、https、grpc</td>
+<td>http、https、grpc、tcp、udp</td>
+</tr>
+<tr>
+<td>限速</td>
+<td>支持</td>
+<td>自开发</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>熔断</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>健康检查</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>负载均衡</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Istio集成</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>Serverless</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td><strong>安全功能</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Web应用防火墙</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td>访问控制</td>
+<td>支持[lw3] [PM4]</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td>基本认证授权</td>
+<td>Basic Auth、OIDC</td>
+<td>自开发/组件</td>
+<td>JWT、API Keys、OPA Authorization、LDAP、Custom Auth  server、Plugin Auth</td>
+<td>Basic Auth、HMAC、JWT、Key、LDAP、OAuth 2.0、PASETO、OIDC</td>
+</tr>
+<tr>
+<td>SSL证书管理</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>不支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td>数据丢失防护</td>
+<td>不支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>CORS</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td>JWT细粒度认证授权</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+<tr>
+<td>限速服务</td>
+<td>支持</td>
+<td>自开发/组件</td>
+<td>支持</td>
+<td>插件支持</td>
+</tr>
+</tbody>
+</table>
+<h1 id="四总结">四．总结</h1>
+<p>通过将Ambassador、Zuul、Gloo、Kong这四款开源软件进行对比，就和Kubernetes及微服务的粘合度来讲，Ambassador和Gloo都是不错的选择，两者都是Kubernetes原生微服务API网关，也都是基于Envoy开发各自的控制平面。Ambassador相比Gloo开源时间要更悠久些，成熟度上Ambassador要更高些，如果你的微服务运行在Kubernetes平台上，两者都是不错的选择；如果你的微服务框架是Spring Cloud，Zuul一定是最佳选择，因为Zuul是Spring Cloud默认的API网关，另外Zuul的受众面也很广，生态相对较为成熟。Kong作为API网关的鼻祖，不论社区活跃度、软件成熟度都可称为API网关市场上的佼佼者，其插件机制因为简单易用引来了不少开发者的追随，另外Kong也可作为Kubernetes Ingress控制器。Kong始终保持着高性能、扩展性强的特点并紧随微服务时代变换的脚步，是微服务API网关的绝佳选择。</p>
+<p>反观这些开源软件在安全层面的考虑，首先，笔者认为作为一款优秀的云原生API网关，应具备以下六个基本功能：</p>
+<ol>
+<li>
+<p>Web应用防火墙（CSRF、恶意软件、XSS、DDoS、僵尸网络、木马蠕虫、多域名验证、异常流量分析）</p>
+</li>
+<li>
+<p>访问控制（CORS、IP黑白名单限制、ACL检查）</p>
+</li>
+<li>
+<p>认证授权（OAuth、OIDC、JWT）</p>
+</li>
+<li>
+<p>SSL证书管理、TLS加密</p>
+</li>
+<li>
+<p>数据丢失防护</p>
+</li>
+<li>
+<p>限速服务</p>
+</li>
+</ol>
+<p>开源API网关虽然已能解决很多安全问题，但具体使用选择还是需要依据具体的业务场景，目前看来主流的云原生API网关在对入口流量的异常检测上涉及还不多，我们可以以此为突破点，将流量异常检测部分放入其中从而可以达到更好的防护效果；再者开源的WAF通常部署困难对用户的专业知识要求过高，并且基本都是基于规则的检测，对于网页篡改检测、cookie加密等方面都缺乏的相应防护手段，另外开源WAF的告警日志呈现也不是非常人性化，如果读者所在企业有WAF产品，其实可以考虑企业侧API网关的安全，让API网关能力最大化。</p>
+<h1 id="五参考文献">五．参考文献</h1>
+<ol>
+<li><a href="http://openresty.org/cn/">http://openresty.org/cn/</a></li>
+<li><a href="https://www.lua.org/about.html">https://www.lua.org/about.html</a></li>
+<li><a href="https://www.datawire.io/">https://www.datawire.io/</a></li>
+<li><a href="https://www.getambassador.io/docs/">https://www.getambassador.io/docs/</a></li>
+<li><a href="https://learnk8s.io/kubernetes-ingress-api-gateway">https://learnk8s.io/kubernetes-ingress-api-gateway</a></li>
+<li><a href="https://konghq.com/">https://konghq.com/</a></li>
+<li><a href="https://www.solo.io/">https://www.solo.io/</a></li>
+<li><a href="https://docs.solo.io/gloo/latest/%5Blw6%5D">https://docs.solo.io/gloo/latest/[lw6]</a></li>
+<li><a href="http://blog.didispace.com/api-gateway-Zuul-1-zuul-2-how-to-choose/">http://blog.didispace.com/api-gateway-Zuul-1-zuul-2-how-to-choose/</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2020-2-20-appomni%E9%9D%A2%E5%90%91saas%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F%E7%9A%84%E6%8C%81%E7%BB%AD%E6%80%A7%E7%9B%91%E6%8E%A7%E5%92%8C%E5%91%8A%E8%AD%A6%E9%98%B2%E6%8A%A4/" data-toggle="tooltip" data-placement="top" title="RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

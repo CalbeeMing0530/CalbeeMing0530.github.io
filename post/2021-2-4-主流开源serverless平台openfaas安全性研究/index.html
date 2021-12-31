@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="主流开源Serverless平台OpenFaaS安全性研究" />
+    <meta property="og:title" content="主流开源Serverless平台OpenFaaS安全性研究" />
+    <meta property="twitter:title" content="主流开源Serverless平台OpenFaaS安全性研究" />
+    
+
+    
+    <meta name="description" content="OpenFaaS安全性研究">
+    <meta property="og:description" content="OpenFaaS安全性研究" />
+    <meta property="twitter:description" content="OpenFaaS安全性研究" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>主流开源Serverless平台OpenFaaS安全性研究-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2021-2-4-%E4%B8%BB%E6%B5%81%E5%BC%80%E6%BA%90serverless%E5%B9%B3%E5%8F%B0openfaas%E5%AE%89%E5%85%A8%E6%80%A7%E7%A0%94%E7%A9%B6/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%b8%bb%e6%b5%81%e5%bc%80%e6%ba%90Serverless%e5%b9%b3%e5%8f%b0OpenFaaS%e5%ae%89%e5%85%a8%e6%80%a7%e7%a0%94%e7%a9%b6.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/serverless" title="Serverless">
+                            Serverless
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                    </div>
+                    <h1>主流开源Serverless平台OpenFaaS安全性研究</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, February 4, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="专题信息">专题信息</h1>
+<p>专题：Serverless安全研究</p>
+<p>往期回顾：</p>
+<p><a href="https://mp.weixin.qq.com/s/kNawzZowQt8hwiE5Z8wIQQ">《Serverless安全研究 — Serverless概述》</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247488798&amp;idx=1&amp;sn=485e2131f347ff4d8c3b5b3286b36c97&amp;scene=21#wechat_redirect">《Serverless安全研究 — Serverless安全风险》</a></p>
+<p><a href="https://mp.weixin.qq.com/s/dzvQQNFGBTfF7TvowaowFA">《Serverless安全研究 — Serverless安全防护》</a></p>
+<h1 id="一引言">一.引言</h1>
+<p>本篇为Serverless安全研究系列的完结篇，通过本系列的前三篇，我们对什么是Serverless，Serverless存在的安全风险及如何防护进行了较为全面的介绍。公有云Serverless借助AWS、Microsoft、Google等庞大的安全研发团队使其安全性得到保障，除此之外，私有化的Serverless安全也备受关注，通常来说，私有化Serverless部署方式兼容Kubernetes，目前市场关注度较高的有OpenFaaS、Knative、Kubeless、Openwhisk、Fission等。本文笔者以OpenFaaS平台作为研究对象，主要对其内置的安全机制进行了分析解读，除此之外，还通过实验进一步验证了Kubernetes安全机制对OpenFaaS函数的深度防护；希望本文可以引发各位读者更多的思考。</p>
+<h1 id="二openfaas简介">二.OpenFaaS简介</h1>
+<p>OpenFaaS作为一款开源的云原生Kubernetes Serverless平台，在2017年1月发布了第一个Release版本，其使用容器作为Serverless函数的承载体。值得一提的是，OpenFaaS在函数模板上做出的努力，其支持多种语言模板包括.NET、Dockerfile、Go、Java、NodeJS、PHP、Python、Ruby等，创建函数时，OpenFaaS为其自动生成相应的语言模板，其中包含依赖库文件、镜像Dockerfile、函数部署的yaml文件等，这样开发者只需关注于函数的逻辑实现。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e5%bc%80%e6%ba%90Serverless%e5%b9%b3%e5%8f%b0OpenFaaS%e5%ae%89%e5%85%a8%e6%80%a7%e7%a0%94%e7%a9%b6/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. OpenFaaS基础架构</figcaption></center>
+  </figure>
+
+</p>
+<p>图1我们可以看出，OpenFaaS的基础架构体系可分为三层，每一层负责不同的部分：</p>
+<p><strong>基础架构层</strong>：OpenFaaS部署在Kubernetes上，以Docker运行Serverless函数，函数镜像存储至镜像仓库中；</p>
+<p><strong>应用层</strong>：通过OpenFaaS网关，外部用户可对Serverless函数进行CRUD和调用操作，内置的Prometheus可对函数调用行为进行监控，NATS则提供函数的异步调用；</p>
+<p><strong>GitOps层</strong>：OpenFaaS Cloud建立在OpenFaaS的基础上，可通过Github或自行托管的Gitlab进行DevOps交付；</p>
+<p>除上述介绍外，OpenFaaS的正常运行还需依赖以下组件：</p>
+<p><strong>faas-provider</strong>: OpenFaaS提供商，可为Serverless函数提供CRUD API及调用能力</p>
+<p><strong>Watchdog</strong>:  负责为OpenFaaS启动和监控函数的组件；</p>
+<h1 id="三openfaas安全功能分析">三.OpenFaaS安全功能分析</h1>
+<p>OpenFaaS提供的安全能力可覆盖认证、数据安全、安全配置三个方面。</p>
+<h2 id="31-认证防护">3.1 认证防护</h2>
+<p>OpenFaaS的认证主要包含API网关认证和函数认证两个部分。</p>
+<h3 id="311-api网关认证">3.1.1 API网关认证</h3>
+<p><strong>基本认证方式</strong></p>
+<p>基本认证方式使用了Kubernetes的secret机制，需要注意的是，我们需在部署OpenFaaS之前首先创建secrets资源，具体操作如下：</p>
+<pre><code>kubectl  -n openfaas create secret generic basic-auth \
+    --from-literal=basic-auth-user=admin \
+    --from-literal=basic-auth-password=admin
+</code></pre>
+<p>部署OpenFaaS时，该secrets会被挂载至API网关的pod内部，如下所示：</p>
+<pre><code>nsfocus@openfaas-master:~$ kubectl exec -it gateway-df9df88df-bxlbz sh -n openfaas
+/home/app $ cd /var/secrets/
+/var/secrets $ cat basic-auth-password
+G09ZqGc9dfprr3t87281jV5bi
+/var/secrets $ cat basic-auth-user
+admin
+</code></pre>
+<p>通过faas-cli登录之后，API网关Pod内部会做校验，校验成功即可访问API 网关：</p>
+<pre><code>root@openfaas-master:~# cat ~/secret/secret-api-key.txt | faas-cli login -u admin --password-stdin
+credentials saved for admin http://192.168.19.197:31112
+</code></pre>
+<p>上述登录过程中，笔者未对API网关进行加密，为保证数据安全，生产环境中建议配置HTTPS证书。</p>
+<p><strong>认证插件</strong></p>
+<p>OpenFaaS支持用户自行构建认证插件，实现方式可通过在网关模块的yaml文件中指定auth_proxy_url、auth_pass_body环境变量实现，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e5%bc%80%e6%ba%90Serverless%e5%b9%b3%e5%8f%b0OpenFaaS%e5%ae%89%e5%85%a8%e6%80%a7%e7%a0%94%e7%a9%b6/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2 API网关配置文件</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>OIDC和OAuth2认证</strong></p>
+<p>OpenFaaS商业版本提供OIDC和OAuth2认证机制，用户只需将认证提供商信息配置至OpenFaaS部署的yaml文件中即可。部署完成后，我们可以通过UI以及OpenFaaS命令行工具对认证服务进行访问，更为详细的配置页面可参考OpenFaaS官方文档[1]。</p>
+<h3 id="312-函数认证">3.1.2 函数认证</h3>
+<p>针对函数认证，OpenFaaS考虑到开发者通常部署函数用于响应外部Webhooks，由于这些Webhooks中许多都不支持OAuth或基本的认证策略，例如Github，因此OpenFaaS转为使用HMAC认证方式，关于HMAC的相应实践可以参考官方提供的workshop[2]，此处由于篇幅不再做赘述。</p>
+<h2 id="32-数据安全防护">3.2 数据安全防护</h2>
+<p>OpenFaaS数据安全防护包括密钥管理及函数/API网关的TLS加密。</p>
+<h3 id="321-密钥管理">3.2.1 密钥管理</h3>
+<p>关于密钥防护，OpenFaaS底层使用Kubernetes的Secret机制进行密钥存储，为避免用户直接操作Kubernetes资源，OpenFaaS进行了相应封装，如下所示：</p>
+<pre><code>provider:
+    name: openfaas
+functions:
+    protectedapi:
+    lang: dockerfile
+    skip_build: true
+    image: functions/api-key-protected:latest
+    secrets:
+    - secret-api-key#可指定多个secret
+</code></pre>
+<h3 id="322-api网关tls加密">3.2.2 API网关TLS加密</h3>
+<p>关于TLS加密，OpenFaaS为API网关提供了TLS证书，用户需要在OpenFaaS安装包中进行相应配置，此外还需要添加IngressController资源和证书管理器，其中，IngressController用于接入外部的LoadBalance，证书管理器 用于对TLS证书进行生命周期管理，更详细的配置可以参考官方文档[4]</p>
+<h3 id="323-函数tls加密">3.2.3 函数TLS加密</h3>
+<p>与API网关TLS加密基本类似，唯一不同为OpenFaaS不使用Ingress Controller资源，而使用其正在孵化的IngressOperator项目，IngressOperator实则提供了一种自定义资源（CRD）FunctionIngress, 用于提供函数的TLS，下例为“nodeinfo“函数配置了TLS加密：</p>
+<pre><code>apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+name: nodeinfo-tls
+namespace: openfaas
+spec:
+domain: &quot;nodeinfo-tls.myfaas.club&quot;
+function: &quot;nodeinfo&quot;
+ingressType: &quot;nginx&quot;
+tls:
+    enabled: true
+    issuerRef:
+    name: &quot;letsencrypt-staging&quot;
+    kind: &quot;Issuer&quot;
+</code></pre>
+<h2 id="33-安全配置">3.3 安全配置</h2>
+<p>笔者对OpenFaaS提供的安全配置进行了汇总，主要包括如下几个部分：</p>
+<p>1.函数文件系统只读
+开发者可在函数部署文件中配置“readonly_root_filesystem: true“实现，默认为false;</p>
+<p>2.函数超时时长
+开发者可在函数部署文件中配置环境变量实现，下例展示了如何进行配置：</p>
+<pre><code>provider:
+……
+functions:
+……
+    environment:
+        read_timeout: 20s #允许函数通过HTTP读取请求的时间为20s
+        exec_timeout: 20s #允许函数被终止之前最多运行20s
+        write_timeout: 20s#允许函数通过HTTP写入响应的时间为20s
+</code></pre>
+<p>3.函数弹性扩展
+开发者可从“每秒请求数”和“CPU/内存利用率”两方面实现函数的弹性扩展，详细的配置可以参考官方文档[5]。</p>
+<p>4.非特权模式部署容器及non-root用户运行容器</p>
+<p>OpenFaaS函数默认以非特权模式进行部署，且以non-root用户运行，详细信息我们可通过查看函数Dockerfile，下面列举了Dockerfile部分内容：</p>
+<pre><code>#Add non root user
+RUN addgroup -S app &amp;&amp; adduser app -S -G app
+</code></pre>
+<h1 id="四针对openfaas函数的进一步防护">四.针对OpenFaaS函数的进一步防护</h1>
+<p>通过以上OpenFaaS安全功能介绍，我们可以大致看出，除了认证、安全配置、数据安全之外，OpenFaaS在访问控制、函数运行时防护方面缺乏相应的安全能力，官方文档也未提供相关信息。</p>
+<p>OpenFaaS部署在Kubernetes之上，其部署的函数也是作为一个Pod运行在集群中，那么理论上讲，Kubernetes的安全机制也应该可以复用在OpenFaaS函数上，笔者从此思路出发，分别从Kubernetes的RBAC、Pod安全策略（Pod Security Policy）、网络策略（NetworkPolicy）三方面对OpenFaaS函数进行了相关实验。</p>
+<h2 id="41-使用rbac实现函数访问控制">4.1 使用RBAC实现函数访问控制</h2>
+<p><strong>实验目的</strong></p>
+<p>通过在默认的函数部署命名空间“openfaas-fn”中部署RBAC策略，，进而验证RBAC能否实现对OpenFaaS函数的访问控制。</p>
+<p><strong>实验过程</strong>
+1.部署test-bot函数</p>
+<pre><code>root@openfass-master:~# faas-cli up -f test-bot.yml
+[0] &gt; Building test-bot.
+... ...
+[0] Worker done.
+Deployed. 202 Accepted.
+URL: http://192.168.19.211:31112/function/test-bot.openfaas-fn
+</code></pre>
+<p>2.查看部署函数默认使用的ServiceAccount</p>
+<pre><code>root@openfass-master:~# kubectl get pods test-bot-5c9cdd699c-x64g5 -n openfaas-fn -o yaml
+apiVersion: v1
+......
+spec:
+containers:
+......
+serviceAccount: default  ##默认ServiceAccount
+serviceAccountName: default ##默认ServiceAccount
+......
+</code></pre>
+<p>可以看出该函数使用的为Kubernetes默认为其创建的ServiceAccount，下一步需要建立一个RBAC策略，并将策略中的ServiceAccount绑定至test-bot中。</p>
+<p>3.创建并部署RBAC策略</p>
+<p>RBAC策略文件内容如下所示：</p>
+<pre><code>---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+labels:
+    app: openfaas
+    component: faas-test-rbac
+name: faas-test-rbac
+namespace: &quot;openfaas-fn&quot;
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+labels:
+    app: openfaas
+    component: faas-test-rbac
+name: faas-test-rbac
+namespace: &quot;openfaas-fn&quot;
+rules:
+- apiGroups:
+    - &quot;&quot;
+    resources:
+    - secrets
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+labels:
+    app: openfaas
+    component: faas-test-rbac
+name: faas-test-rbac
+namespace: &quot;openfaas-fn&quot;
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: Role
+name: faas-test-rbac
+subjects:
+- kind: ServiceAccount
+</code></pre>
+<p>该策略具体实现为：</p>
+<p>(1) &ldquo;openfaas-fn&quot;命名空间下创建一个名为faas-test-rbac的ServiceAccount；</p>
+<p>(2)&ldquo;openfaas-fn&quot;命名空间下创建一个名为faas-test-rbac 的Role,该Role具有对secrets及pods资源的“get”、“list”、“watch”权限；</p>
+<p>(3)&ldquo;openfaas-fn&quot;命名空间下创建一个名为faas-test-rbac的RoleBinding，赋予faas-test-rbac ServiceAccount实体faas-test-rbac Role的权限；
+部署策略后通过kubectl的“access-matrix “插件可以看出策略生效了，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e5%bc%80%e6%ba%90Serverless%e5%b9%b3%e5%8f%b0OpenFaaS%e5%ae%89%e5%85%a8%e6%80%a7%e7%a0%94%e7%a9%b6/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. 查看RBAC权限</figcaption></center>
+  </figure>
+
+</p>
+<p>4.将RBAC策略中的ServiceAccount绑定至test-bot Pod</p>
+<p>由于Kubernetes禁止通过kubectl edit直接修改Pod中的ServiceAccount和ServiceAccountName，因此我们可以通过打补丁的方式替换掉test-bot中默认的ServiceAccount，需要注意的是由于Kubernetes的Pod资源由ReplicaSet控制器下发的，而ReplicaSet又是由Deployment资源下发，因此我们需要从Deployment资源中打补丁，具体操作如下：</p>
+<pre><code>kubectl patch -n openfaas-fn deploy test-bot -p '{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;serviceAccountName&quot;:&quot;faas-test-rbac&quot;}}}}'    ##通过打补丁的形式
+</code></pre>
+<p>再次查看test-pod的yaml文件我们可以发现default ServiceAccount已替换为RBAC策略中的faas-test-rbac ServiceAccount。</p>
+<p>至此，RBAC策略已经添加完毕，若函数容器中安装了curl命令，可通过如下命令验证Pod能否访问指定命名空间的Sercret。</p>
+<pre><code>curl --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt --header &quot;Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)&quot; https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT/api/v1/namespaces/$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)/secret
+</code></pre>
+<p><strong>实验结论</strong></p>
+<p>通过上述实验可看出，OpenFaaS函数支持Kubernetes的RBAC策略，不过无法通过faas-cli直接创建RBAC策略，而需使用原生的kubectl创建，并将ServiceAccount以打补丁的形式绑定至函数中。</p>
+<h2 id="42-使用pod安全策略实现函数细粒度权限控制">4.2 使用Pod安全策略实现函数细粒度权限控制</h2>
+<p><strong>实验目的</strong></p>
+<p>通过在Kubernetes集群中部署Pod安全策略，进而观察函数创建过程是否满足条件，若不满足则调整策略，最终验证Pod安全策略能否对函数进行细粒度权限控制。</p>
+<p><strong>实验过程</strong></p>
+<p>1.为Kubernetes的kube-apiserver配置添加Pod安全策略项</p>
+<pre><code>root@openfass-master:~# vi /etc/kubernetes/manifests/kube-apiserver.yaml
+apiVersion: v1
+... ...
+spec:
+... ...
+    - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy ##添加PodSecurityPolicy项
+... ...
+</code></pre>
+<p>2.部署一个相对严谨的Pod安全策略，策略部分内容如下所示：</p>
+<pre><code>apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+... ...
+spec:
+privileged: false
+# 禁止特权提升至root权限
+allowPrivilegeEscalation: false
+# 这与非root及不允许权限升级是多余的。
+# 但我们可以提供它的防御深度。
+requiredDropCapabilities:
+    - ALL
+# 允许的核心挂载卷类型
+volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+# 假设集群管理员设置的persistentVolumes可以安全使用。
+    - 'persistentVolumeClaim'
+hostNetwork: false
+hostIPC: false
+hostPID: false
+runAsUser:
+    # 要求容器在没有root权限的情况下运行。
+    rule: 'MustRunAsNonRoot'
+seLinux:
+    # 该策略假设节点使用的是AppArmor而不是SELinux。
+    rule: 'RunAsAny'
+supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+    # 禁止添加root组。
+    - min: 1
+        max: 65535
+fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+    # 禁止添加root组。
+    - min: 1
+        max: 65535
+#要求容器必须以只读方式挂载根文件系统来运行,（即不允许存在可写入层）
+readOnlyRootFilesystem: false
+</code></pre>
+<p>3.授权Pod安全策略</p>
+<p>可通过RBAC授权Pod安全策略至“openfaas-fn“命名空间。</p>
+<p>(1)创建Role</p>
+<pre><code>root@openfass-master:~# kubectl -n openfaas-fn create role psp:restricted \
+&gt; --verb=use \
+&gt; --resource=podsecuritypolicy \
+&gt; --resource-name=restricted
+role.rbac.authorization.k8s.io/psp:restricted created
+</code></pre>
+<p>该角色定义一个名为psp:restricted的Role并给予openfaas-fn命名空间中名为restricted的Pod安全策略的权限。</p>
+<p>(2)创建RoleBinding</p>
+<pre><code>root@openfass-master:~# kubectl -n openfaas-fn create rolebinding default:psp:restricted \
+&gt; --role=psp:restricted \
+&gt; --serviceaccount=openfaas-fn:default
+rolebinding.rbac.authorization.k8s.io/default:psp:restricted created
+</code></pre>
+<p>该角色绑定义一个名为default:psp:restricted的rolebinding并将Pod安全策略psp:restricted 绑定至openfaas-fn命名空间下的默认default账户</p>
+<p>4.部署OpenFaaS函数，验证Pod安全策略</p>
+<p>与4.1中部署过程相同，此处不再赘述。</p>
+<p>部署完成后，通过kubectl查看此函数的部署状态，发现未部署成功，如下所示：</p>
+<pre><code>root@openfass-master:~# kubectl get pod -n openfaas-fn -o wide
+NAME READY STATUS RESTARTS AGE IP NODE NOMINATED NODE READINESS GATES
+callfromanother-6db9fd5f69-8z7nb 0/1 CreateContainerConfigError 0 53s 10.244.0.83 openfass-master &lt;none&gt; &lt;none&gt;
+</code></pre>
+<p>错误信息为“CreateContainerConfigError“，通过kubectl get event进一步查看，输出如下信息：</p>
+<pre><code>52m Warning Failed pod/callfromanother-6db9fd5f69-8z7nb Error: container has runAsNonRoot and image has non-numeric user (app), cannot verify user is non-root
+</code></pre>
+<p>至此，结合之前下发的Pod安全策略，我们可以看出函数容器虽然使用非root用户app运行，但Pod安全策略无法验证app为非root用户，因此OpenFaaS应用启动失败。</p>
+<p>此时，我们可将Pod安全策略的“runAsUser“规则适当放松一些，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%b8%bb%e6%b5%81%e5%bc%80%e6%ba%90Serverless%e5%b9%b3%e5%8f%b0OpenFaaS%e5%ae%89%e5%85%a8%e6%80%a7%e7%a0%94%e7%a9%b6/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4. Pod安全策略修改</figcaption></center>
+  </figure>
+
+</p>
+<p>再次部署Pod安全策略后，通过删除该Pod可以重新启动一个Pod，不久可以看到Pod正常部署了：</p>
+<pre><code>root@openfass-master:~# kubectl delete pod callfromanother-6db9fd5f69-8z7nb -n openfaas-fn
+pod &quot;callfromanother-6db9fd5f69-8z7nb&quot; deleted
+root@openfass-master:~# kubectl get pods -n openfaas-fn
+NAME READY STATUS RESTARTS AGE
+callfromanother-6db9fd5f69-8z7nb 1/1 Running 0 4s
+</code></pre>
+<p><strong>实验结论</strong></p>
+<p>通过上述实验可以看出，Pod安全策略可对OpenFaaS函数进行细粒度的安全控制。</p>
+<h2 id="43-使用网络策略实现函数隔离">4.3 使用网络策略实现函数隔离</h2>
+<p><strong>实验目的</strong></p>
+<p>本实验通过对函数添加网络策略，进而验证函数能否在网络层面被有效隔离。</p>
+<p><strong>实验前提</strong></p>
+<p>Kubernetes的网络策略需要指定的CNI插件，笔者使用的Cillum插件。</p>
+<p><strong>实验过程</strong></p>
+<p>1.部署函数</p>
+<p>笔者部署了三个函数,用于后续实验 如下所示：</p>
+<pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# faas-cli list
+Function            Invocations  Replicas
+callfromanother     28           1
+nodeinfo            4           1
+sentimentanalysis   45          1
+</code></pre>
+<p>2.添加网络策略并验证</p>
+<p>本实验场景为在openfaas-fn命名空间下，仅指定某函数可对另一函数进行访问
+下发策略内容如下：</p>
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+name: access-sentimentanalysis
+namespace: openfaas-fn
+spec:
+podSelector:
+    matchLabels:
+    faas_function: sentimentanalysis
+ingress:
+- from:
+    - podSelector:
+        matchLabels:
+        faas_function: callfromanother
+</code></pre>
+<p>该策略实现为：openfaas-fn命名空间下仅允许label字段为“faas_function=callfromanother” 的Pod访问label字段为“faas_function=sentimentanalysis”的Pod。</p>
+<p>此处以sentimentanalysis、callfromanother 、nodeinfo函数举例，在未添加策略之前通过nodeinfo函数（nodeinfo Pod的lebel字段为faas_function=nodeinfo）访问sentimentanalysis函数，如下所示：</p>
+<pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# kubectl exec -it nodeinfo-5544dcd45d-4nkms sh -n openfaas-fn
+~$wget --post-data=&quot;xxxx&quot; --spider --timeout=1 10.99.21.80:8080                    ###10.99.21.80:8080  为sentimentanalysis的clusterIP访问方式
+Connecting to 10.99.21.80:8080 (10.99.21.80:8080)
+</code></pre>
+<p>可以看到访问成功</p>
+<p>添加策略</p>
+<pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# kubectl apply -f openfaas-policy-1.yaml
+networkpolicy.networking.k8s.io/access-sentimentanalysis created
+</code></pre>
+<p>再次尝试在nodeinfo函数中访问sentimentanalysis函数，如下所示：</p>
+<pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# kubectl exec -it nodeinfo-5544dcd45d-4nkms sh -n openfaas-fn
+~ $ wget --post-data=&quot;xxxx&quot; --spider --timeout=1 10.99.21.80:8080
+Connecting to 10.99.21.80:8080 (10.99.21.80:8080)
+wget: download timed out
+</code></pre>
+<p>可以看到访问超时，拒绝访问。</p>
+<p>再次尝试在网络策略中允许的label为“faas_function=callfromanother”的Pod中访问sentimentanalysis函数，如下所示：</p>
+<pre><code>root@openfaas-master-cillum:~/serverless-function/network_policy# kubectl exec -it callfromanother-c5689794c-c5hj6 sh -n openfaas-fn
+~ $ wget --post-data=&quot;xxx&quot; --spider --timeout=1 10.99.21.80:8080
+Connecting to 10.99.21.80:8080 (10.99.21.80:8080)
+remote file exists
+</code></pre>
+<p>访问成功，策略生效</p>
+<p><strong>实验结论</strong></p>
+<p>通过上述实验可以看出，网络策略可实现OpenFaaS函数在网络层面的隔离。</p>
+<h1 id="五总结">五.总结</h1>
+<p>本文对OpenFaaS的安全机制进行了分析解读，其中不难看出OpenFaaS提供的安全能力是有限的，依托私有化Serverless平台兼容Kubernetes的特点，我们可以考虑使用Kubernetes安全机制对Serverless函数进行深度防护，从而使开源Serverless平台受到更为全面的防护。</p>
+<h1 id="六参考文献">六.参考文献</h1>
+<ol>
+<li><a href="https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api">https://docs.openfaas.com/reference/authentication/#oidc-and-oauth2-for-the-openfaas-api</a></li>
+<li><a href="https://github.com/openfaas/workshop/blob/master/lab11.md">https://github.com/openfaas/workshop/blob/master/lab11.md</a></li>
+<li><a href="https://www.jetstack.io/">https://www.jetstack.io/</a></li>
+<li><a href="https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/#10-tls-for-the-gateway">https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/#10-tls-for-the-gateway</a></li>
+<li><a href="https://docs.openfaas.com/architecture/autoscaling/#scaling-by-requests-per-second">https://docs.openfaas.com/architecture/autoscaling/#scaling-by-requests-per-second</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-2-03-tschick/" data-toggle="tooltip" data-placement="top" title="电影《Tschick》观后感">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-2-16-%E9%99%80%E8%9E%BA/" data-toggle="tooltip" data-placement="top" title="陀螺">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

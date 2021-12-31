@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护" />
+    <meta property="og:title" content="RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护" />
+    <meta property="twitter:title" content="RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护" />
+    
+
+    
+    <meta name="description" content="2020年2月24日-28日，网络安全行业盛会RSA Conference将在旧金山拉开帷幕。前不久，RSAC官方宣布了最终入选今年的创新沙盒十强初创公司：AppOmni、BluBracket、Elevate Security、ForAllSecure、INKY、Obsidian、SECURITI.AI、Sqreen、Tala Security、Vulcan。本篇要介绍的是厂商是：AppOmni。">
+    <meta property="og:description" content="2020年2月24日-28日，网络安全行业盛会RSA Conference将在旧金山拉开帷幕。前不久，RSAC官方宣布了最终入选今年的创新沙盒十强初创公司：AppOmni、BluBracket、Elevate Security、ForAllSecure、INKY、Obsidian、SECURITI.AI、Sqreen、Tala Security、Vulcan。本篇要介绍的是厂商是：AppOmni。" />
+    <meta property="twitter:description" content="2020年2月24日-28日，网络安全行业盛会RSA Conference将在旧金山拉开帷幕。前不久，RSAC官方宣布了最终入选今年的创新沙盒十强初创公司：AppOmni、BluBracket、Elevate Security、ForAllSecure、INKY、Obsidian、SECURITI.AI、Sqreen、Tala Security、Vulcan。本篇要介绍的是厂商是：AppOmni。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2020-2-20-appomni%E9%9D%A2%E5%90%91saas%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F%E7%9A%84%E6%8C%81%E7%BB%AD%E6%80%A7%E7%9B%91%E6%8E%A7%E5%92%8C%E5%91%8A%E8%AD%A6%E9%98%B2%E6%8A%A4/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/rsa" title="RSA">
+                            RSA
+                        </a>
+                        
+                        <a class="tag" href="/tags/saas" title="SaaS">
+                            SaaS
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                    </div>
+                    <h1>RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, February 20, 2020
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/8p8nqfyEmSw0KChWS_R2ww">《RSA 创新沙盒盘点| AppOmni—面向SaaS数据泄漏的持续性监控和告警防护》</a></p>
+<h1 id="一-公司介绍">一. 公司介绍</h1>
+<p>AppOmni成立于2018年，总部位于旧金山卡本代尔，该公司致力于保护、管理和监控公有云上的应用程序（SaaS），从而解决了绝大多数企业SaaS产品上云后面临的安全风险。目前公司人数大约40-50人左右，公司的创始人大部分来自Salesforce、Palo Alto Networks公司，在今年1月28日，该公司已经筹集了1300万美元的A轮融资，投资者以ClearSky牵头，Inner Loop Capital公司也参与了这一轮融资。</p>
+<h1 id="二-背景介绍">二. 背景介绍</h1>
+<p>随着云技术的蓬勃发展，企业纷纷选择上云。然而，面临复杂多变的云环境，企业也因担心数据泄漏问题而经常问云服务商“你的云安全吗？”</p>
+<p>随着技术的不断积累，云计算的技术手段越来越成熟，虽然如今的云环境逐渐趋向于稳定和安全，但是企业上云暴露出来的安全问题仍然层出不穷，归根到底是什么原因？</p>
+<p>Gartner曾预测到2022年，至少有95%的云安全问题是客户的过错。因为技术提升的同时，云上应用变得普适广泛，云上的业务复杂性也在提高，我们知道在一些规模比较大的生产级IaaS、PaaS平台上，通常会有上百个配置选项、每日千万级的API调用频次以及各种数据访问模型。云服务面临的安全挑战不在于云自身的安全，而在于有效的安全管理、技术控制、实施安全策略等。所以问题不应该是“你的云安全吗？”而是“你是否有安全的使用云？”</p>
+<p><strong>SaaS安全防护面临的问题</strong></p>
+<p>SaaS服务在IT成熟市场已被广泛应用，相关数据表明，到2024年全球SaaS的市场规模将达到1800亿美金，年复合增长率超过20%。与此同时，SaaS的安全问题也成为技术人员讨论的热点，近年来大规模的数据泄漏事件已造成数以万计的损失，综合原因不外乎以下几点：</p>
+<ol>
+<li>
+<p>云端不安全的访问控制</p>
+<p>访问控制、包括特权用户访问是数据泄漏的最大原因，而根源在于不安全的默认配置以及对访问控制的滥用造成，比如旧的用户未删除或过度使用管理控制等。面对以上这些问题，一些企业采用RBAC机制来管理用户的权限访问控制，这看上去是没问题的，但在实际运用当中，没有良好安全基础背景的运维人员是很难做到完全可控的，毕竟随着企业规模的增大，人员会越来越多，角色权限也会增多，没有一个统一的管理平台光靠专业的维护人员去管理未免要求太高。</p>
+</li>
+<li>
+<p>错误的云存储配置</p>
+<p>许多企业选择将SaaS服务部署在公有云上，却对云上的存储配置并不关心，他们认为这是云服务商的责任。但现实很残酷，在购买云服务商服务时大多数中小企业甚至没有仔细阅读过条款。据Macfee调查声称99%的云端和IaaS错误配置都是在终端用户的控制范围内，而且并不为人所知，造成这一现象的主要原因是“公开数据”在很多云服务中是云数据存储配置的默认访问设置，所以企业需要受过良好教育的架构师和安全人员对服务进行适当的管理，以免数据泄漏的惨案再次发生。</p>
+</li>
+<li>
+<p>SaaS服务缺乏持续性的监控告警</p>
+<p>当服务被黑客攻陷导致数据泄漏时，持续的监控告警可以将用户的损失降到最低。目前企业大多数使用云服务商提供的监控告警，但因为服务商针对的是普遍用户群体，所以其安全功能存在单一性、反馈用户信息不够友好、缺乏持续性的监控等不足，最终导致了黑客入侵造成了不可收拾的局面。为保证SaaS服务的安全，企业急需一个专业的云告警平台处理所有入侵事件。</p>
+<p>2018年9月，Veeam公司客户数据泄漏，有200GB与4.4亿条客户记录相关的数据在网上公开。2019年12月，雷锋网报道了 Elasticsearch 服务器 12 亿个人数据遭泄露的事件，造成如此之大的损失原因竟然都是因为错误的云实例配置导致，想起来让人唏嘘不已。</p>
+<p>综上，相关领域如云中的数据的可访问性如何实现，用户访问控制，跨云的应用程序安全性和数据访问策略成为了客户侧安全防护面临的最大问题。</p>
+</li>
+</ol>
+<h1 id="三-产品介绍">三. 产品介绍</h1>
+<p>AppOmni平台是由一个具有丰富经验并了解安全性、合规性、IT团队需求的专家团队设计和构建的。通过使用AppOmni自研的策略引擎深度扫描SaaS服务的API和配置，可在数分钟内识别出数据泄漏，并生成相应报告；其次，AppOmni还持续提供监控用户的SaaS程序是否发生安全事件并产生相应告警；最后，AppOmni的“SaaS权限建模” 专利可使用户能够立即、切实并可行的洞察对SaaS应用程序中关键业务数据的有效访问权限。综合以上三点，AppOmni在访问控制、数据泄漏、数据访问策略方面均有着一定程度的创新，从而为SaaS服务全力保障护航。</p>
+<h1 id="四-产品特点">四. 产品特点</h1>
+<p>AppOmni 的解决方案主要是：安全自动化、合规控制和IT管理，我们逐一进行介绍。</p>
+<p>
+  <figure>
+    <img src="/img/AppOmni%e2%80%94%e9%9d%a2%e5%90%91SaaS%e6%95%b0%e6%8d%ae%e6%b3%84%e6%bc%8f%e7%9a%84%e6%8c%81%e7%bb%ad%e6%80%a7%e7%9b%91%e6%8e%a7%e5%92%8c%e5%91%8a%e8%ad%a6%e9%98%b2%e6%8a%a4/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. AppOmni平台</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="41-安全自动化">4.1 安全自动化</h2>
+<ol>
+<li>
+<p>配置防火墙</p>
+<p>AppOmni支持配置防火墙功能，并可以定义数据访问的安全规则，以防止数据暴露给第三方或公共网络。</p>
+</li>
+<li>
+<p>一致的访问控制</p>
+<p>基于角色的访问控制（RBAC）仍然是对SaaS用户访问权限控制和授权的行业标准策略，在大型企业必须支持成千上万内部用户时，IT团队将不得不面临授予访问权限的压力，并且此时很容易造成配置权限超越了其自身原本应有权限的事件发生，而且不正确的删除权限可能会对业务造成严重影响。AppOmni遵循RBAC的原则，提供可视化的角色用户管理界面，可以显示哪些用户共享同一权限哪些不共享，并且可以标识异常的用户权限绑定，使运维人员清晰的对用户及角色进行有效分配。</p>
+</li>
+<li>
+<p>24*7的持续监控</p>
+<p>有了一致的访问控制往往还不够，一旦SaaS应用程序处于已知良好的访问控制状态，就需要不断的保持这种良好的状态并将一致性延续下去。AppOmni提供了24*7的持续监控，其内部通过“权限模型”可以评估SaaS应用程序配置和有效访问，与设置的安全策略或绑定的用户权限有任何偏差都会立即告警并进行相应的处理措施。</p>
+</li>
+</ol>
+<h2 id="42-合规控制">4.2 合规控制</h2>
+<ol>
+<li>
+<p>合规报告</p>
+<p>AppOmni支持在“数分钟”内执行对SaaS的访问检查并导出对应合规性报告，这在企业中是非常必要的，因为企业会不定期的查询当前部署的SaaS服务是否一切合规。</p>
+</li>
+<li>
+<p>数据清单</p>
+<p>AppOmni会根据类型、业务需求、合规性需求对数据进行分类提供用户可视化数据清单, 并且可以将数据接入任何SIEM系统（SOAR）、日志管理系统、漏洞管理系统做进一步的数据分析。</p>
+</li>
+<li>
+<p>控制匹配</p>
+<p>AppOmni中提供了业界的一些标准，例如ISO 27001、PCI、NIST等，作为基线与SaaS的应用程序进行匹配，从而可以看出SaaS应用程序使用是否合规。</p>
+</li>
+</ol>
+<h2 id="43-it管理">4.3 IT管理</h2>
+<ol>
+<li>
+<p>配置管理</p>
+<p>AppOmni可以配置用户角色权限、防火墙安全策略、配置文件等，为用户、云环境和应用程序创建了良好的基础配置模版。</p>
+<p>
+  <figure>
+    <img src="/img/AppOmni%e2%80%94%e9%9d%a2%e5%90%91SaaS%e6%95%b0%e6%8d%ae%e6%b3%84%e6%bc%8f%e7%9a%84%e6%8c%81%e7%bb%ad%e6%80%a7%e7%9b%91%e6%8e%a7%e5%92%8c%e5%91%8a%e8%ad%a6%e9%98%b2%e6%8a%a4/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. AppOmni配置管理</figcaption></center>
+  </figure>
+
+</p>
+</li>
+<li>
+<p>功能测试</p>
+<p>在IT流程中，将自动化测试纳入其中可以在用户升级和部署新的应用程序时不担心会出现影响线上版本的事件发生，AppOmni具备这项能力。</p>
+</li>
+</ol>
+<h1 id="五-总结">五. 总结</h1>
+<p>AppOmni在官网未说明其使用的扫描引擎运用了哪些技术，只是说是一项专利，但可由此推断这一定是AppOmni的核心卖点。毕竟在数分钟内即可扫描完SaaS服务并输出相应的合规性报告及数据清单，同时又可以做到24*7的持续性服务监控和告警并且不会太影响性能，试问谁不好奇AppOmni是怎么做到的呢？</p>
+<p>对于公有云上的配置进行核查，Gartner将该细分市场称为CSPM（Cloud Security Posture Management），目前大部分公司的配置核查主要是对如存储资源的访问凭证进行检查，避免弱口令或无口令拖库的事件，AppOmni的创新之处在于结合合规性要求，可视化地还原业务层面的访问逻辑关系，并通过持续性的监控告警保证访问策略随着业务迁移和人员变更后的一致性。</p>
+<p>AppOmni可提供持续的监控和告警这一优势使得用户层面具备了“即时可见性”，从而在很大程度上改善了云中的安全现状。另外，AppOmni平台通过用户定义的安全策略评估数据暴露风险，以提供警告和见解，为用户节省了大量的补救时间。在企业发展业务速度跟不上上云引起的安全问题这一普遍趋势下，AppOmni可以说是该领域的首批着眼于解决如何安全的使用SaaS云的公司，未来随着业务越发复杂，云中面临的安全问题只会越来越多，希望AppOmni可以保持其创新性和优势，继续努力，同时也祝愿AppOmni在2020年RSAC创新沙盒十强赛中可以取得好的成绩。</p>
+<h1 id="六-参考文献">六. 参考文献</h1>
+<ol>
+<li><a href="https://appomni.com/">https://appomni.com/</a></li>
+<li><a href="https://appomni.com/appomni-raises-10-million-in-series-a/">https://appomni.com/appomni-raises-10-million-in-series-a/</a></li>
+<li><a href="https://appomni.com/using-roles-for-continuous-saas-security-monitoring/">https://appomni.com/using-roles-for-continuous-saas-security-monitoring/</a></li>
+<li><a href="https://appomni.com/is-the-cloud-secure/">https://appomni.com/is-the-cloud-secure/</a></li>
+<li><a href="https://www.infosecurity-magazine.com/news/orgs-failing-protect-data-cloud/">https://www.infosecurity-magazine.com/news/orgs-failing-protect-data-cloud/</a></li>
+<li><a href="https://www.cbronline.com/news/iaas-misconfiguration-mcafee">https://www.cbronline.com/news/iaas-misconfiguration-mcafee</a></li>
+<li><a href="https://thehackernews.com/2019/10/data-breach-protection.html">https://thehackernews.com/2019/10/data-breach-protection.html</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2019-12-31-%E4%B8%BB%E6%B5%81%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1api%E7%BD%91%E5%85%B3%E6%88%90%E7%86%9F%E5%BA%A6%E4%B8%8E%E5%AE%89%E5%85%A8%E5%8A%9F%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/" data-toggle="tooltip" data-placement="top" title="主流云原生微服务API网关成熟度与安全功能对比分析">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/" data-toggle="tooltip" data-placement="top" title="【云原生攻防研究】Istio访问授权再曝高危漏洞">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

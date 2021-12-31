@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案" />
+    <meta property="og:title" content="RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案" />
+    <meta property="twitter:title" content="RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案" />
+    
+
+    
+    <meta name="description" content="浦明，安全研究员,来自绿盟科技, 开源爱好者，热爱旅行, 热爱摄影 | 这里是 浦明 的博客，与你一起发现更大的世界。">
+    <meta property="og:description" content="浦明，安全研究员,来自绿盟科技, 开源爱好者，热爱旅行, 热爱摄影 | 这里是 浦明 的博客，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="浦明，安全研究员,来自绿盟科技, 开源爱好者，热爱旅行, 热爱摄影 | 这里是 浦明 的博客，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2021-5-12-wabbi%E9%9D%A2%E5%90%91%E5%BA%94%E7%94%A8%E5%85%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%96%B9%E6%A1%88/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e9%9d%a2%e5%90%91%e5%ba%94%e7%94%a8%e5%85%a8%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e7%9a%84%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%96%b9%e6%a1%88.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/rsa" title="RSA">
+                            RSA
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/devsecops" title="DevSecOps">
+                            DevSecOps
+                        </a>
+                        
+                        <a class="tag" href="/tags/devops" title="DevOps">
+                            DevOps
+                        </a>
+                        
+                    </div>
+                    <h1>RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Wednesday, May 12, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/FpogaPTstx2vKV_p00jAeg?st=23600F9410576E0C092EC2E6689370BF7DBDC81C888F587FB31F36FC4E385513B3AEEA6056CF0FD7BB4FA7707C5ECCC191EFEB059155C93387F2033414132B4BD4B4C2FAD0EA2FFBD170F73186441AC26283A16E5F8339D845A6C8256C4C332873E4FDCF94A83F9E108D9B06841D6CE47F05114A117F2AC538981DA5C52F6613B0A22A7C4B765D9D1D9F9E986082DC7A56CFAA836066B7417D4728E7FB8CF89EB5D093B0B8FE7C0B1331F871E034E24A58A177D342FDAA1CDCFE57C0D450FB4A&amp;vid=1688851816300069&amp;cst=74852AB7DD64AF5AFEB3688A281F8B2815BAC5D45F024FA8065A0BB28CDD7553B42010408F917886F6ED959CB23154D3&amp;deviceid=be583341-5d26-41b6-b240-64c4d98d95dd&amp;version=3.1.12.70057&amp;platform=mac">《RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案》</a></p>
+<h1 id="一-公司介绍">一. 公司介绍</h1>
+<p>WABBI成立于2018年，总部位于美国波士顿州，该公司专注于SecDevOps领域，通过旗下的SecDevOps产品可使企业能够更快、更安全的将软件进行交付，目前公司人数大约20-30人左右，公司的首席执行官兼创始人为BrittanyGreenfield[1]，毕业于杜克大学，并在麻省理工学院读取了MBA，单从其工作履历来看，该创始人从事的多为市场营销相关领域，与信息安全领域并无太多交集，但优势在于对现有软件市场有着较深理解，并在DevOps方向有着前瞻性的研究，2019年5月份，该公司已经筹集了33万美元的第一轮融资，投资者以Underscore VC[2]公司牵头，Douglas Levin[3]、Ashley Smith[4]等人也参与了此轮融资。</p>
+<h1 id="二-背景介绍">二. 背景介绍</h1>
+<p>随着技术的不断发展，为促进开发运维一体化，DevOps应运而生，其代表的并非一种具体的实现技术，而是一种方法论，并在2009年被提出[1]。DevOps的出现最终目的是为了打破开发人员与运维人员之间的壁垒和鸿沟，高效的组织团队通过自动化工具相互协作以完成软件生命周期管理，从而更快且频繁地交付高质量稳定的软件。</p>
+<p>如我们所知，DevOps影响的不仅包含开发团队（Dev）和运维团队(Ops)，还应包含安全团队（Sec），在系统生命周期（SDLC Systems DevelopmentLife Cycle）中，安全团队因常聚焦于运营阶段，因而往往忽视了开发阶段的安全，所以“安全左移”的理念在近些年非常的火，其强调安全因素应纳入应用开发的早期阶段，常见的，我们在开发（Dev）与运维（Ops）之间加入安全（Sec），也就是DevSecOps理念，其侧重点是将安全工具自身整合至CI/CD工作流中，且安全工具主要纳入应用的测试、发布和运维阶段，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1 DevSecOps示意图[6]</figcaption></center>
+  </figure>
+
+</p>
+<p>近些年来，随着DevOps工具链激增，如Aqua、Twistlock等容器安全公司均支持了DevSecOps的解决方案[7][8]。</p>
+<p>然而，从安全的角度上考虑，DevSecOps虽然在一定程度上保障了DevOps的安全，但由于其并未涵盖DevOps的整个闭环流程，因而缺乏项目环境（应用的上下文环境），进而，DevSecOps无法解决应用安全的优先级问题。此外，项目环境的缺失还会降低整体的开发运维效率。鉴于此，人们渐渐提出了SecDevOps的理念，即将安全部分（Sec）移至最左边，SecDevOps遵循将安全部署至系统生命周期的每一个阶段，而不仅仅是测试、部署、运维阶段，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2 SecDevOps示意图[9]</figcaption></center>
+  </figure>
+
+</p>
+<p>通过安全流程与开发流程的一致性，我们可以预定义流程以确保在正确的时间进行安全检测并按照优先级顺序逐一对安全问题进行修复。</p>
+<p>为了较好地实践SecDevOps理念，WABBI公司提供了一套平台，该平台负责管理安全工具及应用发布前的代码安全，并能确保将安全工具无缝整合至现有的DevOps工作流中。具体的，WABBI对应用的安全防护能力可通过为不同应用分配不同的策略去实现，加之对每个策略的控制措施及对安全测试结果的分析方法，该平台有效加速了应用的安全交付，为各企业的DevOps团队提供了安全基础架构。</p>
+<h1 id="三-产品介绍">三. 产品介绍</h1>
+<p>WABBI公司提供一套SecDevOps平台，该平台主要由管理器（Manager）、策略编排器（Orchestrator）、版本控制器（Gatekeeper）三个功能模块组成，需要注意的是，官方并没有明显提及以上三个核心模块是如何与现有的DevOps流程进行融合的，笔者通过现有材料的分析推测，其管理器和策略编排器保证了应用代码设计、构建、测试阶段的安全，而版本控制器保证了应用发布、运维阶段的安全，三者结合可以实现整个SecDevOps流程的闭环。</p>
+<h2 id="31-管理器">3.1 管理器</h2>
+<p>通过官网提供的信息可以看出管理器主要为用户提供项目管理功能，包括项目导入、初始策略分配、应用漏洞检测、可视化展示等，用户可通过平台进行具体的操作，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3 导入项目至WABBI平台的流程</figcaption></center>
+  </figure>
+
+</p>
+<p>图3我们可以看出用户导入项目的过程分为四步，分别为项目选择、自定义设置、项目描述（可进行初始化策略分配）、项目概览（可视化展示），图4为成功导入项目后的概览页面：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4 项目概览界面</figcaption></center>
+  </figure>
+
+</p>
+<p>从概览页面可以看出WABBI平台为用户提供了包括项目存在的安全问题、项目安全问题的优先级排序、项目安全问题的待办数、项目总体的安全性评分等可视化展示，这样，一方面可在用户层面满足对当前项目的“即时可见性”的需求，确保问题得到及时解决；另一方面可有效对安全债务（Securitydebt）进行控制，确保应用的按时交付。</p>
+<h2 id="32-策略编排器">3.2 策略编排器</h2>
+<p>WABBI通过策略编排器实现策略的自动化编排，其核心为集中式策略引擎，通过引擎可将不同的策略分配至合适的项目，随着应用安全风险的不断变化，用户可以得知哪些项目受到了策略变化带来的影响，从而可确保应用始终符合当前的安全标准。笔者通过观看其官方demo视频，截取了平台策略管理相关的界面，如下所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5 策略管理界面1</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be6.png" alt="image">
+    <center><figcaption>图6 策略管理界面2</figcaption></center>
+  </figure>
+
+</p>
+<p>从图5，6我们可以看出，该平台默认提供的策略类型还是相对较多的，包括认证、授权、恶意软件、通信、文件、业务逻辑等，每个策略类型下面又包含许多策略，例如NIST安全标准策略等。</p>
+<p>此外，从界面上来看，策略管理部分还支持用户自定义策略类型，并可手动导入策略，例如我们可以将OWASP安全标准导入到策略管理模块中，如图7所示，这样可在一定程度上加强策略的扩展性。</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be7.png" alt="image">
+    <center><figcaption>图7 策略管理界面3</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="33-版本控制器">3.3 版本控制器</h2>
+<p>从官网信息中，笔者了解到版本控制器主要用于确保每次应用版本的发布都能遵循安全标准，具体的，版本控制器可协调所有的安全质量检查，当遇到不符合安全标准的状况时，版本控制器可以通知具体用户需要修复什么，从而可促使代码按时进行交付。另外，用户可通过该平台针对项目不同版本查看相应的安全问题，这个功能对于用户来说还是相当直观有用的，具体如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be8.png" alt="image">
+    <center><figcaption>图8 项目不同版本查看页面</figcaption></center>
+  </figure>
+
+</p>
+<p>此外，通过版本控制器我们可以在DevOps流程的每个阶段查看应用代码交付是否满足安全标准，从而简化了事后合规性检查的过程，例如WABBI平台在集成Azure Pipelines后，我们可以查看系统发布未能通过的详细信息，如图9所示：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be9.png" alt="image">
+    <center><figcaption>图9 CI/CD流中WABBI的版本控制器报错页面</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be10.png" alt="image">
+    <center><figcaption>图10 与图9对应的发布失败信息</figcaption></center>
+  </figure>
+
+</p>
+<p>图10可以看出，用户可针对流程手动进行审批，以满足现有环境不符合安全标准但仍需发布的场景。</p>
+<h1 id="四-解决方案介绍">四. 解决方案介绍</h1>
+<h2 id="41-提供cmcc方案">4.1 提供CMCC方案</h2>
+<p>CMCC全称为CybersecurityMaturity Modle Certification，即网络安全成熟度模型认证，其是由美国国防部发起的一项计划，目的是为了衡量企业在网络安全领域的能力、准备程度及复杂程度。具体的，CMCC侧重于采用实践和流程，以便企业在各方面可切实的实施网络安全，将企业从被动的网络安全模式转变为主动的网络安全模式。WABBI宣称其SecDevOps 平台可以使企业在面对CMMC标准时，实施必要的实践及流程，下图是WABBI提供的CMCC方案流程图：</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be11.png" alt="image">
+    <center><figcaption>图11 CMCC方案实现流程[10]</figcaption></center>
+  </figure>
+
+</p>
+<p>图11可以看出，通过WABBI SecDevOps平台的集中化策略管理，可使所有记录在案的应用安全实践被执行。此外，通过WABBI SecDevOps平台对应用开发和运维流程的全面监控，可使用户在最短时间内接收有效信息，在一定程度上降低了流程的复杂度，以促进企业向CMCC标准的方向迈进。</p>
+<h2 id="42-提供可持续性的ato">4.2 提供可持续性的ATO</h2>
+<p>ATO全称为Authority-to-Operate，即运营授权，具体指授权运营一个系统并在一套安全控制措施的基础上，明确接受企业运作、企业资产可能带来的风险。由于传统的授权运营流程无法跟上现今软件开发的速度，因而导致ATO流程往往无法持续进行，而WABBI宣称其SecDevOps平台可通过自动化和协调应用的安全流程作为系统生命周期的一部分，进而降低应用的运行维护成本以及项目交付的风险，实现持续的ATO。持续的ATO对于满足快速且安全地将软件交付至用户的需求来说至关重要。</p>
+<p>下图为WABBI官方提供的实现持续性ATO的流程。</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be12.png" alt="image">
+    <center><figcaption>图12 CMCC方案实现流程[11]</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="五-与现有的devops生态链的集成">五. 与现有的DevOps生态链的集成</h1>
+<p>通过官网介绍[12]，笔者发现WABBI与现有DevOps生态链的结合还是相对比较全面的，下图可以看出，涉及的生态链几乎能覆盖DevOps流程的每个阶段，但同时我们也能发现每个阶段集成的工具数量较少，这可能也和WABBI公司处在创业期有关，其产品仍在不断迭代扩展，以满足更多用户的需求。</p>
+<p>
+  <figure>
+    <img src="/img/WABBI/%e5%9b%be12.png" alt="image">
+    <center><figcaption>图13 WABBI支持的DevOps生态链[13]</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="六-优势与挑战">六. 优势与挑战</h1>
+<p>通过上文对WABBI平台的介绍，我们可以看出其一大亮点是较好的实践了“安全左移”（SecDevOps）的理念，通过将安全机制部署至系统生命周期的每个阶段，可使安全流程与开发运维流程保持一致，从而从根源处消除了开发团队在选择敏捷性和安全性之间的顾虑，相比DevSecOps，SecDevOps理念更好的贯穿了开发、运维、安全的一体化。</p>
+<p>然而，WABBI也存在着一些挑战，笔者从技术角度出发总结为以下三点：</p>
+<p>1.应用漏洞的误报或漏报问题</p>
+<p>WABBI公司宣称其产品的版本控制器可以代替人工进行审批，并在出现问题后及时通知相关用户，但如我们所知，自动化是无法完全替代人工的，只能一定程度上降低人工成本，并且由于自动化响应是基于规则，规则的不完善可能会进一步导致系统的误报或漏报的增多，针对此情况，笔者在官网上并未看到WABBI是如何进行处理的，因而</p>
+<p>因而对于WABBI来说无疑是一项挑战。</p>
+<p>2.策略编排器的性能问题</p>
+<p>WABBI通过策略编排器实现了策略的自动化编排，这确实在一定程度上解决了手动管理多项目带来的问题，但从其官网提供的demo中，我们可以看到其支持策略的不断扩展，且每个策略类别下又可以添加不同的策略，那么随着管理项目数量地不断增多，策略数量将会呈指数增长，最终策略编排引擎的性能是否会受到影响是WABBI需要关心的问题。</p>
+<p>3.与DevOps工具适配接口的性能问题</p>
+<p>从WABBI公司目前的发展来看，笔者认为WABBI想不断扩展其与主流DevOps工具的适配，然而更多适配必然会导致一定的性能问题，如何将不同DevOps工具的适配接口进行整合形成一套通用的接口，并能通过参数指定的方式去驱动适配性是可选择的手段，WABBI究竟会如何考虑我们并不得知，但这一定是WABBI面临的一项挑战。</p>
+<h1 id="七-总结">七. 总结</h1>
+<p>今年入围RSA创新沙盒的十大公司在应用安全方向有两家，一家为Apiiro，我们在另一篇文章中对其进行了解读。另一家就是今天我们谈论的WABBI,从其融资水平以及团队背景来看，笔者认为WABBI想在最终的决赛中脱颖而出还是有一定的难度。从其背后的产品力来看，笔者认为WABBI还是具备一定的创新性及优势，毕竟目前市场上的产品多是实践了DevSecOps理念，例如2020年入围RSA创新沙盒的ForAllSecure公司，2019年入围的DisruptOps（云基础设施检测与修复）、ShiftLeft（软件代码防护与审计）公司。但成功实践了SecDevOps理念的产品却少之又少。值得注意的是从2019-2020年，DevSecOps方向入围的公司均未进入过最终的Top 3，这一方面反映了DevSecOps方向可能相比其它方向受到的关注度要更低一些，另一方面也间接说明了该领域很难再出现颠覆性的创新点，无论最终结果如何，希望WABBI可以继续延续其创新性和优势，为市场带来更好的产品。</p>
+<h1 id="八-参考文献">八. 参考文献</h1>
+<p>[1] <a href="https://www.linkedin.com/in/brittanygreenfield/">https://www.linkedin.com/in/brittanygreenfield/</a></p>
+<p>[2] <a href="https://www.linkedin.com/company/_underscore.vc/">https://www.linkedin.com/company/_underscore.vc/</a></p>
+<p>[3] <a href="https://www.linkedin.com/in/bduck1/">https://www.linkedin.com/in/bduck1/</a></p>
+<p>[4] <a href="https://www.linkedin.com/in/ashley5/">https://www.linkedin.com/in/ashley5/</a></p>
+<p>[5] <a href="https://en.wikipedia.org/wiki/DevOps">https://en.wikipedia.org/wiki/DevOps</a></p>
+<p>[6] 图片来自https://wabbisoft.com/wp-content/uploads/2019/11/DevSecOps.png</p>
+<p>[7] <a href="https://www.aquasec.com/use-cases/devops-security/">https://www.aquasec.com/use-cases/devops-security/</a></p>
+<p>[8] <a href="https://ibm-gsi-ecosystem.github.io/ibm-gsi-cloudnative-journey/developer-advanced-2/devsecops-twistlock/">https://ibm-gsi-ecosystem.github.io/ibm-gsi-cloudnative-journey/developer-advanced-2/devsecops-twistlock/</a></p>
+<p>[9] 图片来自https://wabbisoft.com/wp-content/uploads/2019/11/SecDevOps-no-questions.png</p>
+<p>[10] 图片来自https://wabbisoft.com/wp-content/uploads/2020/12/CMMC.gif</p>
+<p>[11] 图片来自https://wabbisoft.com/wp-content/uploads/2020/11/Continuous-ATO.gif</p>
+<p>[12] <a href="https://wabbisoft.com/secdevops-integrations/">https://wabbisoft.com/secdevops-integrations/</a></p>
+<p>[13] 图片来自https://wabbisoft.com/secdevops-integrations/</p>
+<p>[14] WABBI SecDevOps Orchestration <a href="https://www.youtube.com/watch?v=JcL1D_CneeM">https://www.youtube.com/watch?v=JcL1D_CneeM</a></p>
+<p>[15] <a href="https://WABBIsoft.com/getting-started-with-secdevops-the-what-the-how-and-the-why/">https://WABBIsoft.com/getting-started-with-secdevops-the-what-the-how-and-the-why/</a></p>
+<p>[16] <a href="https://WABBIsoft.com/what-is-secdevops/">https://WABBIsoft.com/what-is-secdevops/</a></p>
+<p>[17] <a href="https://wabbisoft.com/platform/">https://wabbisoft.com/platform/</a></p>
+<p>[18] <a href="https://wabbisoft.com/solutions/cmmc-compliance/">https://wabbisoft.com/solutions/cmmc-compliance/</a></p>
+<p>[19] <a href="https://wabbisoft.com/solutions/continuous-ato-2/">https://wabbisoft.com/solutions/continuous-ato-2/</a></p>
+<p>[20] <a href="https://www.nsfocus.com.cn/">https://www.nsfocus.com.cn/</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-4-19-%E6%AD%8C/" data-toggle="tooltip" data-placement="top" title="歌">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-7-22-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E6%80%9D%E8%80%83/" data-toggle="tooltip" data-placement="top" title="【云原生应用安全】云原生应用安全风险思考">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

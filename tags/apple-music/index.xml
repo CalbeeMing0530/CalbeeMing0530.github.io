@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>apple music on Ming Blog</title>
+    <link>https://puming.zone/tags/apple-music/</link>
+    <description>Recent content in apple music on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/apple-music/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Music Corner</title>
+      <link>https://puming.zone/post/2021-1-22-music-corner/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-1-22-music-corner/</guid>
+      <description>喜欢小众音乐，并不是因为小众而喜欢，而是因为小众基本脱离了流行因素，能走入人心 喜欢各种风格的音乐，只要能触及使我感动的点 好的音乐是震撼心灵的</description>
+    </item>
+    
+  </channel>
+</rss>

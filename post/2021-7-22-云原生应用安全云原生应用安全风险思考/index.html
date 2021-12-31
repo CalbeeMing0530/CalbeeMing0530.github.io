@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="【云原生应用安全】云原生应用安全风险思考" />
+    <meta property="og:title" content="【云原生应用安全】云原生应用安全风险思考" />
+    <meta property="twitter:title" content="【云原生应用安全】云原生应用安全风险思考" />
+    
+
+    
+    <meta name="description" content="云原生应用究竟和传统应用有何不同，安全风险上有何变化，本文将从传统应用风险、应用架构变革带来的风险、云计算模式带来的风险三个维度为各位读者介绍。">
+    <meta property="og:description" content="云原生应用究竟和传统应用有何不同，安全风险上有何变化，本文将从传统应用风险、应用架构变革带来的风险、云计算模式带来的风险三个维度为各位读者介绍。" />
+    <meta property="twitter:description" content="云原生应用究竟和传统应用有何不同，安全风险上有何变化，本文将从传统应用风险、应用架构变革带来的风险、云计算模式带来的风险三个维度为各位读者介绍。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>【云原生应用安全】云原生应用安全风险思考-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2021-7-22-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E6%80%9D%E8%80%83/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9%e6%80%9d%e8%80%83.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/application" title="Application">
+                            Application
+                        </a>
+                        
+                    </div>
+                    <h1>【云原生应用安全】云原生应用安全风险思考</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, July 22, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/JFInbZH19mzd4dy7Rw1Z_Q">《【云原生应用安全】云原生应用安全风险思考》</a></p>
+<h1 id="专题信息">专题信息</h1>
+<p>专题：【云原生应用安全】</p>
+<p>往期回顾：
+<a href="https://mp.weixin.qq.com/s/6ZQvWRn4Fti-szOvffaasg">【云原生应用安全】微服务架构下API业务安全分析概述</a></p>
+<h1 id="一概述">一.概述</h1>
+<p>随着云计算技术的不断发展，当前绝大多数企业正在数字化转型的道路上砥砺前行，其中企业上云是必经之路，在相应实践过程中，传统应用存在升级缓慢、架构臃肿、无法弹性扩展及快速迭代等问题，于是近年来云原生 的概念应运而生，凭借着云原生弹性、敏捷、资源池和服务化等特性，解决了业务在开发、集成、分发和运行等整个生命周期中遇到的问题。</p>
+<p>云原生环境中，应用由传统的单体架构转向微服务架构，云计算模式也相应的从基础设施即服务（Infrastructure as a Service，IaaS）转向为容器即服务（Container as a Service，CaaS）和函数即服务（Function as a Service，FaaS）。
+应用架构和云计算模式的变革是否会导致进一步的风险，这些风险较之传统应用风险又有哪些区别。在讲述云原生应用具体风险前，笔者首先提出以下三个观点，这些观点有助于各位读者较好的理解本文所讲述的内容。</p>
+<p><strong>观点一  云原生应用继承了传统应用的风险和API的风险</strong>
+云原生应用源于传统应用，因而云原生应用风险也就继承了传统应用的风险。此外，由于云原生应用架构的变化进而导致应用API交互的增多，可以说云原生应用中大部分交互模式已从Web请求/响应转向各类API请求/响应 ，例如RESTful/HTTP、gRPC等，因而API风险也进一步提升。</p>
+<p><strong>观点二  应用架构变革将会带来新的风险</strong>
+由于应用架构变革，云原生应用遵循面向微服务化的设计方式，从而导致功能组件化、服务数量激增、配置复杂等问题，进而为云原生应用和业务带来了新的风险。</p>
+<p><strong>观点三  计算模式变革将会带来新的风险</strong>
+随着云计算的不断发展，企业在应用的微服务化后，会进一步聚焦于业务自身，并将功能函数化，因而出现了无服务器计算（Serverless Computing）这类新的云计算模式，进而引入了Serverless应用和Serverless平台的新风险。
+综上，我们可以看出云原生应用带来的风险是不容小觑的，本文笔者将从传统应用风险、应用架构变革带来的新风险、云计算模式变革带来的新风险三个维度为各位读者分别进行介绍，希望可以引发大家更多的思考。</p>
+<h1 id="二传统应用面临的风险">二.传统应用面临的风险</h1>
+<p>由于云原生应用也是应用，因而云原生应用风险可以参考传统应用风险，传统应用风险则以Web应用风险为主，主要包含注入、敏感数据泄露、跨站脚本、使用含有已知漏洞的组件、不足的日志记录和监控等风险。</p>
+<p>此外，云原生环境中，应用的API交互模式逐渐由“人机交互”转变为“机机交互”，虽然API大量出现是云原生环境的一大特点，但本质上来说，API风险并无新的变化，因而其风险可以参考现有的API风险，主要包含安全性错误配置、注入、资产管理不当、资源缺失和速率限制等风险。</p>
+<p>有关传统应用风险和API风险的更多细节可以分别参考OWASP组织在2017和2019年发布的应用十大风险报告[1]和API十大风险报告[2]。</p>
+<h1 id="三应用架构变革带来的新风险">三.应用架构变革带来的新风险</h1>
+<h2 id="31-云原生应用带来的新风险">3.1 云原生应用带来的新风险</h2>
+<p>云原生应用面临的新风险主要“新”在哪里，笔者看来“新”主要体现在新应用架构的出现，我们知道，新应用架构遵循微服务化的设计模式，通过应用的微服务化，我们能够构建容错性好、易于管理的松耦合系统，与此同时，新应用架构的出现也会引入新的风险，为了较为完整地对风险进行分析，本文我们将以信息系统安全等级三要素，即机密性（Confidentiality）、完整性（Integrity）、可用性（Availability）作为导向为各位读者介绍应用架构变化带来的新风险。</p>
+<p><strong>机密性受损的风险</strong></p>
+<p>典型的如信息泄露风险，攻击者可通过利用资产脆弱性和嗅探、暴力破解等攻击方式窃取用户隐私数据，从而造成信息泄露风险。</p>
+<p><strong>完整性受损的风险</strong></p>
+<p>典型的如未授权访问风险，攻击者可通过利用资产脆弱性和中间人攻击等行为绕过系统的认证授权机制，执行越权操作，从而造成未授权访问的风险。</p>
+<p><strong>可用性受损的风险</strong></p>
+<p>典型的如系统被拒绝服务的风险，一方面，攻击者可通过畸形报文、SYN泛洪等攻击方式为目标系统提供非正常服务，另一方面，系统供不应求的场景也会导致系统遭受拒绝服务风险。</p>
+<p>本小节接下来的内容，将以“信息泄露”、“未授权访问”、“拒绝服务”为例，分别介绍上述三类风险。</p>
+<h3 id="311-数据泄露的风险">3.1.1 数据泄露的风险</h3>
+<p>云原生环境中，虽然造成应用数据泄露风险的原因有很多，但都离不开以下几个因素：</p>
+<p>应用漏洞：通过资产漏洞对应用数据进行窃取。</p>
+<p>密钥不规范管理：通过不规范的密钥管理对应用数据进行窃取。</p>
+<p>应用间通信未经加密：通过应用间通信未经加密的缺陷对传输中数据进行窃取，进而升级到对应用数据的窃取。</p>
+<h4 id="3111-应用漏洞带来的风险">3.1.1.1 应用漏洞带来的风险</h4>
+<p>我们知道，应用中存储的数据多是基于API进行访问，若应用中某API含有未授权访问漏洞，例如Redis未授权访问漏洞，攻击者便可利用此漏洞绕过Redis认证机制，访问到内部数据，进而导致了敏感信息泄露的风险。</p>
+<p>传统单体应用架构下，由于API访问范围为用户到应用，攻击者只能看到外部进入至应用的流量，无法看到应用内部的流量，所以针对恶意使用API漏洞进行数据窃取造成的损失范围通常是有限的。</p>
+<p>反观微服务化应用架构，当单体应用被拆分为若干个服务后，这些服务会根据业务情况进行相互访问，API访问范围变为服务到服务（Service toService），若某服务因API漏洞导致攻击者有利可图，那么攻击者将会看到应用内部的流量，这无疑为攻击者提供了更多的攻击渠道，因而针对数据泄露的风险程度而言，微服务架构相比传统单体应用架构带来的风险更大。此外，随着服务数量达到一定规模，API数量将不断递增，进而扩大了攻击面，增大了数据泄露的风险。</p>
+<h4 id="3112-密钥不规范管理带来的风险">3.1.1.2 密钥不规范管理带来的风险</h4>
+<p>在应用的开发过程中，开发者常疏于对密钥的管理从而导致数据泄露的风险，例如开发者将密钥信息、数据库连接密码等敏感信息硬编码在应用程序中，从而增大了诸如应用程序日志泄露、应用程序访问访问密钥泄露的风险。</p>
+<p>传统单体应用架构中，开发者常将配置连同应用一起打包，当需要修改配置时，只需登录至服务端进行相应修改，再对应用进行重启便可实现，这种单个集中式配置文件的存储方式从密钥管理风险的角度上讲是相对可控的。</p>
+<p>微服务应用架构中，应用的配置数量与服务数量的逐渐增多是成正比的，例如微服务应用中会存在各种服务、各种数据库访问、各种环境变量的配置，且各配置支持动态调整。同时，微服务应用架构对服务的配置管理也提出了更高的要求，例如代码与配置可分离、配置支持分布式、配置更新的实时性、配置可统一进行治理等，因而微服务下的配置管理更加复杂，对运维人员的要求更高，密钥管理的难度也在不断提升，最终会造成更大的数据泄露风险。</p>
+<h4 id="3113-应用通信未加密带来的风险">3.1.1.3 应用通信未加密带来的风险</h4>
+<p>如我们所知，如果应用采用HTTP协议进行数据传输，那么HTTP页面的所有信息将都以纯文本形式进行传输，默认是不提供任何加密措施的，因而在数据传输过程中易被攻击者监听、截获和篡改，典型的攻击流程为攻击者通过Fiddler、Wireshark等抓包工具进行流量监听，之后截获传输的敏感信息，例如数据库密码，登录密码等，最后攻击者根据自身意图对敏感数据进行篡改并发送至服务端，进而导致数据泄露的风险。</p>
+<p>传统单体应用架构中，由于网络拓扑相对简单，且应用通信多基于HTTP/HTTPS，因而造成的数据泄露风险多是因为采用了HTTP协议。微服务应用架构中，网络拓扑相对复杂，因遵循分布式的特点，应用间的通信不仅采用HTTP/HTTPS协议，还采用gRPC等协议，由于gRPC协议默认不加密，因而将会导致攻击面的增多，为数据泄露带来了更多的风险。</p>
+<h3 id="312-未授权访问的风险">3.1.2 未授权访问的风险</h3>
+<p>云原生环境中，应用未授权访问的风险多是由于应用自身漏洞或访问权限错误的配置导致。</p>
+<h4 id="3121-应用漏洞带来的风险">3.1.2.1 应用漏洞带来的风险</h4>
+<p>应用漏洞是造成未授权访问的一大因素，如我们所知，未授权访问漏洞非常之多，较为常用的如Redis、MongoDB、Jenkins、Docker、Zookeeper、Hadoop等应用都曾曝光过相关漏洞，例如Docker曝出的Docker RemoteAPI (Docker Remote API是一种RESTful API，它替代了Docker的远程命令行（rcli），可远程对Docker容器进行操作。) 未授权访问漏洞，攻击者可通过Docker Client或HTTP请求直接访问Docker Remote API，进而对容器进行新建、删除、暂停等危险操作，甚至是获取宿主机shell权限。再如MongoDB未授权访问漏洞，该漏洞造成的根本原因在于MongoDB在启动时将认证信息默认设置为空口令，从而导致登录用户可通过默认端口无须密码对数据库进行任意操作并且可以远程访问数据库。</p>
+<p>从漏洞成因的出发点来看，认证及授权机制的薄弱是其主要原因，在单体应用架构下，应用作为一个整体对用户进行认证授权，且应用的访问来源相对单一，基本为浏览器，因而风险是相对可控的，微服务应用架构下，其包含的所有服务均需对各自的访问进行授权，从而明确当前用户的访问控制权限，此外，服务的访问来源除了用户外还包含内部的其他服务，因而在微服务架构下，应用的认证授权机制更为复杂，为云原生应用带来了更多的攻击面。</p>
+<h4 id="3122-访问权限错误配置带来的风险">3.1.2.2 访问权限错误配置带来的风险</h4>
+<p>由于运维人员对用户的访问权限进行了错误配置，进而会增大被攻击者利用的风险。例如，运维人员对Web应用访问权限进行相应配置，针对普通用户，运维人员应只赋予其只读操作，若运维人员进行了错误的配置，例如为普通用户配置了写操作，那么攻击者便会利用此缺陷绕过认证访问机制对应用发起未授权访问攻击。传统应用架构中，应用由于设计相对单一的特点，其访问权限也相对单一，几乎只涉及用户对应用的访问权限这一层面，因此对应的访问权限配置也相对简单，诚然，也因访问权限配置简单的特点，用户身份凭据等所有敏感信息常存储在应用的服务端，一旦攻击者利用配置的缺陷对应用发起未授权访问入侵，就有可能拿到所有保存在后端的数据，从而造成巨大风险。</p>
+<p>微服务应用架构下，由于访问权限还需涉及服务对服务这一层面，因此将会导致权限映射关系变得更加复杂，相应的权限配置难度也在同步增加，例如一个复杂应用被拆分为100个服务，运维人员需要精密地对每个服务赋予其应有的权限，如果因疏忽导致为某个服务配置了错误的权限，攻击者就有可能利用此缺陷对服务展开攻击，若该服务中包含漏洞，进而可能会导致单一漏洞扩展至整个应用的风险。所以如何对云原生应用的访问权限进行高效率管理成为了一个较难的问题，这也是导致其风险的关键因素。</p>
+<h3 id="313-被拒绝服务的风险">3.1.3 被拒绝服务的风险</h3>
+<p>被拒绝服务是应用程序的面临的常见风险，笔者看来，造成拒绝服务的主要原因包含两方面，一方面是由于应用自身漏洞所致，例如ReDoS漏洞、Nginx拒绝服务漏洞等。另一方面是由于访问需求与资源能力不匹配所致，例如某电商平台的购买API由于处理请求能力有限，因而无法面对突如其来的大量购买请求，导致了平台资源（CPU、内存、网络）的耗尽甚至崩溃，这种场景往往不带有恶意企图，而带有恶意企图的则主要以ACK、SYNC泛洪攻击及CC（Challenge Collapsar）等攻击为主，其最终目的也是应用资源的耗尽。</p>
+<h4 id="3131-应用漏洞带来的风险">3.1.3.1 应用漏洞带来的风险</h4>
+<p>应用漏洞可以导致应用被拒绝服务，那么具体是如何导致的呢？以ReDoS（Regular expression Denial ofService）漏洞为例，ReDoS为正则表达式拒绝服务，攻击者对该漏洞的利用通常是这样的一个场景，应用程序为用户提供了正则表达式的输入类型又没有对具体的输入进行有效验证，那么攻击者便可通过构造解析效率极低的正则表达式作为输入进而在短时间内引发100%的CPU占用率，最终导致资源耗尽，甚至应用程序崩溃的风险。</p>
+<h4 id="3132-访问需求与资源能力不匹配带来的风险">3.1.3.2 访问需求与资源能力不匹配带来的风险</h4>
+<p>此处笔者以CC攻击举例，其攻击原理通常是攻击者通过控制僵尸网络、肉鸡或代理服务器不断地向目标主机发送大量合法请求，从而使正常用户的请求处理变得异常缓慢。</p>
+<p>传统Web场景中，攻击者利用代理服务器向受害者发起大量HTTPGET请求，该请求主要通过动态页面向数据库发送访问操作，通过大量的连接，数据库负载极高，超过其正常处理能力，从而无法响应正常请求，并最终导致服务器宕机。</p>
+<p>在微服务应用架构下，由于API数量会随着服务数量的递增而递增，因而可能将会导致单一请求生成数以万计的复杂中间层和后端服务调用，进而更容易引起被拒绝服务的风险，例如若微服务应用的API设计未考虑太多因单个API调用引起的耗时问题，那么当外部访问量突增时，将会导致访问需求与资源能力不匹配的问题，使服务端无法对请求作出及时的响应，造成页面卡死的现象，进而会引起系统崩溃的风险。</p>
+<h2 id="32-云原生业务带来的新风险">3.2 云原生业务带来的新风险</h2>
+<p>在之前的概述小节中，笔者提到应用架构的变革也会为云原生应用业务带来新的风险，说到此处，读者们可能会产生疑问，云原生应用业务风险和上一小节提到的云原生应用风险有何区别，笔者看来，云原生应用风险主要是Web应用风险，即网络层面的风险，而云原生应用业务风险无明显的网络攻击特征，多是利用业务系统的漏洞或规则对业务系统进行攻击来牟利，从而造成一定的损失。</p>
+<p>此外，与传统应用架构中的业务风险不同，微服务应用架构中，若服务间的安全措施不完善，例如用户授权不恰当、请求来源校验不严格等，将会导致针对微服务业务层面的攻击变得更加容易，例如针对一个电商应用，攻击者可以对特定的服务进行攻击，例如通过API传入非法数据，或者直接修改服务的数据库系统等。攻击者可以绕过验证码服务，直接调用订单管理服务来进行薅羊毛等恶意操作。攻击者甚至可以通过直接修改订单管理和支付所对应的服务系统，绕过支付的步骤，直接成功购买商品等。</p>
+<p>综上，笔者认为，应用微服务化的设计模式带来的业务风险可包含两方面，一方面是未授权访问风险，典型场景为攻击者通过权限绕过对业务系统的关键参数进行修改从而造成业务损失，另一方面则是API滥用的风险，典型的是对业务系统的薅羊毛操作。</p>
+<h3 id="321-未授权访问的风险">3.2.1 未授权访问的风险</h3>
+<p>云原生业务环境中，笔者针对造成未授权访问风险的原因进行了分析，可以大致分为业务参数异常和业务逻辑异常两方面，为了更为清晰的说明上述异常如何导致未授权访问的风险，笔者以一个微服务架构的电商系统举例说明。如图1所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9%e6%80%9d%e8%80%83/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1 某电商系统流程图</figcaption></center>
+  </figure>
+
+</p>
+<h4 id="3211-业务参数异常带来的风险">3.2.1.1 业务参数异常带来的风险</h4>
+<p>API调用过程中往往会传递相关的参数。参数的取值根据业务场景的不同会有不同的取值范围。例如商品数量必须为非负整数，价格必须大于0等。若API对相应参数的监测机制不完善，那么攻击者便可通过输入异常参数导致业务系统受到损失。例如在图1所示的电商系统中，若商品价格只在商品介绍服务中进行校验，而未在订单管理和支付服务中进行校验，那么攻击者则可以通过直接调用订单管理和支付服务的API将订单价格修改为0元或者负值，从而给业务系统造成损失。</p>
+<h4 id="3212-业务逻辑异常带来的风险">3.2.1.2 业务逻辑异常带来的风险</h4>
+<p>相比于前一类异常，此类异常一般较为隐蔽。攻击者采用某些方法使API调用的逻辑顺序出现异常，包括关键调用步骤缺失、颠倒等。例如在图1所示的电商系统中，攻击者可以利用漏洞绕过支付的步骤直接提交订单。这样就会出现业务逻辑关键步骤缺失的情况，进而会为业务系统带来损失，例如验证码绕过异常就属于业务逻辑异常的一种。</p>
+<h3 id="322-api滥用的风险">3.2.2 API滥用的风险</h3>
+<p>针对此类风险，通常指的是攻击者对业务系统的薅羊毛操作，风险成因则是由于业务频率异常所致，这里笔者依然以电商系统举例说明。</p>
+<p>业务频率异常主要指针对一个或一组API的频繁调用，如我们所知，业务系统往往通过图形验证码的方式来避免机器人刷单的操作。例如在图1所示的电商系统中，攻击者可以绕过验证码所对应的服务，直接对订单进行操作，进而实现机器刷单，对电商进行薅羊毛。</p>
+<h1 id="四-云计算模式变革带来的新风险">四. 云计算模式变革带来的新风险</h1>
+<p>作为一种新的云计算模式，Serverless具备许多特性，典型的主要有输入源的不确定性、服务器托管云服务商、供应商锁定等，这些特性可能会给Serverless带来新的风险。</p>
+<p>此外，由于Serverless最终呈现的还是多个函数组成的应用，且被Serverless提供的服务端运行，因此Serverless风险还应包括Serverless应用的风险及Serverless平台的风险。</p>
+<p>最后Serverless因购买、部署成本低、函数访问域名相对可信等将会使Serverless面临被滥用的风险。</p>
+<p>本节笔者将针对以上提到的风险进行一一分析。</p>
+<h2 id="41-serverless特征带来的风险">4.1 Serverless特征带来的风险</h2>
+<h3 id="411-输入源不稳定带来的风险">4.1.1 输入源不稳定带来的风险</h3>
+<p>在讲述输入源的不确定性可以带来什么风险前，可能会有读者想了解为什么输入源的不确定性会带来风险，我们知道，Serverless函数是由一系列事件触发的，如云存储事件（S3,Blobs和其他云存储）、流数据处理（如：AWS Kinesis）、通知（如：SMS、电子邮件、IoT）等，鉴于此特性，我们不应该把来自API调用的输入作为唯一攻击面。此外，我们不再控制源到资源间的这条线，如果函数被邮件或数据库触发，将无处可设置防火墙或任何其他控制措施来验证事件源[4]。可见输入源的不确定性将可能导致一定的风险。</p>
+<p>在传统应用程序开发中，开发者根据自身实践经验，在数量有限的可能性中可判定出恶意输入来源，但Serverless模式下函数调用是由事件源触发，输入来源的不确定性限制了开发者的判定。例如当函数订阅一个事件源后，该函数在该类型的事件发生时被触发，这些事件可能来源于FaaS平台，也可能来源于未知的事件源，对于来源未知的事件源可以被标注为不受信任。在实际应用场景中，如果开发者没有良好的习惯对事件源进行分类，则会经常导致将不受信任的事件错认为是FaaS平台事件，进而将其视为受信任的输入来处理，最终带来了风险。</p>
+<p>具体地，输入来源的不确定性会为Serverless应用带来注入的风险，与传统应用相同的是，注入攻击过程与并无太大区别，不同的是攻击向量得变化，传统应用中用于注入攻击的向量通常指攻击者可以控制或操纵应用输入的任何位置，但Serverless应用由于输入得不确定性因而带来了更大的攻击面。</p>
+<h3 id="412-服务托管云服务厂商带来的风险">4.1.2 服务托管云服务厂商带来的风险</h3>
+<p>传统应用中，例如Web应用常部署在本地/远程服务器上，关于服务端的操作系统漏洞修补、网络拓扑的安全、应用在服务端的访问日志及监控等均需要特定的运维人员去处理，而Serverless的服务器托管云服务商的特点将导致开发者无法感知到服务器的存在，实际上开发者也无须对服务器进行操作，只需关注应用本身的安全即可，服务器的安全则交由云厂商管理，所以在我们也可以认为Serverless的这一特征实际上降低了安全风险。</p>
+<h3 id="413-供应商锁定带来的风险">4.1.3 供应商锁定带来的风险</h3>
+<p>“供应商锁定”是指用户依赖特定供应商提供的产品及服务，并且在不产生实质性转换成本或运营影响的情况下无法使用其他供应商的云服务，在Serverless中，“供应商锁定”是目前存在的一大问题，例如用户选择AWS作为应用的运行环境，由于一些原因，该应用需迁移至MicrosoftAzure平台，但“供应商锁定”的问题导致无法轻易得将之前运行的应用及使用的相应资源如S3存储桶等平滑迁移至Microsoft Azure平台中，进而导致企业面临应用转换成本的风险。</p>
+<h2 id="42-serverless应用风险">4.2 Serverless应用风险</h2>
+<p>Serverless应用属于云原生应用，其应用本身与传统应用基本是相同的，唯一区别是应用代码编写需要参照云厂商提供的特有代码模版，而传统应用通常没有这个限制。</p>
+<p>Serverless应用属于云原生应用，云原生应用又源于传统应用，因而传统应用面临的风险几乎可以全面覆盖Serverless应用风险，关于风险分析部分我们可以参考之前传统应用风险的内容，更详细的内容可以参考OWASP组织在2017年发布的Serverless应用十大风险报告[4]。</p>
+<h2 id="43-serverless平台风险">4.3 Serverless平台风险</h2>
+<p>Serverless平台主要指FaaS平台，目前主流的FaaS平台分为两种类型，一种是面向公有云提供商的FaaS平台，常见的有AWSLambda、Microsoft Azure Functions、GoogleCloud Functions等，另一方面则是面向私有云的FaaS平台，此类以开源项目居多，且均支持在Kubernetes上进行部署，常见的有Apache OpenWhisk[7]、Kubeless[8]、OpenFaaS[9]、Fission[10]等。类似在IaaS平台上运行虚机、PaaS平台上运行操作系统和应用，FaaS平台较之上述平台的主要区别为其运行的是一个个Serverless函数。FaaS平台自身负责云环境地安全管理，主要包括数据、存储、网络、计算、操作系统等。</p>
+<p>如IaaS平台，PaaS平台一样，FaaS平台也面临未授权访问和数据泄露的风险。例如AWS Lambda平台由于自身函数运行时的脆弱性将会导致攻击者轻易拿到运行时shell，结合脆弱的访问权限错误配置可以最终达到攻击目的，这一部分的详细内容可以参考笔者之前在绿盟研究通讯公众号发表的<a href="https://mp.weixin.qq.com/s/duF1Z0EDC3n_G378Aq_XYA">《【云原生攻防研究 】针对AWS Lambda的运行时攻击》</a>文章。</p>
+<p>此外，与其他云计算模式不同的是，Serverless为FaaS平台引入了新的攻击源，例如针对FaaS平台账户的拒绝钱包服务攻击，因而Serverless将面临FaaS平台账户的风险，针对此特定类型的攻击解析可参考笔者之前在绿盟研究通讯公众号发表的<a href="https://mp.weixin.qq.com/s/rbS0_42RBiFu8UFFQW4kew">《Serverless安全研究 — Serverless安全风险》</a>文章。</p>
+<h2 id="44-serverless被滥用的风险">4.4 Serverless被滥用的风险</h2>
+<p>Serverless被滥用指具体是指攻击者通过恶意构建Serverless函数并利用其充当整个攻击中的一环，这种方式可在一定程度上规避安全设备的检测，导致Serverless被滥用的原因个人认为主要包括以下几点：</p>
+<ol>
+<li>云厂商提供Serverless函数的免费试用</li>
+</ol>
+<p>近些年，各大云厂商为了用户体验，均对用户提供免费的Serverless套餐，包括每月免费的函数调用额度，这种方式虽然吸引了更多的用户去使用Serverless函数, 但也使得攻击者的攻击成本大幅降低。</p>
+<ol start="2">
+<li>用户部署Serverless函数的成本低</li>
+</ol>
+<p>由于Serverless服务端托管云厂商的机制，故用户只需实现函数的核心逻辑，而无须关心函数是如何被部署及执行的，利用这些特点，攻击者可以编写对其有利的Serverless函数并能省去部署的成本。</p>
+<ol start="3">
+<li>Serverless函数访问域名可信</li>
+</ol>
+<p>当用户部署完Serverless函数后，需要通过触发器去触发函数的执行，通常用户使用云厂商提供的API网关作为触发器，创建API网关触发器之后，云厂商会为用户提供一个公网的域名，用于访问用户编写的Serverless函数。需要注意的是，该公网域名通常是云厂商域名相关的子域名，因而是相对可信的，鉴于此，攻击者可以利用函数访问域名的可信去隐藏其攻击资产，躲避安全设备的检测。</p>
+<h1 id="五-总结">五. 总结</h1>
+<p>本文较为详细的为各位读者分析了云原生应用面临的风险，可以看出，云原生应用相比传统应用面临的风险主要为应用架构变革及新的云计算模式带来的风险，而针对应用本身的风险并无较大变化，因而对云原生应用架构和无服务器计算模式的深度理解将会有助于理解整个云原生应用安全。</p>
+<h1 id="六参考文献">六.参考文献</h1>
+<ol>
+<li><a href="https://owasp.org/www-project-top-ten/">https://owasp.org/www-project-top-ten/</a></li>
+<li><a href="https://owasp.org/www-project-api-security/">https://owasp.org/www-project-api-security/</a></li>
+<li><a href="https://netflixtechblog.com/starting-the-avalanche-640e69b14a06">https://netflixtechblog.com/starting-the-avalanche-640e69b14a06</a></li>
+<li><a href="https://www.owasp.org/index.php/OWASP_Serverless_Top_10_Project">https://www.owasp.org/index.php/OWASP_Serverless_Top_10_Project</a></li>
+<li>【云原生攻防研究 】针对AWS Lambda的运行时攻击 <a href="https://mp.weixin.qq.com/s/duF1Z0EDC3n_G378Aq_XYA">https://mp.weixin.qq.com/s/duF1Z0EDC3n_G378Aq_XYA</a></li>
+<li>《Serverless安全研究 — Serverless安全风险》https://mp.weixin.qq.com/s/rbS0_42RBiFu8UFFQW4kew</li>
+<li><a href="https://github.com/apache/openwhisk">https://github.com/apache/openwhisk</a></li>
+<li><a href="https://github.com/kubeless/kubeless">https://github.com/kubeless/kubeless</a></li>
+<li><a href="https://github.com/openfaas/faas">https://github.com/openfaas/faas</a></li>
+<li><a href="https://github.com/fission/fission">https://github.com/fission/fission</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-5-12-wabbi%E9%9D%A2%E5%90%91%E5%BA%94%E7%94%A8%E5%85%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%96%B9%E6%A1%88/" data-toggle="tooltip" data-placement="top" title="RSA 创新沙盒盘点| WABBI — 面向应用全生命周期的安全防护方案">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-9-18-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%B8%80/" data-toggle="tooltip" data-placement="top" title="【云原生应用安全】云原生应用安全防护思考（一）">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

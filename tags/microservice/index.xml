@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Microservice on Ming Blog</title>
+    <link>https://puming.zone/tags/microservice/</link>
+    <description>Recent content in Microservice on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 29 Sep 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【云原生应用安全】云原生应用安全防护思考（二）</title>
+      <link>https://puming.zone/post/2021-9-29-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%BA%8C/</link>
+      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-9-29-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%BA%8C/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生应用安全】云原生应用安全防护思考（二）》 专题信息 专题：【云原生应用安全】 往期回顾： 【云原生应用安全】</description>
+    </item>
+    
+  </channel>
+</rss>

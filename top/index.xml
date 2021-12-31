@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tops on Ming Blog</title>
+    <link>https://puming.zone/top/</link>
+    <description>Recent content in Tops on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://puming.zone/top/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://puming.zone/top/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/top/about/</guid>
+      <description>博主目前就职于绿盟科技星云实验室，base西安，主要从事云原生安全创新研究及孵化落地工作，欢迎感兴趣的读者一起交流。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://puming.zone/top/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/top/books/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

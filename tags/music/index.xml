@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Music on Ming Blog</title>
+    <link>https://puming.zone/tags/music/</link>
+    <description>Recent content in Music on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/music/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>陀螺</title>
+      <link>https://puming.zone/post/2021-2-16-%E9%99%80%E8%9E%BA/</link>
+      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-2-16-%E9%99%80%E8%9E%BA/</guid>
+      <description>人的一生很短暂，历史名人一生的事迹汇总为维基百科也不过简单一页，在人生为数不多的十年中，有些十年重复且平淡的过去，有些十年可能是一辈子最重要</description>
+    </item>
+    
+  </channel>
+</rss>

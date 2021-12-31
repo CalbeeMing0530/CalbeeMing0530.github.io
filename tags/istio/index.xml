@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Istio on Ming Blog</title>
+    <link>https://puming.zone/tags/istio/</link>
+    <description>Recent content in Istio on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/istio/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【云原生攻防研究】Istio访问授权再曝高危漏洞</title>
+      <link>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生攻防研究】Istio访问授权再曝高危漏洞》 一.概述 在过去两年，以Istio为代表的Service Me</description>
+    </item>
+    
+  </channel>
+</rss>

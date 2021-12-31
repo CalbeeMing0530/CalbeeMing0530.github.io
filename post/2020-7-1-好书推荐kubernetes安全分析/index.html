@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="好书推荐 — Kubernetes安全分析" />
+    <meta property="og:title" content="好书推荐 — Kubernetes安全分析" />
+    <meta property="twitter:title" content="好书推荐 — Kubernetes安全分析" />
+    
+
+    
+    <meta name="description" content="kubernetes安全书籍推荐">
+    <meta property="og:description" content="kubernetes安全书籍推荐" />
+    <meta property="twitter:description" content="kubernetes安全书籍推荐" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>好书推荐 — Kubernetes安全分析-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2020-7-1-%E5%A5%BD%E4%B9%A6%E6%8E%A8%E8%8D%90kubernetes%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/kubernetes" title="Kubernetes">
+                            Kubernetes
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                    </div>
+                    <h1>好书推荐 — Kubernetes安全分析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Wednesday, July 1, 2020
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/9SwYHmyEQW9YKMyCMX4YrA">《好书推荐 — Kubernetes安全分析》</a></p>
+<h1 id="一-简介">一. 简介</h1>
+<p>笔者最近在研究容器安全时读到一本关于讲述Kubernetes安全的书籍，作者为LizRice和Michael Hausenbla，两位分别来自美国容器安全厂商Aqua和云服务厂商AWS，并在容器安全研究领域上拥有丰富的软件开发，团队和产品管理经验。</p>
+<p>随着容器技术的蓬勃发展，Kubernetes毫无疑问已经成为了业内主流的容器编排工具，网络上针对Kubernetes的技术文章和参考文献非常之多，但确很少有对Kubernetes安全进行介绍的系统化书籍及资料。该书籍面向的读者为Kubernetes开发人员、运维人员、安全人员。此文笔者将以导读的方式向大家介绍本书的核心内容，希望可以给各位读者带来帮助并引发更多思考。</p>
+<p>本书下载链接：
+<a href="https://info.aquasec.com/kubernetes-security">https://info.aquasec.com/kubernetes-security</a></p>
+<p>作者关于容器安全书籍下载链接：
+<a href="https://info.aquasec.com/container-security-book">https://info.aquasec.com/container-security-book</a></p>
+<p>作者twitter账户:</p>
+<p><a href="https://twitter.com/lizrice">https://twitter.com/lizrice</a></p>
+<p><a href="https://twitter.com/mhausenblas">https://twitter.com/mhausenblas</a></p>
+<h1 id="二-本书架构">二. 本书架构</h1>
+<p>作者在第一章节首先通过引入Kubernetes攻击模型向读者介绍了云原生环境下各种可能的攻击面，并以“纵深防御”、“最小权限”、“限制攻击面”这三个安全原则出发，在后续的章节针对不同的攻击面介绍了相应的防护手段并通过实例以验证。为了让读者对本书籍的内容有一个大致的了解，笔者将本书架构进行了梳理，详细如下：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. 本书架构</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图可以看出，核心章节主要对Kubernetes认证、授权、容器镜像安全、容器运行时安全、密钥管理、编排工具自身安全这六部分进行了详细说明，最后一章针对Kubernetes生态中涉及的监控、告警、审计等安全部分也进行了相应介绍。</p>
+<p>本书基本涵盖了Kubernetes安全的各个方面，下面我们首先介绍Kubernetes攻击模型。</p>
+<h1 id="三-kubernetes攻击模型">三. Kubernetes攻击模型</h1>
+<p>作者以攻击者的角度绘制了在Kubernetes集群中可能的潜在攻击，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. Kubernetes攻击模型</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图可以看出攻击手段主要有以下两种方式：
+不安全的访问Node集群、KubernetesEtcd组件、Kubernetes 控制平面组件Kubelet组件进而拿到管理员权限，并可对Kubernetes集群及组件进行恶意滥用，比如可对Kubernetes组件的流量进行拦截、更改、注入等。</p>
+<p>对容器中应用程序的已知漏洞或目录挂载进行利用从而达到容器逃逸至宿主机的目的，容器逃逸比较知名的CVE有2016年曝出的脏牛漏洞（CVE-2016-5195）及2019年曝出的runC漏洞（CVE-2019-5736），关于容器逃逸漏洞，绿盟科技研究通讯曾发布过相关文章<a href="https://mp.weixin.qq.com/s/_GwGS0cVRmuWEetwMesauQ">《云原生攻防研究 —容器逃逸技术概览》</a>，<a href="https://mp.weixin.qq.com/s/UZ7VdGSUGSvoo-6GVl53qg">《容器逃逸成真：从CTF解题到CVE-2019-5736漏洞挖掘分析》</a>，感兴趣的读者可以阅读。</p>
+<p>由以上攻击方式可以延伸出许多Kubernetes的安全问题，比如访问控制需要Kubernetes对请求进行认证、授权；再如容器应用程序含有已知漏洞导致容器逃逸宿主机需要保证容器镜像首先是安全的；容器在运行时也会因滥用Root权限、Pod间无限制通信、Pod内容器执行任意进程等恶意行为导致轻松被攻击者利用，容器运行时需要一种容器间的访问策略及最小权限运行容器的方法；在访问需要凭证的容器时也会因为密钥管理不当而导致机密信息被泄漏，所以Kubernetes还应需具备密钥管理机制。</p>
+<p>作者针对以上Kubernetes攻击模型，在本书的其余章节分别介绍了Kubernetes相应的防御措施，下面笔者将对其进行着重说明。</p>
+<h1 id="四-kubernetes-防御措施">四. Kubernetes 防御措施</h1>
+<h2 id="41-集群安全防护">4.1 集群安全防护</h2>
+<h3 id="411-api-server">4.1.1 API Server</h3>
+<p>众所周知，Kubernetes的API Server组件为控制Kubernetes的REST API，命令行工具Kubectl为API Server的客户端，由此可见，对于API Server组件具有写访问权限的用户可以完全控制集群，在Kubernetes v1.10版本前API Server监听端口的默认配置为8080，即对此端口的任何请求都将绕过身份验证和授权检查，若将此端口保持开启状态，则访问Kubernetes主机的任何人都可完全控制整个集群。对于不安全的端口开放，Kubernetes提供了安全端口6443，作者在此处提供了一个简单的检查方法，如下所示：</p>
+<pre><code>$ curl &lt;IP address&gt;:8080 {
+&quot;paths&quot;: [
+&quot;/api&quot;，
+&quot;/api/v1&quot;，
+&quot;/apis&quot;，
+...
+</code></pre>
+<p>IP address为部署Kubernetes的Master节点IP，如果输出为一系列的API，那么不安全端口为打开状态；如果链接被拒绝，则证明安全端口为打开状态。</p>
+<p>除了将API Server监听端口设置为6443之外，Kubernetes还提供了RBAC机制，其原理为通过不同角色具有的不同权限来访问不同的主体，关于RBAC机制笔者会在下面的授权章节进行详细介绍，API Server的配置目录通常在Master主机的「/etc/Kubernetes/manifest/kube-apiserver.yaml」，安全配置如下：</p>
+<pre><code>--insecure-port=0
+--secure-port=6443
+--authorization-mode=Node，RBAC
+</code></pre>
+<h3 id="412-kubelet">4.1.2 Kubelet</h3>
+<p>Kubelet为Kubernetes每个节点上的代理，主要负责Pod的生命周期管理同时也会向Controller Manager组件汇报当前节点以及其上运行Pod的状态和指标，Kubelet组件自身还运行一个API，其它组件通过该API来执行Pod的启停操作。想象如果未经授权的用户可在任何节点上访问该API，便也同样可对集群中的任意Pod进行操纵从而控制整个集群。</p>
+<p>作者在此处提供了一个简单的检查方法，如下所示：</p>
+<pre><code>$ curl -sk https://&lt;IP address&gt;:10250/pods/
+</code></pre>
+<p>IP address为部署Kubernetes的Master节点IP，如果输出为Unauthorized，则说明匿名认证为关闭状态，进而说明配置是相对安全的。Kubelet的配置目录通常在Node主机的「/var/lib/kubelet/config.yaml」，安全配置项为</p>
+<pre><code>--anonymous-auth：false
+</code></pre>
+<h3 id="413-etcd">4.1.3 Etcd</h3>
+<p>Etcd主要用于存储Kubernetes集群中的资源信息，任何对Etcd可以执行写操作的人都可以有效控制Kubernetes集群，即使只是读操作也会为攻击者带来有用信息。与API Server、Kubelet组件相同，我们需要对Etcd组件的访问进行限制，作者此处给出了建议配置，Etcd的配置目录通常在Master主机的「/etc/kubernetes/manifests/etcd.yaml」，安全配置项为：</p>
+<pre><code>--cert-file=/etc/kubernetes/pki/etcd/server.crt   
+--key-file=/etc/kubernetes/pki/etcd/server.key
+--client-cert-auth=true
+--trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+--peer-client-cert-auth=true
+--peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+--peer-key-file=/etc/kubernetes/pki/etcd/peer.key
+--peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+</code></pre>
+<p>以上配置虽然较多但不难理解，「&ndash;cert-file」与「&ndash;key-file」为设置外部访问Etcd启用的https连接所需的密钥对，「&ndash;client-cert-auth」为true指定对Etcd的访问需要身份验证，「&ndash;trusted-ca-file」指定Etcd客户端CA证书，「&ndash;peer-client-cert-auth」指定Etcd节点间的通信需要认证，「&ndash;peer-cert-file」和「&ndash;peer-key-file」为Etcd节点间通信所需密钥对，「&ndash;peer-trusted-ca-file」指定Etcd节点间的CA证书。</p>
+<p>以上对Kubernetes组件的安全防御措施属于配置核查类，作者也提供了两种检查Kubernetes配置的方法：</p>
+<ul>
+<li>
+<p>CIS Security Benchmark</p>
+<p>与Docker安全基准类似，Kubernetes也有对应的安全基准，下载地址为：https://www.cisecurity.org/benchmark/kubernetes/</p>
+</li>
+<li>
+<p>渗透测试</p>
+<p>作者推荐了Aqua公司的一款开源渗透工具Kube-Hunter，感兴趣的读者可以自行测试，项目地址为：http://github.com/aquasecurity/kube-hunter</p>
+</li>
+</ul>
+<h2 id="42-认证">4.2 认证</h2>
+<p>API Server作为控制Kubernetes集群的REST API，必然需要对每一个外部的请求做认证，作者在此处介绍了两种认证方式，第一种为使用认证系统，比如身份和访问管理（IAM），OIDC等，但这种方式一般使用在像AWS、Microsoft Azure、Google Cloud Platform这些共有云服务平台中；第二种则是使用Kubernetes自身的认证策略实现，在本书中，作者介绍了以下几种认证方式：</p>
+<ul>
+<li>静态密码或Token文件</li>
+<li>X.509 证书</li>
+<li>OIDC（OpenID Connect）</li>
+<li>Authenticating proxy</li>
+<li>Webhook token authentication</li>
+</ul>
+<p>通过以上的认证策略我们大致可以看出「静态密码或Token文件」的方式在生产环境由于密码需要频繁变化不易维护故不推荐；「X509证书」认证方式是目前惯用的手段，通过每个用户在客户端配置的X509证书，API Server的CA会对客户端证书进行验证，通过则进入下一步的授权阶段；「OIDC」是基于OAuth2和OpenID整合的新的认证授权协议，其OpenID部分用于认证，在业界主流公有云平台中常被使用；「Authenticating proxy」【1】是通过配置API Server从请求头部中识别用户，目前使用率较低；「Webhook tokenauthentication」是通过Kubernetes的Admission Controller机制以webhook的形式对请求API Server的token进行验证，在生产环境中也是经常被使用的一种方式。</p>
+<h2 id="43-授权">4.3 授权</h2>
+<p>当请求认证通过后，就进入到了授权环节，作者在本书籍中介绍了Kubernetes的授权流程，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. Kubernetes授权流程</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图可以看出，在认证通过后，凭据（username、ID、group）作为授权模块的第一个输入，第二个输入为用户请求的资源、路径、行为、命名空间等，在经过授权模块的校验后，如果校验通过请求进入流程的下一步，即Admission Controllers的验证，如果未通过授权模块则返回HTTP 403 Forbidden的错误响应信息。那么Kubernetes都有哪些授权模式？较为推荐的是哪一种？作者在本书籍中着重对RBAC（Role-based access control）机制做了详细介绍，笔者也同时认为RBAC为Kubernetes认证授权的核心机制，如书中所述，作者首先通过一张简单的图清晰了说明了RBAC的概念，如下所示：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4. RBAC概念图</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图可以看出RBAC策略由Resource（Kubernetes中的资源，例如Pod、Service等）、Role（对Resource执行的action，例如对Pod执行create、update、delete等操作）、Entity（代表一个应用程序，可以是一个用户、组或是Service Account）、Role Binding（将Role绑定到Entity，表明在指定Resource上运行某Entity并执行一组action）组成，  其中就Role而言，Kubernetes定义两种类型:</p>
+<ul>
+<li>
+<p>集群范围内的Cluster Role和 Cluster Role Binding</p>
+</li>
+<li>
+<p>命名空间范围内的Role和Role Binding</p>
+</li>
+</ul>
+<p>使用哪种类型根据需求而定，作者在书中也根据经验列出了使用场景，此处由于篇幅原因不再赘述，值得注意的是，作者在书中通过介绍了一个很简单的例子即说明了RBAC的优势，笔者认为可以作为RBAC的简单教程，在这里分享给大家，首先需要确定需求，如下所示：</p>
+<p><strong>「一个应用程序需要访问集群中的Pod信息」</strong></p>
+<p>我们知道在安装Kubernetes时即预定义了许多Cluster Role和Role，我们可以通过kubectlget clusterroles &ndash;all-namespaces和kubectl get roles&ndash;all-namespaces获得，在以上需求中我们可以使用Kubernetes预定的Cluster Role 「view」，通过执行kubectl describeclusterrole view将输出以下信息：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5. RBAC「view」角色权限</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图可看出「view」这个Cluster Role可对Pod资源进行get，list，watch操作，完全满足上述需求，但它同时也满足其它Service、Deployment、Statefulsets资源的get，list，watch操作，使用「view」集群角色是非常危险的一种选择，因为可操作资源太多，同时也不符合安全的最小特权原则，因此RBAC方式出现了，即我们可以定义一个专门的角色用于处理特定资源。
+以上述需求为例，因为要对应用程序设置权限，所以首先需要对应用程序建立Service Account资源，用于代表应用程序对API Server的身份，如下所示：</p>
+<pre><code>$ kubectl create namespace coolapp  
+namespace &quot;coolapp&quot; created 
+$ kubectl --namespace=coolapp create serviceaccount myappid 
+serviceaccount &quot;myappid&quot; created
+</code></pre>
+<p>名为myappid的Service Account已创建成功，接下来需要创建一个名为podview的Role，该Role只能在其命名空间中查看和列出Pod:</p>
+<pre><code>$ kubectl --namespace=coolapp create role podview \
+                    --verb=get --verb=list \
+                    --resource=pods
+$ kubectl --namespace=coolapp describe role/podview
+Name: podview
+Labels: &lt;none&gt;
+Annotations: &lt;none&gt;
+PolicyRule:
+    Resources   Non-Resource  URLs Resource Names  Verbs
+    ---------   ------------------- ------------ ---------
+    pods           []                 []         [get list]
+</code></pre>
+<p>通过查看Role我们可以看出详细内容，有了Service Account和Role，接下来只需要创建一个名为mypodviewer的Role Binding将Role podview绑定至名为myappid的应用程序中即可，如下所示：</p>
+<pre><code>$ kubectl --namespace=coolapp create rolebinding mypodviewer \
+                --role= podview \
+--serviceaccount=coolapp:myappid
+rolebinding.rbac.authorization.k8s.io &quot;mypodviewer&quot; created
+$ kubectl --namespace=coolapp describe rolebinding/mypodviewer
+Name: mypodviewer
+Labels: &lt;none&gt;
+Annotations: &lt;none&gt;
+Role:
+    Kind: Role
+    Name: podreader
+Subjects:
+    Kind             Name         Namespace
+    ---              ---          ------
+    ServiceAccount  myappid       coolapp
+</code></pre>
+<p>最后通过验证得出结论：</p>
+<pre><code>$ kubectl --namespace=coolapp auth can-i \
+                --as=system:serviceaccount:coolapp:myappid
+                list pods
+    yes   
+$ kubectl --namespace=coolapp auth can-i \
+                --as=system:serviceaccount:coolapp:myappid
+                list services
+    no
+</code></pre>
+<p>可看到访问pods资源没有问题，service资源由于RBAC未设置访问权限因此访问失败</p>
+<h2 id="44-容器镜像安全防护">4.4 容器镜像安全防护</h2>
+<p>作者在容器镜像安全防护上也提出了自己的观点，除了常规型的镜像扫描、镜像漏洞打补丁、镜像签名、镜像存储之外，让笔者感到较为新鲜的是作者提出的「镜像版本控制」及「镜像最小化」的观点。</p>
+<p>「镜像版本控制」中，作者通过推荐了一篇文章（https://blog.container-solutions.com/image-management-mutability-in-docker-and-kubernetes）讲述了Kubernetes在部署多应用时由于镜像版本不一致的问题而导致运行结果并未达到预期效果，究其原因，是因为部署文件中Kubernetes的imagePullPolicy默认值为ifNotPresent【3】，  而恰巧部署的三个应用程序在不同的节点且都具有不同的镜像版本，虽然这是一个概率问题，但对于新手来说，或许会感到很困惑，因为镜像Tag都是一致的。修正的方式应该是将imagePullPolicy值设为Always，  这样可基本保证部署Kubernetes资源时，镜像版本是一致的，但这种方式也存一定的出错概率，想象如果在更新镜像的同时，有人在部署可能也会导致不同的节点使用了不同版本的镜像。为了解决这个问题，Kubernetes的Admission Controller提供AlwaysPullImages【2】的功能，一方面可以保证修改每一个新创建的 Pod 的镜像拉取策略为 Always；另一方面，由于启动此Admission Controller时，拉取镜像在启动容器之前，所以不会存在因时间差导致部署服务时镜像版本不一致的问题。</p>
+<p>作者同时认为应当遵循「镜像最小化」原则，即尽量减少镜像中包含的代码量，并且同时减少潜在危险工具的使用，比如ssh、cat、vi，甚至是shell或bash，这样即使攻击者拿到了访问凭证也很难进行利用，在给攻击者带来难处的同时作为开发人员没有了这些基础工具也无法进行故障排除，故安全人员需要在两者之间寻求一个平衡点，此外，作者还建议将应用程序代码构建为静态二进制文件，并且仅构建包含二进制文件的镜像。</p>
+<h2 id="45-容器运行时防护">4.5 容器运行时防护</h2>
+<p>为了在Kubernetes中安全的运行容器，作者提出了「最小权限运行任务」，「宿主机只挂载必要的目录至容器」，「限制容器间及与容器外间的通信」三个原则。同时，作者在书中通过参考一篇Google云平台团队的文章《Exploring containersecurity: Isolation at different layers of the Kubernetes stack》【4】提出了容器运行时防护需要建立安全边界的概念，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be6.png" alt="image">
+    <center><figcaption>图6  Kubernetes容器安全运行时安全边界</figcaption></center>
+  </figure>
+
+</p>
+<p>所谓安全边界，其实就是以Kubernetes集群中的每个资源为单位，由外至内提供每一层的隔离，比如Cluster可提供网络层隔离，Node通过nodeSelector属性可将敏感数据进行隔离，Namespace可提供Kuberneters中Pod、Service等资源的隔离， Pod的Securtiy Context和Pod Securtiy Policy机制可提供进程及网络层面的隔离，最后Container提供资源隔离及内核安全隔离。</p>
+<p>笔者认为作者提出的容器运行时安全三大原则和安全边界理念与书中开始提出的「纵深防御」、「最小权限」、「限制攻击面」的安全原则正好对应上了，做好Kubernetes安全边界每一层的隔离，可以很大程度上降低Kuberentes被攻陷的可能。作者在本章节也通过实例介绍了Kubernetes的Securtiy Context及Pod Securtiy Policy机制，在此由于篇幅原因，不做赘述。</p>
+<h2 id="46-密钥管理机制">4.6 密钥管理机制</h2>
+<p>作者在此章节主要对Kubernetes的密钥管理资源Secret的使用、传递、访问方法做了详细的介绍，并以安全的角度描述了每个阶段隐含安全问题及应该如何进行防护。Secret的创建不必多说相信各位读者已经非常熟悉了，笔者就「传递」和「访问」阶段向大家分享作者的看法
+首先是「传递」，如各位读者所知，Secret可能是一个字符串也可能是一个文件，传递到容器中的方式主要有以下三种：</p>
+<ul>
+<li>
+<p>将Secret构建至镜像中</p>
+</li>
+<li>
+<p>利用Kubernetes环境变量</p>
+</li>
+<li>
+<p>挂载主机文件系统</p>
+</li>
+</ul>
+<p>第一种方式由于写入镜像的内容可被任意查询故不安全，另外在更换密码时需要重新构建镜像不易维护，故不推荐;</p>
+<p>第二种方式由于可以通过Kubectl或docker命令行工具查询密码及密钥的内容，安全风险较高，故不推荐;</p>
+<p>第三种方式较为推荐，因为Kubernetes支持通过挂载目录将Secret传递到Pod中，如果挂载的目录是一个临时文件系统，由于文件是写在内存中，所以攻击者无法轻易获得，另外使用Kubectl 或docker命令行工具也无法查询Secret。</p>
+<p>再者是「访问」：</p>
+<p>作者提出了两种访问方式：</p>
+<ul>
+<li>容器内访问Secret</li>
+<li>Kubelet组件访问Secret</li>
+</ul>
+<p>第一种方式如果攻击者获得了对容器的访问权限，便可以通过docker exec或kubectl exec进而获取到Secret，  不过此处可以通过在容器内运行较少的工具来增加攻击者获得信息的难度，比如禁止cat、vim、sh等；</p>
+<p>第二种方式在Kubernetes 1.7版本之前，kubelet可以访问任意节点Pod相关的Secret，但是1.7版本后kubernetes  API Server提供「&ndash;enable-admissionplugins」配置，将此配置值设为NodeRestriction，可以限制kubelet仅能访问调度到其节点的Pod中的Secret，在一定程度上缩小了爆炸半径。</p>
+<h1 id="五-笔者的一些思考">五. 笔者的一些思考</h1>
+<p>笔者通过调研发现Kubernetes从发布正式版本至今一共曝出22个漏洞，其中中危漏洞 8个，低危漏洞14个，数据来源于：</p>
+<p><a href="https://www.cvedetails.com/product/34016/KubernetesKubernetes.html?vendor_id=15867">https://www.cvedetails.com/product/34016/KubernetesKubernetes.html?vendor_id=15867</a></p>
+<p>详细内容见下图：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be7.png" alt="image">
+    <center><figcaption>图7. Kubernetes漏洞统计</figcaption></center>
+  </figure>
+
+</p>
+<p>由上图【5】不难发现，从漏洞增长率上来说， Kubernetes漏洞每年呈上升趋势，在2019年更是曝出多达11个漏洞【6】，其中中危漏洞6个，低危漏洞5个；从漏洞类型上来说，出现频次最高的为敏感信息泄露漏洞，其次是拒绝服务攻击漏洞，最后是特权提升和身份认证绕过漏洞。
+笔者又通过在Google Trend上搜索关键词「Docker Security」和「Kubernetes Security」在过去五年全球的关注度结果对比，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e5%ae%89%e5%85%a8%e5%88%86%e6%9e%90/%e5%9b%be8.png" alt="image">
+    <center><figcaption>图8. 谷歌趋势图</figcaption></center>
+  </figure>
+
+</p>
+<p>结合以上两图，可以看出在2015-2018年，Docker安全的关注度领先Kubernetes安全非常之多，但随着容器编排工具Kubernetes在市场地位的不断提升，攻击者将目标慢慢由Docker移向Kubernetes，从2019年的数据可以看出Kubernetes这一年曝出的漏洞相比于2018年几乎翻了一倍， 2019年之后 Kubernetes的安全关注度得到明显提升，与Docker安全几乎持平，笔者认为Kubernetes安全已经成为当前云原生环境中亟待解决的问题，是绝对不容忽视的。
+本书作者从安全的角度给读者系统的介绍了使用Kubernetes时可能存在的安全问题及如何进行防护，内容几乎覆盖了Kubernetes的方方面面，对于想了解Kubernetes安全的人而言，本书是非常好的一本入门书籍；对于Kubernetes安全的具体实现，例如如何进行渗透测试，攻击溯源，漏洞利用等，本书尚未具体说明，笔者认为感兴趣的读者在读完本书后可自行实验摸索，这样带来的收获会可能会更大些。此外，本书关于Kubernetes防护这一部分，笔者认为作者告诉我们的只是解决方法，作为安全从业人员，我们需要建立一种Kubernetes的安全防御体系，就像作者在写「容器运行时防护」章节时引用的安全边界的概念一样。</p>
+<p>最后，我们在建立Kubernetes安全防御体系的同时可以遵循作者提出的「最小权限」、「纵深防御」、「减少攻击面」的安全原则，即围绕三个核心点不变，在每个点上进行纵向扩展，相信有了良好的防御体系，Kubernetes安全将不再成为一件难事。</p>
+<h1 id="六-参考资料">六. 参考资料</h1>
+<ol>
+<li><a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#authenticating-proxy">https://kubernetes.io/docs/reference/access-authn-authz/authentication/#authenticating-proxy</a></li>
+<li><a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/">https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/containers/images/">https://kubernetes.io/docs/concepts/containers/images/</a></li>
+<li><a href="https://cloud.google.com/blog/products/gcp/exploring-container-security-isolation-at-different-layers-of-the-kubernetes-stack">https://cloud.google.com/blog/products/gcp/exploring-container-security-isolation-at-different-layers-of-the-kubernetes-stack</a></li>
+<li><a href="https://www.cvedetails.com/vulnerability-list/vendor_id-15867/product_id-34016/Kubernetes-Kubernetes.html">https://www.cvedetails.com/vulnerability-list/vendor_id-15867/product_id-34016/Kubernetes-Kubernetes.html</a></li>
+<li><a href="https://www.cvedetails.com/vulnerability-list/vendor_id-15867/Kubernetes.html">https://www.cvedetails.com/vulnerability-list/vendor_id-15867/Kubernetes.html</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/" data-toggle="tooltip" data-placement="top" title="【云原生攻防研究】Istio访问授权再曝高危漏洞">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-1-20-%E6%80%80%E5%BF%B52017%E7%9A%84%E6%96%B0%E8%A5%BF%E5%85%B0%E4%B9%8B%E6%97%85/" data-toggle="tooltip" data-placement="top" title="怀念2017的新西兰之旅">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

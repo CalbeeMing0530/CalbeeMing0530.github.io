@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="【云原生应用安全】云原生应用安全防护思考（二）" />
+    <meta property="og:title" content="【云原生应用安全】云原生应用安全防护思考（二）" />
+    <meta property="twitter:title" content="【云原生应用安全】云原生应用安全防护思考（二）" />
+    
+
+    
+    <meta name="description" content="微服务架构下的应用应当如何防护？本文将为您提供一些思路">
+    <meta property="og:description" content="微服务架构下的应用应当如何防护？本文将为您提供一些思路" />
+    <meta property="twitter:description" content="微服务架构下的应用应当如何防护？本文将为您提供一些思路" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>【云原生应用安全】云原生应用安全防护思考（二）-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2021-9-29-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%BA%8C/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/application" title="Application">
+                            Application
+                        </a>
+                        
+                        <a class="tag" href="/tags/serverless" title="Serverless">
+                            Serverless
+                        </a>
+                        
+                        <a class="tag" href="/tags/microservice" title="Microservice">
+                            Microservice
+                        </a>
+                        
+                    </div>
+                    <h1>【云原生应用安全】云原生应用安全防护思考（二）</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Wednesday, September 29, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/Pxea83uR1EVrc_4njHYjiw">《【云原生应用安全】云原生应用安全防护思考（二）》</a></p>
+<h1 id="专题信息">专题信息</h1>
+<p>专题：【云原生应用安全】</p>
+<p>往期回顾：</p>
+<p><a href="https://mp.weixin.qq.com/s/6ZQvWRn4Fti-szOvffaasg">【云原生应用安全】微服务架构下API业务安全分析概述</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">【云原生应用安全】云原生应用安全风险思考</a></p>
+<p><a href="https://mp.weixin.qq.com/s/lN_CVS_ysPcPEQi7mHsXMA">【云原生应用安全】云原生应用安全防护思考（一）</a></p>
+<h1 id="一-概述">一. 概述</h1>
+<p>本文为云原生应用安全防护系列的第二篇，也是最终篇，本文笔者主要针对微服务架构下的应用安全、Serverless安全提出一些防护见解及思考。文章篇幅较长，内容上与之前笔者发表的若干文章有相互交叉对应的部分，希望能为各位读者带来帮助。</p>
+<h1 id="二-微服务架构下的应用安全">二. 微服务架构下的应用安全</h1>
+<p>针对<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文中对云原生应用的新风险分析，我们可以看出应用的微服务化带来的新风险主要包含数据泄露、未授权访问、被拒绝服务攻击，那么如何进行相应的防护也应从以上三方面去考虑，笔者通过调研和一些实践发现使用传统的防护方法是可行的，但当服务随业务的增多而逐渐增多时，传统的防护方法由于需要开发人员进行大量配置而变得非常复杂，例如用户的应用部署在Kubernetes上，该应用包含上百个服务，当我们做访问控制时可以依托Kubernetes的RBAC机制对目的服务进行授权，进而我们就需要依赖Kubernetes的API以完成配置，每次配置是会耗费一定时间的，因此需要大量服务授权时，开发者往往感到力不从心，为解决诸如以上服务治理带来的难题，我们可以使用微服务治理框架进行相应防护，笔者在2018年发表的<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247484914&amp;idx=1&amp;sn=6ac1257b0759abaff7c761a22cfd591c&amp;scene=21#wechat_redirect">《Service Mesh实践之Istio初体验》</a>文章中对什么是Service Mesh及Istio的基本概念进行了相应介绍，从中可以看出Istio目前已成为第二代微服务治理框架的代表，因而笔者认为Istio的安全防护能力也是基本能够覆盖微服务应用安全范畴的。事实上，笔者在2019年发表的<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247485972&amp;idx=1&amp;sn=022448f50cb6d1617b609a4d2c23e1b3&amp;scene=21#wechat_redirect">《Istio系列一：Istio的认证授权机制分析》</a>一文中也对Istio的安全机制进行了介绍，不过当时Istio处于较早期版本，虽然与目前最新版本的Istio在功能实现稍有不同，但底层原理几乎未变，可供各位读者参考。</p>
+<p>综上，笔者认为面向微服务架构下的应用安全，可以采用传统的防护方式或微服务治理框架进行防护，具体的防护方法可以包含以下几方面。</p>
+<p><strong>认证服务</strong></p>
+<p>由于攻击者在进行未授权访问前首先需要通过系统的认证，因而确保认证服务的有效性非常重要，尤其在微服务应用架构下，服务的不断增多将会导致其认证过程变得更为复杂。</p>
+<p><strong>授权服务</strong></p>
+<p>授权服务是针对未授权访问风险最直接的防护手段，微服务应用架构下，由于服务的权限映射相对复杂，因而会导致授权服务变得更难。</p>
+<p><strong>数据安全防护</strong></p>
+<p>与<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文中分析数据安全防护的必要性一样，但微服务应用架构下，服务间通信不仅使用HTTP协议，还会使用gRPC协议等，这是我们需要注意的地方。</p>
+<p><strong>其它防护</strong></p>
+<p>除了上述防护方法之外，微服务治理框架与API网关/WAF可以结合以进行深度防护，例如可以在一定程度上缓解微服务环境中被拒绝服务攻击的风险。</p>
+<h2 id="21-认证服务">2.1 认证服务</h2>
+<p>微服务架构下，服务可以采用JWT或基于Istio的认证方式，下面笔者将分别进行说明。</p>
+<h3 id="211-基于jwtjson-web-token的认证">2.1.1 基于JWT(JSON Web Token)的认证</h3>
+<p>微服务架构下，每个服务是无状态的，传统的session认证方式由于服务端需要存储客户端的登录状态因此在微服务中不再适用。理想的实现方式应为无状态登录，流程通常如下所示：</p>
+<ol>
+<li>
+<p>客户端请求某服务，服务端对用户进行登录认证；</p>
+</li>
+<li>
+<p>认证通过，服务端将用户登录信息进行加密并形成令牌，最后再返回至客户端作为登录凭证；</p>
+</li>
+<li>
+<p>在2步骤之后，客户端每次请求都需携带认证的令牌;</p>
+</li>
+<li>
+<p>服务端对令牌进行解密，判断是否有效，若有效则认证通过，否则返回失败信息；</p>
+</li>
+</ol>
+<p>为了满足无状态登录，我们可通过JWT实现，JWT是JSON风格轻量级认证和授权规范，也就是上述流程中提到的令牌，主要用于分布式场景，其使用流程如图1所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1 JWT交互流程图</figcaption></center>
+  </figure>
+
+</p>
+<h3 id="212-基于istio的认证">2.1.2 基于Istio的认证</h3>
+<p>本节主要为各位读者介绍基于Istio的认证，在具体介绍前，我们首先为各位读者介绍Istio的安全架构，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2 Istio安全架构</figcaption></center>
+  </figure>
+
+</p>
+<p>图2展示了Istio的认证和授权两部分，Istio的安全机制涉及诸多组件，控制平面由核心组件Istiod提供，其中包含密钥及证书颁发机构（CA）、认证授权策略、网络配置等；数据平面则由Envoy代理、边缘代理（Ingress和Egress）组件构成。</p>
+<p>借助控制平面Istiod内置的CA模块，Istio可实现为服务网格中的服务提供认证机制，该认证机制工作流程包含提供服务签名证书，并将证书分发至数据平面各个服务的Envoy代理中，当数据平面服务间建立通信时，服务旁的Envoy代理会拦截请求并采用签名证书和另一端服务的Envoy代理进行双向TLS认证从而建立安全传输通道，保障了数据安全。</p>
+<p>下面笔者将为各位读者介绍Istio的两种主要认证类型。</p>
+<h4 id="2121-传输认证peer-authentication">2.1.2.1 传输认证(Peer authentication)</h4>
+<p>传输认证是Istio的一种认证类型，其主要用于微服务应用架构中服务到服务的认证，从而可验证所连接的客户端。针对此类型的认证，Istio提供了双向TLS的解决方案，该解决方案提供以下功能[1]：</p>
+<ol>
+<li>
+<p>确保服务到服务间的通信安全；</p>
+</li>
+<li>
+<p>提供密钥管理系统，从而自动进行密钥及证书的生成、分发和轮换；</p>
+</li>
+<li>
+<p>为每个服务提供一个代表其角色的身份，从而实现跨集群的互操作性。</p>
+</li>
+</ol>
+<p>具体的我们可以通过使用传输认证策略为Istio中的服务指定认证要求，例如命名空间级别TLS认证策略可以指定某命名空间下所有的Pod间的访问均使用TLS加密，Pod级别TLS认证策略可以指定某具体Pod被访问时需要进行TLS加密等，更多关于Istio的双向TLS解决方案内容可以参考官方文档[2]。</p>
+<h4 id="2122-请求级认证request-authentication">2.1.2.2 请求级认证(Request authentication)</h4>
+<p>请求级认证是Istio的一种认证类型，主要用于对终端用户的认证，与传输认证的主要区别为，请求级认证主要用于验证用户请求服务时携带的凭据，而非服务到服务的认证。</p>
+<p>请求级认证主要通过JSON Web Token（JWT）机制实现，实现原理与前面“基于JWT的认证”小节中提到的内容类似，区别为Istio在其基础上进行了一层封装，使用户可以以yaml的方式进行策略配置，用户体验更为友好。</p>
+<p>Istio的JWT认证主要依赖于JWKS（JSON Web Key Set）， JWKS是一组密钥集合，其中包含用于验证JWT的公钥，在实际应用场景中，运维人员通过为服务部署JWT认证策略实现请求级认证，为方便理解，下面展示了JWT认证策略的核心部分配置：</p>
+<pre><code>    issuer: https://example.com
+    jwksUri: https://example.com/.well-known/jwks.json
+    triggerRules:
+    - excludedPaths:
+     - exact: /status/version
+     includedPaths:
+     - prefix: /status/
+</code></pre>
+<p>其中：</p>
+<p><strong>issuer</strong>：代表发布JWT的发行者；</p>
+<p><strong>jwksUri</strong>：JWKS获取的地址，用于验证JWT的签名，jwksUri可以为远程服务器地址也可以为本地地址，其通常以域名或URL形式展现；</p>
+<p><strong>triggerRules</strong>（重要）：triggerRules为使用JWT验证请求的规则触发列表，如果满足匹配规则就进行JWT验证，此参数使得服务间的认证变得弹性化，用户可以按需配置下发规则。上述策略中triggerRules的含义为对于任何带有“/status/”前缀的请求路径，除了/status/version以外，都需要JWT认证。</p>
+<p>当JWT认证策略部署完成后，外部对某服务有新的请求时，请求级认证会根据策略内容验证请求携带的令牌（Token），若与策略内容匹配则返回认证失败，反之认证成功。</p>
+<h2 id="22-授权服务">2.2 授权服务</h2>
+<p>微服务架构下，授权服务可以通过基于角色的授权以及基于Istio的授权实现，以下笔者将分别进行说明。</p>
+<h3 id="221-基于角色的授权服务">2.2.1 基于角色的授权服务</h3>
+<p>基于角色的授权服务为RBAC（RoleBased Access Control），通过角色关联用户，角色关联权限的方式间接赋予用户权限。在微服务环境中作为访问控制被广泛使用，RBAC可以增加微服务的扩展性，例如微服务场景中，每个服务作为一个实体，若要分配服务相同的权限，使用RBAC时只需设定一种角色，并赋予相应权限，再将此角色与指定的服务实体进行绑定即可。若要分配服务不同的权限，只需为不同的服务实体分配不同的角色，而无需对服务具体的权限进行修改，通过这种方式不仅可以大幅提升权限调整的效率，还降低了漏调权限的概率。</p>
+<p>如果用户选择在Kubernetes中部署微服务应用，则可以直接使用Kubernetes原生的RBAC策略，具体使用方式可参考官方文档[3]。</p>
+<h3 id="222-基于istio的授权服务">2.2.2 基于Istio的授权服务</h3>
+<p>有了前述提到的Istio认证机制作为基础，Istio还提供授权机制，其主要用于对服务进行授权。在Istio 1.4版本之前，其授权机制依赖于Kubernetes的RBAC策略，相比Kubernetes的原生RBAC策略，Istio对其进行了进一步的封装，可让用户直接通过Istio的声明式API对具体的服务进行授权，不过Istio为了更好地用户体验，在其1.6版本中引入了AuthorizationPolicyCRD[16]（Custom Resource Definition），相比1.4版本，AuthorizationPolicy CRD带来了更多的优势，一方面该CRD将RBAC的配置变得更为简化为从而大幅提升了用户体验，另一方面该CRD支持了更多的用例，例如对Ingress/Egress的支持，且同时不会增加复杂性。</p>
+<p>此外，Istio的授权模式也是基于其提供的授权策略去实现。</p>
+<p>图3展示了Istio的授权架构：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3 Istio授权架构图</figcaption></center>
+  </figure>
+
+</p>
+<p>如图3所示，Istio授权流程可以归纳总结为以下内容：</p>
+<p>Administrator使用yaml文件指定Istio授权策略并将其部署至Istiod核心组件中，Istiod通过API Server组件监测授权策略变更，若有更改，则获取新的策略，Istiod将授权策略下发至服务的Sidecar代理，每个Sidecar代理均包含一个授权引擎，在引擎运行时对请求进行授权。</p>
+<p>以下是一个简单的Istio授权策略：</p>
+<pre><code>apiVersion:security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+name: httpbin
+namespace: foo
+spec:
+selector:
+matchLabels:
+    app: httpbin
+    version: v1
+rules:
+- from:
+- source:
+    principals:[&quot;cluster.local/ns/default/sa/sleep&quot;]
+to:
+- operation:
+    methods: [&quot;GET&quot;]
+when:
+- key: request.headers[version]
+    values: [&quot;v1&quot;, &quot;v2&quot;]
+</code></pre>
+<p>可以看出，以上策略适用于foo命名空间下，且满足标签为app:httpbin和version: v1的目标Pod, 并设置授权规则为当访问源为“cluster.local/ns/default/sa/sleep”服务，且请求头中包含 v1 或 v2 的 version 字段时，才允许访问。默认情况下，任何与策略不匹配的请求都将被拒绝。</p>
+<h2 id="23-数据安全">2.3 数据安全</h2>
+<p>如<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文中提到的，传统应用架构中，我们可以通过安全编码、使用密钥管理系统和使用安全协议的方式防止数据泄露，在微服务应用架构中，我们可以考虑使用Kubernetes原生的安全机制或微服务治理框架的安全机制去进行防护。</p>
+<p>针对Kubernetes原生的安全机制，例如Secret机制，我们可以使用其进行密钥存储，从而规避了敏感信息硬编码带来的数据泄露风险，更详细的内容可以参考官方文档[4]。</p>
+<p>针对微服务治理框架的安全机制，如Istio支持服务间的TLS双向加密、密钥管理及服务间的授权，因而可以有效规避由中间人攻击或未授权访问攻击带来的数据泄露风险。</p>
+<h2 id="24-其他防护机制">2.4 其他防护机制</h2>
+<p>通过以上三小节的介绍，我们能从中看出采用微服务治理框架的防护方式可在一定程度上有效规避云原生应用的新风险，但其防护点主要针对的是微服务架构下应用的东西向流量，针对南北向的流量防护稍显脆弱，由于微服务架构下的应用防护应当是全流量防护，因而针对南北向所存在的问题，我们可以考虑将微服务治理框架与API网关和WAF相结合，从而提升南北向的防护能力。</p>
+<p>本节笔者将以微服务治理框架Istio为例，为大家介绍Istio和API网关协同的全面防护以及Istio与WAF结合的深度防护。</p>
+<h3 id="241-istio和api网关协同的全面防护">2.4.1 Istio和API网关协同的全面防护</h3>
+<p>针对应用的南北流量而言，Istio采取的解决方案为使用边缘代理Ingress与Egress分别接管用户或外界服务到服务网格内部的入/出站流量，Ingress与Egress实则为Istio部署的两个Pod，Pod内部为一个Envoy代理，借助Envoy代理的安全Filter机制，在一定程度上可对恶意Web攻击进行相应防护，但现有的Envoy安全Filter种类相对较少，面对复杂变化场景下的Web攻击仍然无法应对，可行的解决方案为在服务网格之外部署一层云原生API网关，具体如图4所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4 Istio与API网关结合防护图</figcaption></center>
+  </figure>
+
+</p>
+<p>安全功能上，云原生API网关可提供全方位的安全防护，例如访问控制、认证授权、证书管理、Bot流量检测、数据丢失防护、黑白名单限制等，在这些有效防护基础之上，应用的南北向得到了控制。</p>
+<p>此外，该解决方案的好处还在于应用内部的东西流量无需通过外部网关层，这样可以从边缘到端点进行一站式防护。</p>
+<h3 id="242-istio和waf结合的深度防护">2.4.2 Istio和WAF结合的深度防护</h3>
+<p>WAF作为一款抵御常见Web攻击的主流安全产品，可以有效对Web流量进行深度防护，并且随着云原生化概念的普及，国内外安全厂商的容器化WAF产品也在迅速落地，未来容器化WAF与Istio的结合将会在很大程度上提升微服务安全。</p>
+<p>根据近期市场调研，Signal Sciences、Fortiweb、Wallarm、Radware这几家公司已有了各自的容器化WAF解决方案。值得注意的是Signal Sciences 公司的解决方案支持WAF服务与Envoy或Istio结合，其设计如图5所示，该方案主要运用了Envoy的Filter机制，通过External Authorization HTTP Filter可以将流经业务容器的东西/南北向流量引流至WAF容器，从而可阻断恶意请求，保护了微服务的安全。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5 Istio与云原生WAF结合防护图</figcaption></center>
+  </figure>
+
+</p>
+<p>此方案带来的好处是对业务入侵较小，实现较为容易、且容器化WAF规模不会随用户业务更改而更改。但同时也有一些弊端，比如需要单独部署容器化WAF、Envoy引流模块的性能问题、引流方式对WAF处理的延迟等。</p>
+<p>另一种解决方案是Radware提出的Kubernetes WAF方案，该方案基于Istio实现，其中WAF被拆分为Agent程序和后端服务两部分，Agent程序作为Sidecar容器置于Pod的Envoy容器和业务容器间，该Sidecar的主要作用为启动一个反向代理，以便将外部请求流量代理至Pod外部的WAF后端服务中，如图6所示。该套方案带来的好处是无需关心外部请求如何路由至Pod、与Istio结合的理念更接近云原生化、实现了以单个服务为粒度的防护。但同时也存在着一些不足，例如流量到达业务容器前经历了两跳，这在大规模并发场景下可能会影响效率。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e5%ba%94%e7%94%a8%e5%ae%89%e5%85%a8%e9%98%b2%e6%8a%a4%e6%80%9d%e8%80%83%e4%ba%8c/%e5%9b%be6.png" alt="image">
+    <center><figcaption>图6 WAF Sidecar化示意图</figcaption></center>
+  </figure>
+
+</p>
+<p>此外，由于Istio的数据平面为微服务应用安全防护提供了引擎，而数据平面默认采取Envoy作为Sidecar代理，因此Envoy自身的扩展性成为了安全厂商较为关心的问题，近些年Envoy也在不断提升着其适配性，例如Envoy提供Lua过滤器[5]和Wasm过滤器[6]，以便安全厂商将安全能力，例如WAF的能力融入Envoy， 从而对微服务应用进行防护。</p>
+<h1 id="三-serverless安全防护">三. Serverless安全防护</h1>
+<h2 id="31-serverless应用安全防护">3.1 Serverless应用安全防护</h2>
+<p>通过<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文中的Serverless风险分析，我们了解到传统应用的风险几乎可以覆盖Serverless应用的风险，因而针对Serverless应用的安全防护各位读者可以大体参考<a href="https://mp.weixin.qq.com/s/lN_CVS_ysPcPEQi7mHsXMA">《【云原生应用安全】云原生应用安全防护思考（一）》</a>一文中传统应用安全的防护方式，尤其是应用程序的代码漏洞缓解、依赖库漏洞防护、数据安全防护。</p>
+<p>针对应用程序访问控制，除了<a href="https://mp.weixin.qq.com/s/lN_CVS_ysPcPEQi7mHsXMA">《【云原生应用安全】云原生应用安全防护思考（一）》</a>中提到的使用基于角色的访问控制之外，由于Serverless云计算模式带来的变化，还需要进行更深层次的防护，笔者认为函数隔离及底层资源隔离是较为合适的防护方法。</p>
+<p><strong>函数隔离</strong></p>
+<p>函数间进行隔离可有效降低安全风险。一个FaaS应用通常由许多函数以既定的序列和逻辑组成，每个函数可以独立进行扩展、部署等，但也同时可能被攻破，如果安全团队没有对函数进行有效隔离，那么攻击者也可同时访问应用中的其它函数。再如随着应用设计不断变化，这些函数更改了执行序列，从而使攻击者有机可乘并发起业务逻辑攻击，这些是FaaS产生的碎片化问题。正确的做法应当是将每个函数作为边界，使得安全控制粒度细化至函数级别，这对于创建能够长期保持安全的FaaS应用是非常必要的。</p>
+<p>为了更好地将函数进行隔离，笔者认为应当从以下几方面进行考虑：</p>
+<ol>
+<li>
+<p>不要过度依赖函数的调用序列，因为随着时间推移调用序列可能会改变；如果序列发生了变化，要进行相应的安全审查；</p>
+</li>
+<li>
+<p>每个函数都应当将任何事件输入视为不受信任的源，并同时对输入进行安全校验；</p>
+</li>
+<li>
+<p>开发标准化的通用安全库，并强制每个函数使用；</p>
+</li>
+<li>
+<p>使用FaaS平台提供的函数隔离机制，例如AWSLambda采用Amazon弹性计算云（ElasticCompute Cloud EC2）模型[7]和安全容器Firecracker模型[8]机制进行隔离。</p>
+</li>
+</ol>
+<p><strong>底层资源隔离</strong></p>
+<p>仅仅对函数层面进行访问控制是不够的，例如攻击者仍可以利用函数运行时环境的脆弱性以获取服务端的shell权限从而进行滥用，笔者在之前发表的<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247488901&amp;idx=1&amp;sn=4d7bdb1ddf015cb77ea4e8bc0978712f&amp;scene=21#wechat_redirect">《【云原生攻防研究 】针对AWS Lambda的运行时攻击》</a>有详细的利用过程，可供各位读者参考。</p>
+<p>为了预防上述场景的发生，我们应当从底层进行资源隔离，例如可通过KataContainer[9]从上至下进行防护，再如可通过Kubernetes的网络策略(NetworkPolicy)[10]实现由左至右的网络层面隔离。</p>
+<h2 id="32-serverless平台安全防护">3.2 Serverless平台安全防护</h2>
+<p>针对<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文中提出的Serverless平台风险，我们可以考虑通过以下几种防护方式进行相应缓解。</p>
+<h3 id="321-使用云厂商提供的存储最佳实践">3.2.1 使用云厂商提供的存储最佳实践</h3>
+<p>为了尽量避免用户在使用云厂商提供的Serverless平台时因不安全的错误配置造成数据泄露的风险，主流云厂商均提供了相应的存储最佳实践供各位开发者参考，例如Howto secure AWS S3 Resources[11]、Azure Storage SecurityGuide[12]、Best Practices for Google Cloud Storage[13]等。</p>
+<h3 id="322-使用云厂商的监控资源">3.2.2 使用云厂商的监控资源</h3>
+<p>现今各大云厂商均为Serverless配备了相应的监控资源，例如AzureMonitor、AWS CloudWatch、AWSCloudTrail等，使用云这些监控资源可以识别和报告异常行为，例如未授权访问、过度执行的函数、过长的执行时间等。</p>
+<h3 id="323-使用云厂商的账单告警机制">3.2.3 使用云厂商的账单告警机制</h3>
+<p>针对拒绝钱包服务（DoW）攻击，公有云厂商提供了账单告警机制进行缓解[14]，如AWS开发者可通过在Lambda控制台为函数调用频度和单次调用费用设定阈值进行告警；或提供资源限额的配置，主流的云厂商已提供了以下资源选项供开发者配置：</p>
+<ol>
+<li>
+<p>函数执行内存分配；</p>
+</li>
+<li>
+<p>函数执行所需临时的磁盘容量；</p>
+</li>
+<li>
+<p>函数执行的进程数和线程数；</p>
+</li>
+<li>
+<p>函数执行时常；</p>
+</li>
+<li>
+<p>函数接收载荷大小；</p>
+</li>
+<li>
+<p>函数并发执行数;</p>
+</li>
+</ol>
+<p>通过上述选项的合理配置可以在一定程度上缓解DoW攻击。</p>
+<h2 id="33-serverless被滥用的防护措施">3.3 Serverless被滥用的防护措施</h2>
+<p>针对<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文提出的Serverless被滥用的风险，我们可以采取以下方式进行防护[15]：</p>
+<ol>
+<li>
+<p>通过IDS等安全设备监测木马在本机的出口流量，诸如“/pixel”、“/utm.gif”、“ga.js”等URL的流量应进行重点监测；</p>
+</li>
+<li>
+<p>确认自己的资产中是否有云厂商提供的Serverless函数业务，如果没有可以通过浏览器禁用相关云厂商的子域名；</p>
+</li>
+<li>
+<p>采取断网措施，从根源上直接禁止所有网络访问。</p>
+</li>
+</ol>
+<h2 id="34-其他防护措施">3.4 其他防护措施</h2>
+<h3 id="341-serverless资产业务梳理">3.4.1 Serverless资产业务梳理</h3>
+<p>由于云厂商通常缺乏一套自动化机制对现有Serverless应用中包含的函数，数据及可用API进行分类、追踪，评估等操作，因此开发者在不断完善应用的同时，可能疏于对应用数据及API的管理，从而导致攻击者利用敏感数据、不安全的API发起攻击。为了避免这种情况，开发者需要在应用的设计阶段对资产业务进行详细梳理。其中包括但不限于以下几个部分：</p>
+<ol>
+<li>
+<p>确认应用中函数间的逻辑关系；</p>
+</li>
+<li>
+<p>确认应用的数据类型及数据的敏感性；</p>
+</li>
+<li>
+<p>评估Serverless数据的价值；</p>
+</li>
+<li>
+<p>评估可访问数据API的安全；</p>
+</li>
+</ol>
+<p>有了一个较为全面的应用全景图，便可在一定程度上降低应用被攻击的风险。</p>
+<h3 id="342-定期清理非必要的serverless实例">3.4.2 定期清理非必要的Serverless实例</h3>
+<p>由于Serverless应用通常遵循微服务的设计模式，因此一套完整的工作流应由许多函数组成，而开发者可能部署了非常多的Serverless应用，在这些应用中，必定存在一些长时间不被调用的实例，为了避免被攻击者利用，应当定期对Serverless应用进行检测，清理非必要的实例，从而降低安全隐患。</p>
+<h3 id="343-限制函数策略">3.4.3 限制函数策略</h3>
+<p>开发者首先应当限制函数策略，给予其适当的访问权限，删除过于宽松的权限，这样即便攻击者拿到了访问凭证也无法对所有资源进行访问。</p>
+<h1 id="四-总结">四. 总结</h1>
+<p>本文较为系统地对微服务架构下的应用安全及Serverless安全提供了相应的防护思路，其中：</p>
+<p>针对<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文提出的云原生应用的新风险，我们可以看出应用架构的变化是带来新风险的主要原因，鉴于此，本文笔者针对具体的风险提出了防护方法，其中，使用微服务治理框架Istio可以在一定程度上缓解应用架构带来的风险，此外，也介绍了Istio与API网关和WAF结合的业界方案，从而可实现微服务应用的全流量防护。</p>
+<p>针对<a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247489995&amp;idx=1&amp;sn=453349d9fd32d15437ebe05f9832c03d&amp;scene=21#wechat_redirect">《云原生应用安全风险思考》</a>一文提出的Serverless风险，笔者较为系统地从Serverless应用及平台两方面对前述提到的Serverless风险进行了相应防护介绍。可以看出，与传统安全防护不同的是Serverless模式带来的新型云原生下的应用安全场景，因而，我们需要适应云计算模式的不断变化，并不断总结新场景下的防护方法，才能最终将安全落实到底。</p>
+<h1 id="五-参考文献">五. 参考文献</h1>
+<p>[1] <a href="https://istio.io/latest/docs/concepts/security/#authentication">https://istio.io/latest/docs/concepts/security/#authentication</a></p>
+<p>[2] <a href="https://istio.io/latest/docs/concepts/security/#mutual-tls-authentication">https://istio.io/latest/docs/concepts/security/#mutual-tls-authentication</a></p>
+<p>[3] <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">https://kubernetes.io/docs/reference/access-authn-authz/rbac/</a></p>
+<p>[4] <a href="https://kubernetes.io/docs/concepts/configuration/secret/">https://kubernetes.io/docs/concepts/configuration/secret/</a></p>
+<p>[5] <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter</a></p>
+<p>[6] <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/wasm_filter#config-http-filters-wasm">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/wasm_filter#config-http-filters-wasm</a></p>
+<p>[7] <a href="https://docs.aws.amazon.com/lambda/latest/dg/services-ec2.html">https://docs.aws.amazon.com/lambda/latest/dg/services-ec2.html</a></p>
+<p>[8] <a href="https://firecracker-microvm.github.io/">https://firecracker-microvm.github.io/</a></p>
+<p>[9] <a href="https://github.com/kata-containers">https://github.com/kata-containers</a></p>
+<p>[10] <a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">https://kubernetes.io/docs/concepts/services-networking/network-policies/</a></p>
+<p>[11] <a href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/secure-s3-resources/">https://aws.amazon.com/cn/premiumsupport/knowledge-center/secure-s3-resources/</a></p>
+<p>[12] <a href="https://docs.microsoft.com/en-us/azure/storage/blobs/security-recommendations">https://docs.microsoft.com/en-us/azure/storage/blobs/security-recommendations</a></p>
+<p>[13] <a href="https://cloud.google.com/storage/docs/best-practices#security">https://cloud.google.com/storage/docs/best-practices#security</a></p>
+<p>[14] <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html">https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html</a></p>
+<p>[15] <a href="https://mp.weixin.qq.com/s?__biz=MzA5MDc1NDc1MQ==&amp;mid=2247487065&amp;idx=1&amp;sn=5503dd715b3f2131aacba91d0075be9e&amp;chksm=90079589a7701c9f6b808de703de88dd517f31e054a90af9cd61bd8b9ea4281d27d43b163666&amp;mpshare=1&amp;scene=1&amp;srcid=0422DzTAylEepRGhnBx93iDS&amp;sharer_sharetime=1619074342871&amp;sharer_shareid=0f3da91f6fd8e207294f6347709786ec&amp;version=3.0.40.6184&amp;platform=mac#rd">https://mp.weixin.qq.com/s?__biz=MzA5MDc1NDc1MQ==&amp;mid=2247487065&amp;idx=1&amp;sn=5503dd715b3f2131aacba91d0075be9e&amp;chksm=90079589a7701c9f6b808de703de88dd517f31e054a90af9cd61bd8b9ea4281d27d43b163666&amp;mpshare=1&amp;scene=1&amp;srcid=0422DzTAylEepRGhnBx93iDS&amp;sharer_sharetime=1619074342871&amp;sharer_shareid=0f3da91f6fd8e207294f6347709786ec&amp;version=3.0.40.6184&amp;platform=mac#rd</a></p>
+<p>[16] <a href="https://istio.io/latest/docs/reference/config/security/authorization-policy/">https://istio.io/latest/docs/reference/config/security/authorization-policy/</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone"><img src="/img/favicon.png" />Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-9-18-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%B8%80/" data-toggle="tooltip" data-placement="top" title="【云原生应用安全】云原生应用安全防护思考（一）">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-10-16-one-little-candle/" data-toggle="tooltip" data-placement="top" title="one little candle">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Ming Blog 2021
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
