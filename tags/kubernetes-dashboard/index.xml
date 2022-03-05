@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes Dashboard on Ming Blog</title>
+    <link>https://puming.zone/tags/kubernetes-dashboard/</link>
+    <description>Recent content in Kubernetes Dashboard on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Mar 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/kubernetes-dashboard/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>云原生服务风险测绘分析【一】：Docker、Kubernetes</title>
+      <link>https://puming.zone/post/2022-03-05-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%80dockerkubernetes/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2022-03-05-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%80dockerkubernetes/</guid>
+      <description>专题：【云原生服务风险测绘分析】 一. 概述 近年来随着云原生服务的大规模应用，互联网上暴露的相应资产越来越多，通过网络空间测绘技术可对暴露的资产</description>
+    </item>
+    
+  </channel>
+</rss>

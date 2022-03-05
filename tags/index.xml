@@ -6,10 +6,73 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 05 Mar 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cloud Native</title>
+      <link>https://puming.zone/tags/cloud-native/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cloud-native/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://puming.zone/tags/docker/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubelet</title>
+      <link>https://puming.zone/tags/kubelet/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kubelet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://puming.zone/tags/kubernetes/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Dashboard</title>
+      <link>https://puming.zone/tags/kubernetes-dashboard/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kubernetes-dashboard/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Security</title>
+      <link>https://puming.zone/tags/security/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络空间测绘</title>
+      <link>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98/</link>
+      <pubDate>Sat, 05 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>anan</title>
@@ -48,29 +111,11 @@
     </item>
     
     <item>
-      <title>Cloud Native</title>
-      <link>https://puming.zone/tags/cloud-native/</link>
-      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/cloud-native/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Microservice</title>
       <link>https://puming.zone/tags/microservice/</link>
       <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/microservice/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Security</title>
-      <link>https://puming.zone/tags/security/</link>
-      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/security/</guid>
       <description></description>
     </item>
     
@@ -161,15 +206,6 @@
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/photography/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://puming.zone/tags/kubernetes/</link>
-      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/kubernetes/</guid>
       <description></description>
     </item>
     
