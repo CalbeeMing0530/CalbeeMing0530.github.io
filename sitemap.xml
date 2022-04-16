@@ -4,6 +4,61 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/cloud-native/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/harbor/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/security/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2022-04-16-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%BA%8C-harbor/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98/</loc>
+    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/life/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url>
   
@@ -13,33 +68,8 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2022-04-09-%E5%B9%B3%E8%A1%A1/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/cloud-native/</loc>
-    <lastmod>2022-03-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -63,22 +93,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2022-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/tech/</loc>
-    <lastmod>2022-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2022-03-05-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%80dockerkubernetes/</loc>
-    <lastmod>2022-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98/</loc>
     <lastmod>2022-03-05T00:00:00+00:00</lastmod>
   </url>
   

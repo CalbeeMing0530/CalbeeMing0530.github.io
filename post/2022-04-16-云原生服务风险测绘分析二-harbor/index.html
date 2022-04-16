@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="云原生服务风险测绘分析【二】：Harbor" />
+    <meta property="og:title" content="云原生服务风险测绘分析【二】：Harbor" />
+    <meta property="twitter:title" content="云原生服务风险测绘分析【二】：Harbor" />
+    
+
+    
+    <meta name="description" content="Harbor在云上的风险有哪些？本篇将从测绘角度为您揭晓答案">
+    <meta property="og:description" content="Harbor在云上的风险有哪些？本篇将从测绘角度为您揭晓答案" />
+    <meta property="twitter:description" content="Harbor在云上的风险有哪些？本篇将从测绘角度为您揭晓答案" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>云原生服务风险测绘分析【二】：Harbor-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2022-04-16-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%BA%8C-harbor/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e6%9c%8d%e5%8a%a1%e9%a3%8e%e9%99%a9%e6%b5%8b%e7%bb%98%e5%88%86%e6%9e%90%e4%ba%8c.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        <a class="tag" href="/tags/harbor" title="Harbor">
+                            Harbor
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                    </div>
+                    <h1>云原生服务风险测绘分析【二】：Harbor</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Saturday, April 16, 2022
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h2 id="专题云原生服务风险测绘分析"><strong>专题：【云原生服务风险测绘分析】</strong></h2>
+<p><strong>往期回顾：</strong></p>
+<p><a href="https://mp.weixin.qq.com/s/dfa2zS8WbD2Pa4IxSxV9CA">云原生服务风险测绘分析（一）：Docker和Kubernetes</a></p>
+<h2 id="一-概述">一. 概述</h2>
+<p>Harbor是由VMware中国团队在2016年开发的一款开源的私有容器镜像仓库，经过多年的市场磨合，目前已被众多的企业、互联网公司和初创公司在生产环境中使用，也被绝大多数开发人员视为首选使用的容器镜像仓库之一。除提供镜像存储功能外，Harbor还附有镜像扫描、合规性检查、身份管理、访问控制等安全机制。Harbor目前由云原生计算基金会（Cloud Native Computing Foundation CNCF）托管，该项目已于2020年6月顺利毕业，成为第11个在CNCF毕业的项目。</p>
+<p>本篇为云原生服务测绘系列的第二篇，主要从资产发现、资产漏洞、资产脆弱性发现三个维度分析了Harbor所存在的风险，最后笔者针对Harbor提供了一些安全建议，希望各位读者通过阅读此文可对Harbor服务风险暴露有更清晰的认识。</p>
+<p><strong>注：文中统计的测绘数据为近一个月的国内数据，相关技术仅供研究交流，请勿应用于未授权的渗透测试。</strong></p>
+<h2 id="二-harbor资产风险测绘分析">二. Harbor资产风险测绘分析</h2>
+<h3 id="21-harbor资产暴露情况分析">2.1 Harbor资产暴露情况分析</h3>
+<p>借助测绘数据，我们可以了解到国内Harbor资产地区和版本的分布情况，笔者也以这两个维度为各位读者进行介绍。</p>
+<h4 id="211-harbor资产地区分布">2.1.1 Harbor资产地区分布</h4>
+<p>笔者从测绘数据中得到Harbor相关资产共2557条数据，地区分布如图1所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e6%9c%8d%e5%8a%a1%e9%a3%8e%e9%99%a9%e6%b5%8b%e7%bb%98%e5%88%86%e6%9e%90%e4%ba%8c/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. Harbor资产地区分布</figcaption></center>
+  </figure>
+
+</p>
+<p>以上Harbor资产暴露的端口情况笔者进行了统计，如图2所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e6%9c%8d%e5%8a%a1%e9%a3%8e%e9%99%a9%e6%b5%8b%e7%bb%98%e5%88%86%e6%9e%90%e4%ba%8c/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. Harbor资产端口分布</figcaption></center>
+  </figure>
+
+</p>
+<p>以上数据我们可以得出以下信息：</p>
+<ul>
+<li>
+<p>国内暴露的Harbor资产约百分之73%左右的数据来源于北京市、广东省、浙江省、上海市，其中北京市暴露707条位居第一</p>
+</li>
+<li>
+<p>国内暴露的Harbor资产使用端口主要分布在443、5000、8443、8080端口，其中443端口数量1573个位居第一</p>
+</li>
+</ul>
+<h4 id="212-harbor资产版本分布">2.1.2 Harbor资产版本分布</h4>
+<p>借助测绘数据，笔者对国内暴露的Harbor资产版本进行了分析，其分布情况如图3所示(资产版本数较少的由于篇幅原因不在图中显示)：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e6%9c%8d%e5%8a%a1%e9%a3%8e%e9%99%a9%e6%b5%8b%e7%bb%98%e5%88%86%e6%9e%90%e4%ba%8c/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. Harbor资产版本分布</figcaption></center>
+  </figure>
+
+</p>
+<p>经笔者统计，现有国内暴露的Harbor资产中，约45%的资产未获取到具体版本，剩余资产中，绝大多数资产暴露的版本分布在2.0.0、1.10.1、2.3.1、2.2.1、2.2.0、2.1.3、2.3.2之间，值得注意的是，1.10.1版本是2020年2月发布的版本，为相对早期的版本，但在公网上暴露的资产数量确不少。</p>
+<h3 id="22-harbor漏洞介绍">2.2 Harbor漏洞介绍</h3>
+<p><strong>漏洞介绍</strong></p>
+<p>Harbor自2016年3月发布第一个release版本至今已有6年时间，在这期间一共曝出11个漏洞[1]，通过CVE编号信息我们可以看出漏洞披露时间主要在2019和2020年，根据CVSS 2.0标准，其中无高危漏洞，中危漏洞10个，低危漏洞1个。中危漏洞类型以权限提升、枚举、SQL注入、CSRF/SSRF等为主。笔者也针对这些漏洞进行了信息汇总，其中包括公开暴露的PoC及Exp信息，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th><strong>CVE</strong>编号</th>
+<th><strong>类型</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>影响版本</strong></th>
+<th><strong>风险级别</strong></th>
+<th><strong>CVSS 2.0</strong></th>
+<th><strong>是否存在PoC</strong></th>
+<th>是否存在ExP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16097">CVE-2019-16097</a></strong></td>
+<td>权限提升</td>
+<td>攻击者可以利用该漏洞向Harbor发送恶意请求以接管Harbor仓库、获取admin权限，从而可以下载和查看所有私有项目、删除镜像、创建新用户并设置admin权限，甚至替换镜像来污染仓库</td>
+<td>1.7.0 ~1.7.5，1.8.0 ~1.8.2</td>
+<td>中危</td>
+<td>4.0</td>
+<td>是，<a href="https://github.com/evilAdan0s/CVE-2019-16097/blob/master/CVE-2019-16097.py">PoC链接</a></td>
+<td>是，<a href="https://github.com/evilAdan0s/CVE-2019-16097/blob/master/CVE-2019-16097.py">Exp链接</a></td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16919">CVE-2019-16919</a></strong></td>
+<td>权限提升</td>
+<td>该漏洞可以允许项目管理员创建一个机器账户，并对其无访问权或控制权的项目赋予push/pull的权限</td>
+<td>1.8.0 ~ 1.8.3，1.9.0</td>
+<td>中危</td>
+<td>5.0</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-3990">CVE-2019-3990</a></strong></td>
+<td>用户名枚举</td>
+<td>攻击者可通过Harbor API(“api/users/search”)的逻辑设计漏洞，绕过管理员限制，进行用户名枚举操作</td>
+<td>1.7.*,1.8.*,1.9.0,1.9.1</td>
+<td>中危</td>
+<td>4.0</td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-6qj9-33j4-rvhg">PoC链接</a></td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-6qj9-33j4-rvhg">Exp链接</a></td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19025">CVE-2019-19025</a></strong></td>
+<td>CSRF</td>
+<td>由于Harbor的Web API接口未增加针对CSRF的防护机制，因此攻击者可以诱导认证用户访问第三方不安全的网站，进而导致攻击者使用仿冒身份在平台上执行恶意操作</td>
+<td>1.7.*,1.8.*,1.9.*</td>
+<td>中危</td>
+<td>6.8</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19026">CVE-2019-19026</a></strong></td>
+<td>SQL注入</td>
+<td>Harbor API的quotas部分存在SQL注入漏洞，经身份验证的管理员可通过GET参数“sort”发送恶意的SQL有效负载，进而允许从数据库中提取敏感信息</td>
+<td>1.7.*,1.8.*,1.9.*</td>
+<td>中危</td>
+<td>4.0</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19029">CVE-2019-19029</a></strong></td>
+<td>SQL注入</td>
+<td>Harbor中具有项目管理权限的用户可以利用SQL注入漏洞从底层数据库读取敏感数据或进行权限提升</td>
+<td>1.7.*,1.8.*,1.9.*</td>
+<td>中危</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-13788">CVE-2020-13788</a></strong></td>
+<td>SSRF</td>
+<td>Harbor的“Test Endpoint”API在设计上存在脆弱性，可能会导致攻击者使用此API对Harbor服务器内部网络主机上开放的TCP端口进行扫描，从而使攻击者能够对内网资产进行探测</td>
+<td>1.8.*,1.9.*,2.0.*</td>
+<td>中危</td>
+<td>4.0</td>
+<td>是，<a href="https://www.youtube.com/watch?v=v8Isqy4yR3Q">PoC链接</a>（视频）</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-13794">CVE-2020-13794</a></strong></td>
+<td>用户名枚举</td>
+<td>Harbor的&rdquo;/users&rdquo;  API设计上存在用户名枚举漏洞，该API本应仅限于管理员使用，但攻击者可以绕过此限制，并通过搜索API获取信息。针对普通用户，可通过“/api/users/search”API发送带有&quot;username“和“_”的GET请求列出所有用户名及ID信息</td>
+<td>1.9.*,1.10.*,2.0.*</td>
+<td>中危</td>
+<td>4.0</td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-q9p8-33wc-h432">PoC链接</a></td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-q9p8-33wc-h432">Exp链接</a></td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29662">CVE-2020-29662</a></strong></td>
+<td>未授权访问</td>
+<td>Harbor的v2 API暴露在未经身份验证的URL上，导致非管理员身份用户进行访问的风险</td>
+<td>2.0.*,2.1.*</td>
+<td>中危</td>
+<td>5.0</td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-38r5-34mr-mvm7">PoC链接</a></td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19023">CVE-2019-19023</a></strong></td>
+<td>权限提升</td>
+<td>由于Harbor没有对修改电子邮件地址的API请求执行访问控制，所以普通用户能够调用该API修改特定用户的电子邮件地址以获得管理员权限，并且能够重置电子邮件地址和密码，并获得对特定用户的访问权限。</td>
+<td>1.7.*,1.8.*,1.9.*</td>
+<td>中危</td>
+<td>6.5</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19030">CVE-2019-19030</a></strong></td>
+<td>枚举</td>
+<td>该漏洞将导致未认证的攻击者可以利用Harbor API对Harbor实例进行未经认证的调用，并根据响应中的http状态码去区分存在哪些资源，不存在哪些资源，该调用可能是通过一个wordlist或一个序列列举实现。</td>
+<td>1.7.*,1.8.*,1.9.*,2.0.*</td>
+<td>暂无  （Harbor github安全建议给出低风险）</td>
+<td>暂无，</td>
+<td>是，<a href="https://github.com/goharbor/harbor/security/advisories/GHSA-q9x4-q76f-5h5j">PoC链接</a></td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-harbor资产脆弱暴露情况分析">2.3 Harbor资产脆弱暴露情况分析</h3>
+<p>借助测绘数据，笔者从Harbor漏洞维度，统计了现有暴露资产的漏洞分布情况，如图4所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e5%8e%9f%e7%94%9f%e6%9c%8d%e5%8a%a1%e9%a3%8e%e9%99%a9%e6%b5%8b%e7%bb%98%e5%88%86%e6%9e%90%e4%ba%8c/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4. Harbor漏洞分布</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出，在国内互联网暴露的2557个Harbor资产中，有389个资产被曝出含有CVE-2020-13794漏洞（用户名枚举），319个资产被曝出含有CVE-2020-29662漏洞（未授权访问）, 179个资产被曝出含有CVE-2019-19030漏洞（枚举），总和约占所有资产数的35%，其中每个资产可能命中多条CVE。从侧面也反映出这三个CVE漏洞的影响面较大。通过前面的Harbor资产漏洞介绍，我们可以进一步了解这三个漏洞，此处不再赘述。</p>
+<p>此外，笔者还统计了Harbor漏洞在现有已知版本资产中（数量1315）的影响面，具体见如下表格：</p>
+<table>
+<thead>
+<tr>
+<th>CVE ID</th>
+<th>影响资产数</th>
+<th>影响面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-3990">CVE-2019-3990</a></strong></td>
+<td>67</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16097">CVE-2019-16097</a></strong></td>
+<td>68</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19023">CVE-2019-19023</a></strong></td>
+<td>67</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19025">CVE-2019-19025</a></strong></td>
+<td>67</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19026">CVE-2019-19026</a></strong></td>
+<td>67</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19029">CVE-2019-19029</a></strong></td>
+<td>67</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19030">CVE-2019-19030</a></strong></td>
+<td>179</td>
+<td>13%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-13788">CVE-2020-13788</a></strong></td>
+<td>69</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-13794">CVE-2020-13794</a></strong></td>
+<td>389</td>
+<td>29%</td>
+</tr>
+<tr>
+<td><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29662">CVE-2020-29662</a></strong></td>
+<td>319</td>
+<td>23%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-安全建议">2.4 安全建议</h3>
+<ul>
+<li>
+<p>根据官方补丁版本及时对Harbor进行更新</p>
+</li>
+<li>
+<p>根据官方提供的缓解措施进行临时缓解，Harbor相关的漏洞缓解措施可参考官方Github的Security advisories版面[1]</p>
+</li>
+</ul>
+<h2 id="三-总结">三. 总结</h2>
+<p>Harbor作为企业级的容器镜像仓库，在云原生环境下集成了容器镜像存储、扫描、标识等能力，成为构建云原生基础设施中必不可少的一环。近年来，凭借着Harbor广泛的应用与大规模落地，个人用户和企业纷纷将其部署至云上，在享受着其带来操作便利性的同时也引入了一定的风险。本文从测绘角度出发，用真实数据为各位读者展示了目前国内暴露的Harbor资产及其风险，下一篇笔者将继续针对云原生环境下的其它组件进行相应的测绘风险分析，欢迎各位读者持续关注，若有任何问题欢迎提出，互相交流学习。</p>
+<h2 id="四-参考文献">四. 参考文献</h2>
+<p>[1] <a href="https://github.com/goharbor/harbor/security/advisories?page=1">https://github.com/goharbor/harbor/security/advisories?page=1</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2022-04-09-%E5%B9%B3%E8%A1%A1/" data-toggle="tooltip" data-placement="top" title="平衡">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2022
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
