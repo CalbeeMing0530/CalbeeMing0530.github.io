@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kong on Ming Blog</title>
+    <link>https://puming.zone/tags/kong/</link>
+    <description>Recent content in Kong on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Apr 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/kong/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>云原生服务风险测绘分析【三】：Kong和Apache APISIX</title>
+      <link>https://puming.zone/post/2022-04-16-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%89kong%E5%92%8Capache-apisix/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2022-04-16-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%89kong%E5%92%8Capache-apisix/</guid>
+      <description>专题：【云原生服务风险测绘分析】 往期回顾： 云原生服务风险测绘分析（一）：Docker和Kubernetes 云原生服务风险测绘分析（二）：Ha</description>
+    </item>
+    
+  </channel>
+</rss>

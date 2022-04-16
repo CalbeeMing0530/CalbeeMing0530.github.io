@@ -12,6 +12,24 @@
     
     
     <item>
+      <title>Apache APISIX</title>
+      <link>https://puming.zone/tags/apache-apisix/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/apache-apisix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>API Gateway</title>
+      <link>https://puming.zone/tags/api-gateway/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/api-gateway/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Cloud Native</title>
       <link>https://puming.zone/tags/cloud-native/</link>
       <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
@@ -26,6 +44,15 @@
       <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/harbor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kong</title>
+      <link>https://puming.zone/tags/kong/</link>
+      <pubDate>Sat, 16 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kong/</guid>
       <description></description>
     </item>
     
@@ -57,7 +84,7 @@
     </item>
     
     <item>
-      <title>Life</title>
+      <title>life</title>
       <link>https://puming.zone/tags/life/</link>
       <pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate>
       
@@ -251,15 +278,6 @@
       <pubDate>Thu, 20 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/saas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>API Gateway</title>
-      <link>https://puming.zone/tags/api-gateway/</link>
-      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/api-gateway/</guid>
       <description></description>
     </item>
     
