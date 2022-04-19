@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 Apr 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>巨浪</title>
+      <link>https://puming.zone/post/2022-04-19-%E5%B7%A8%E6%B5%AA/</link>
+      <pubDate>Tue, 19 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2022-04-19-%E5%B7%A8%E6%B5%AA/</guid>
+      <description>金钱到不了的远方，知识会带你去，青春换不来的梦想，书籍会赠与你。如果你向往大海，不应化为岛屿，要成为巨浪。</description>
+    </item>
     
     <item>
       <title>云原生服务风险测绘分析【三】：Kong和Apache APISIX</title>

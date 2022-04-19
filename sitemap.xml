@@ -3,17 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://puming.zone/categories/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/life/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/life/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2022-04-19-%E5%B7%A8%E6%B5%AA/</loc>
+    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://puming.zone/tags/apache-apisix/</loc>
     <lastmod>2022-04-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/tags/api-gateway/</loc>
-    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/</loc>
     <lastmod>2022-04-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -33,22 +63,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2022-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
     <lastmod>2022-04-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -75,16 +90,6 @@
   <url>
     <loc>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98/</loc>
     <lastmod>2022-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/life/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
