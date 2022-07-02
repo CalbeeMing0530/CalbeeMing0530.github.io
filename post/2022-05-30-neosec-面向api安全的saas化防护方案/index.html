@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="Neosec — 面向API安全的SaaS化防护方案" />
+    <meta property="og:title" content="Neosec — 面向API安全的SaaS化防护方案" />
+    <meta property="twitter:title" content="Neosec — 面向API安全的SaaS化防护方案" />
+    
+
+    
+    <meta name="description" content="2022 RSA创新沙盒解读，API安全 ">
+    <meta property="og:description" content="2022 RSA创新沙盒解读，API安全 " />
+    <meta property="twitter:description" content="2022 RSA创新沙盒解读，API安全 " />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Neosec — 面向API安全的SaaS化防护方案-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2022-05-30-neosec-%E9%9D%A2%E5%90%91api%E5%AE%89%E5%85%A8%E7%9A%84saas%E5%8C%96%E9%98%B2%E6%8A%A4%E6%96%B9%E6%A1%88/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/Neosec.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/api-security" title="API Security">
+                            API Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/api%E5%AE%89%E5%85%A8" title="API安全">
+                            API安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/saas" title="SaaS">
+                            SaaS
+                        </a>
+                        
+                    </div>
+                    <h1>Neosec — 面向API安全的SaaS化防护方案</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Pu Ming
+                             
+                            on 
+                            Monday, May 30, 2022
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号<a href="https://mp.weixin.qq.com/s/wz6tnGGLlao8RMubW5LGpg">RSA创新沙盒盘点｜Neosec——面向API安全的SaaS化防护方案</a></p>
+<h1 id="一背景介绍">一.	背景介绍</h1>
+<p>Neosec成立于2020年1月，总部位于以色列，该公司专注于API安全领域，旗下的API安全SaaS平台提供API资产发现、威胁狩猎、基于AI的行为和上下文威胁分析、自动化响应编排的能力，以提供API整个生命周期的安全。</p>
+<p>目前Neosec团队约15-20人左右，联合创始人共两名主要成员，如图1所示[11]，其中一位是首席执行官兼创始人为Giora Engel，2008年本科毕业于以色列希伯来大学，毕业后最初在以色列国防部担任团队负责人和项目经理职位，后于2011年创立了LightCyber[1]公司，LightCyber是一家专注于XDR(Extended Detection and Response)领域的安全创业公司，不过该公司在发展6年后被Palo Alto收购，并将其核心技术作为Palo Alto Cortex XDR平台的基础，Giora Engel也因此次收购在Palo Alto担任了产品管理VP的职位长达三年，2020年，Giora从Palo Alto离职并创立了Neosec公司。另一位是Ziv Sivan，目前担任首席战略官的职位，其本科和MBA均毕业于以色列巴伊兰大学，与Giora Engel一样，毕业后最初就职于以色列国防部，后陆续在Palo Alto、风投企业True Ventures[2]、Computer Startups[3]、TLV Partners[4]、SixThirty[9]任职。</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. Neosec联合创始人(左为Giora Engel，右为Ziv Sivan)</figcaption></center>
+  </figure>
+
+</p>
+<p>2021年1月，Neosec筹集了570万美元的第一轮融资，投资者仅有SixThirty一家风投企业，同年9月Neosec进行了第二轮融资，金额1500万美元，投资者由True Ventures、SixThirty、TLV Partners牵头，共9家风投企业参与融资，两轮融资金额共2070万美金。</p>
+<p>Neosec在2021年被评为最热门的10家网络安全初创企业之一[5], 并与今年被选为RSAC创新沙盒Top 10企业之一。</p>
+<h1 id="二产品介绍">二.	产品介绍</h1>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. Neosec平台特性</figcaption></center>
+  </figure>
+
+</p>
+<p>笔者通过查看Neosec产品的白皮书[10]，对其产品功能和特性进行了进一步了解，其中平台特性如图2所示[10]，Neosec主打产品为一款基于AI驱动的API安全平台，其以SaaS化的形式部署于云中，自身设计支持可扩展，可集成，如可与用户环境中的API网关、WAF、云平台、SIEM、CDN等系统进行集成。通过官网信息[6]我们可以看出，该平台主要功能包括可持续的API发现，基于API的行为和上下文威胁分析，API威胁狩猎，自动化响应编排。 可以看出，Neosec的对外宣称的产品亮点主要包含以下几部分：</p>
+<ul>
+<li>基于AI的行文和上下文分析是Neosec产品的一大亮点，与其它忽略历史数据，仅对单一请求进行操作的解决方案不同，Neosec会存储和检测所有API活动数据集和历史数据集，数据覆盖的广度使得用户可以高度精确地发现其他方案所忽略的威胁点，从而更好的保障应用安全。</li>
+<li>Neosec宣称自己的API发现技术并未使用传统的Agent而使用较为新的Agentless模式，并且易于部署。</li>
+<li>鉴于Giora Engel在创办Neosec之前有多年的XDR实践经验，因而其将XDR技术引入了API安全也在意料范围内，这也是为何Neosec产品是以SaaS化的形式进行部署，API安全和XDR结合同样也是产品的主要亮点之一。
+下面笔者将针对Neosec产品的功能进行分析介绍。</li>
+</ul>
+<h2 id="21-api发现">2.1 API发现</h2>
+<p><strong>相对全面且持久的发现</strong></p>
+<p>可见才可防，API发现是第一步也是尤为重要的一步，API获取的类型，数量和广度体现了一家企业在API发现上的技术投入，通过官网信息我们可以看到Neosec可发现用户侧的所有API，包括东西向/南北向API, 影子API、公/私有API，系统API、共享服务API等。如图3所示[17]:</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. Neosec API发现范围</figcaption></center>
+  </figure>
+
+</p>
+<p>同时，API持续发现能力也很重要，Neosec宣称全天在线不停歇，可不断发现新的API和对现有API的更改，可见Neosec对自身的API发现技术还是非常自信的。</p>
+<p><strong>识别敏感的API并确定优先级</strong></p>
+<p>由于API数量庞大，有效识别哪些API需要优先处理成为首要解决问题，Neosec可识别并标记携带敏感数据的API, 并可以告知安全和开发人员哪些需要优先处理。</p>
+<p><strong>API全面Swagger化</strong></p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4. Neosec的Swagger化API管理</figcaption></center>
+  </figure>
+
+</p>
+<p>当API发现完成后，让API进行规范化显示往往可以通过Swagger的方式生成API在线文档，使用户易于进行安全审计和基线核查等操作，Neosec考虑到了资产清单可视化带来的优势，于是也提供了针对每个API自动生成Swagger文件的功能，如图4所示[12], 通过利用自动化Swagger上传作为CI/CD流程的一部分进行安全审计，当审计过程中发现错误配置和漏洞时，可立即通知安全、开发人员和API团队进行快速修复处理。同时也支持开发人员对Swagger进行下载并基于Swagger规范进行基线核查。</p>
+<h2 id="22-基于ai的行为和上下文分析">2.2 基于AI的行为和上下文分析</h2>
+<p>基于AI的行为和上下文分析已不是新的技术，早在2019年创新沙盒10强中API安全创业公司Salt Security就声称自己用的是基于AI和大数据分析技术对API进行分析，距离现在已经过去3年，用户似乎已不再好奇技术的具体实现，转而更加关心产品如何解决误报率的问题，仅仅收集API参数作为所有数据集可能并不够，结合业务自身数据进行分析才真正可能降低误报率，那么Neosec又是如何将API数据与业务关联？是否有对历史数据进行行为画像？经笔者调研分析，Neosec似乎是将API参数、用户、实体及它们之间的上下文关系进行了整合，与业务高度融合的方式来降低误报率，官方提供的截图[13]验证了笔者的这一观点:</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5. API数据与业务数据融合的分析</figcaption></center>
+  </figure>
+
+</p>
+<p>Neosec也一直在强调丰富的数据集是它们的强项之一，如官网所说：</p>
+<p>“Neosec提供所有API活动数据和历史数据，这些数据集可以帮助安全团队了解每个API之间的上下文关系和背景，每个API均可以使用自定义分类进行命名和标记，庞大的数据集为威胁研究人员提供了更好的输入，从而可以改善机器学习检测模型和算法，为基线行为分析提供了有利支持”</p>
+<p>可惜的是，根据现有材料，笔者暂未找到具体的技术实现。</p>
+<p>Neosec强调数据是存储在其SaaS平台上，那么可能会有读者提出如何保证数据的合规性？通过阅读官方白皮书[7]，笔者了解到这些数据存储在Neosec云（SaaS平台）上，针对数据的隐私保护问题，Neosec在数据传输至云上之前使用标记进行匿名化处理，以此来解决数据隐私泄露问题。</p>
+<p>此外，Neosec还提供了针对事件的特定告警功能，其类别包括账户接管、认证授权、数据泄露、影子API、RCE、注入等。如图6所示[13]:</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be6.png" alt="image">
+    <center><figcaption>图6. Neosec的事件告警截图</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="23-api威胁狩猎">2.3 API威胁狩猎</h2>
+<p><strong>威胁查询</strong></p>
+<p>Neosec平台自身也提供威胁查询的功能，其优势在于背后庞大的API数据集，安全团队能够借助API数据集充分了解每条告警的上下文信息以发现更多威胁，如图7[14]所示，Neosec提供基于时间范围，实体类型，API端点的告警查询功能，这种方式让告警查询变得更为轻松。</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be7.png" alt="image">
+    <center><figcaption>图7. Neosec的威胁查询功能截图</figcaption></center>
+  </figure>
+
+</p>
+<p>此外，Neosec还提供可管理的威胁狩猎功能，这也是为数不多可提供威胁狩猎支持的初创企业。例如，针对人员不足的安全团队，很少有时间或资源去进行威胁狩猎研究，那么这个时候就可以咨询Neosec并让其提供可管理的威胁狩猎服务来弥补此缺陷。</p>
+<h2 id="24-自动化响应编排">2.4 自动化响应编排</h2>
+<p>既然有威胁狩猎在前方提供情报，输送安全事件，那么如何做好事件响应是一个不容忽视的问题，安全编排与自动化响应（Security Orchestration Automation Response SOAR）近年来非常火热，已有大部分安全企业在生产环境中落地，SOAR的核心在于针对不同事件的剧本编排和执行能力（Actions), 其中剧本编排能力在于运维人员，但提供基础可编排的机制是首要的，执行能力体现在具体的Action数量，经笔者调研，Neosec基本提供SOAR的能力，如下图所示[15]：</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be8.png" alt="image">
+    <center><figcaption>图8. Neosec的自动化响应编排功能截图</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="三-解决方案介绍">三.	 解决方案介绍</h1>
+<p><strong>Kong与Neosec组合提供API安全企业级解决方案</strong></p>
+<p>Kong是一个云原生、快速可扩展的分布式微服务抽象层（通常被称作API网关、API中间件），Kong于2015年被Mashape公司开源，其在Github上拥有31.6K的Star及4.2K的Fork数量。Kong的核心价值主要体现在高性能和可扩展性上。</p>
+<p>API网关中，安全策略通常可抽象为两种类型，一种是基于请求的策略，即分析每个请求以确保请求可以较为可靠地路由到上游服务中，另一种是基于行为状态的策略，可通过建立请求数据基线进行异常行为分析。目前业界使用的API网关多能通过插件集成的形式实现基于请求的策略，如Kong的企业级API网关集成了各种插件，例如OpenID Connect、JWT、mTLS、开放策略代理 (OPA Open Policy Agent)等。针对第二种策略类型， Kong之前并未有可集成的插件支持该策略类型，这也是Kong需要将Neosec能力集成至自身的主要目的。经笔者调研，Kong的Neosec插件主要提供TCP日志传输功能，插件负责将流经Kong网关的所有处理日志信息发送至客户端运行的Neosec Collector中，后再由Neosec Collector转发至Neosec Cloud进行处理，图9[16]大致展示了整个过程：</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be9.png" alt="image">
+    <center><figcaption>图9. Neosec与Kong结合方案事件流处理图</figcaption></center>
+  </figure>
+
+</p>
+<p>以下是整个环境的事件处理流程：</p>
+<ul>
+<li>
+<p>API流量通过Kong网关直接流入Service服务，同时生成请求的日志信息；</p>
+</li>
+<li>
+<p>Kong网关使用标准的TCP日志插件将日志发送至客户端运行的Neosec Collector；</p>
+</li>
+<li>
+<p>Neosec Collector对收集到的日志进行规范化处理并将最终日志信息发送至Neosec Cloud进行处理;</p>
+</li>
+<li>
+<p>若Neosec Cloud检测到恶意流量，Neosec的分析告警引擎会触发生成一条告警信息，假设用户已通过Neosec配置了自动化响应策略，那么该响应策略会通过Neosec Responder组件执行，具体是依赖于Kong Manager Admin API将响应策略应用于API网关配置处并执行。
+经笔者调研，Kong的TCP插件配置还是很简单的，如图10所示[16]：</p>
+<p>
+  <figure>
+    <img src="/img/Neosec/%e5%9b%be10.png" alt="image">
+    <center><figcaption>图10. TCP日志插件配置截图</figcaption></center>
+  </figure>
+
+</p>
+</li>
+</ul>
+<p>可以看出我们只需要在Kong Manager中创建一个新的TCP插件，并输入Neosec Collector的URL和端口即可，Neosec Collector自身可以容器或FaaS函数的形式进行部署。</p>
+<p>我们认为，Neosec和Kong的组合为API安全带来了一定的创新性，原因主要有以下三点：</p>
+<ul>
+<li>Neosec自身主打可持续性的API发现功能，那么这种功能特性进而可以帮助Kong的用户去发现更多API资产，从而提升了API的可见性；</li>
+<li>Neosec基于AI的行为和上下文分析可以让Kong的用户区分正常和异常行为，从而提升了用户对API流量的洞察力；</li>
+<li>Neosec的自动化响应编排能力可让用户了解事前（日志分析、策略剧本制定）、事中（告警触发）、事后（响应操作）整个闭环，期间无缝连接。</li>
+</ul>
+<h1 id="四-总结">四. 总结</h1>
+<p>近年来，随着企业越来越关注API安全，API安全的发展趋势也越来越猛烈，如从依赖于预定义的策略检测转向基于人工智能和行为分析检测，产品部署形式从企业内部部署转向为SaaS形式部署，传统的仅针对单独API调用或短生命周期会话活动的安全防护方法正在被可分析API活动数天甚至数周的新方法取代。再看Neosec, 基本符合API安全的未来发展趋势。</p>
+<p>Neosec虽然有很多优势，但同时也具备一些挑战和来自竞品的压力，可总结为以下几部分。</p>
+<p><strong>技术优势</strong></p>
+<p>API发现技术是Neosec产品的一大卖点，Neosec宣称其既未使用传统的Agent方式，也未使用近年来比较火的Sidecar技术，值得注意的是，2021年入围RSAC创新沙盒的WIZ也采用Agentless和No sidecar方案[8]，并且今年入围云原生安全方向的SEVCO、数据治理（DataGovOps）方向的Dasera也采用Agentless API方式收集大量数据源信息，可以看出近年来国内外企业API发现技术都在走Agentless的路子。我们大胆猜测这些企业可能是使用近年来比较火热的eBPF技术，原因主要有以下几点：</p>
+<ul>
+<li>eBPF作为一种较新的技术，由于对系统内核要求较高，还未有很成熟的落地实现案例，因而拥有更多可能性</li>
+<li>eBPF程序在内核层面运行，执行效率很高；</li>
+<li>eBPF既不基于Sidecar，也非传统的Agent；</li>
+<li>eBPF相较其他类似技术，部署成本低。</li>
+</ul>
+<p>Agentless的口号或许只是噱头，毕竟总得有API发现机制被部署，如果将这种机制看作Agent，许多产品也不能真正的实现Agentless。应该是出于商业利益，仅从现网Neosec的公开资料我们暂未发现具体技术实现细节。</p>
+<p><strong>市场优势</strong></p>
+<p>对初创公司而言，即使产品做的足够创新，技术占绝对优势，融资足够多，缺乏商业合作也寸步难行。我们观察到，Neosec与API网关（apigee、Kong）、云提供商（AWS、Azure、Google Cloud）、容器编排和服务网格环境(Kubernetes、Envoy)、反向代理（Apache、Nginx等）、CDN（Cloudflare等）、WAF（F5）、WAAPs产品均有一定程度的合作。可以看出，Neosec与这些产品的最终集成可将安全防护范围覆盖至各个领域，如API安全、应用安全、云原生安全、公有云安全等，因此对于市场发展而言有一定优势。</p>
+<p>其中，以Neosec与Kong网关的结合思路举例，依赖于Kong在API网关界的知名度，Neosec可以拥有大量试用资源，让更多的用户体验其技术上的优势，同时也能开拓市场，引入更多的融资金额机会，做第一个吃螃蟹的人。</p>
+<p><strong>挑战</strong></p>
+<p>通过前文分析，我们知道Neosec的种种功能特性典型如基于AI的行为分析检测，主要都是依赖于存储在SaaS端的数据集作为基础，那么将用户的数据全部存储至SaaS平台上一方面增大了单点故障的风险，另一方面也引入了其他风险，如用户的数据隐私泄露、数据传输加密等。虽然Neosec声称可通过标记匿名化处理的方式规避隐私泄露风险，但攻击手段的多元变化总是让人防不胜防，我们认为Neosec的下一步关注点应该聚焦在数据安全方向。</p>
+<p><strong>竞品比对</strong></p>
+<p>值得注意的是，2019年RSAC创新沙盒10强，同做API安全的Salt Security公司经过了三年的发展，从最初的小型创业公司到目前已经占据了一定的API安全市场，且被各个国内外企业当成竞争对手看待，Salt Security的成长值得我们去关注。笔者近期调研Salt Security产品主要涵盖的功能包括以下几部分：</p>
+<ul>
+<li>
+<p>API发现/纳管</p>
+</li>
+<li>
+<p>利用所属专利AI技术(patented API Context Engine (ACE) architecture)阻止API攻击并且可以实时识别攻击者</p>
+</li>
+<li>
+<p>提供API漏洞管理功能</p>
+</li>
+<li>
+<p>提供API风险评估报告</p>
+</li>
+</ul>
+<p>可以看出，对比Neosec，Salt Security的优势除了市场磨练时间久之外，还额外提供了API漏洞管理及API风险报告的功能，另外同是基于AI的基线分析，两者究竟有何不同？尽管从现网资料无法获取技术实现细节，但笔者认为Neosec在解决误报率问题上相比于当年的Salt Security有着更多及更深的思考（从将API数据和业务数据深度融合就可以看出来），也许是因为前辈们踩过的坑，Neosec很注重数据集的广度和深度，这些也确实成为了其产品的主要卖点。</p>
+<h1 id="五参考文献">五.参考文献</h1>
+<ol>
+<li><a href="https://www.crunchbase.com/organization/light-cyber">https://www.crunchbase.com/organization/light-cyber</a></li>
+<li><a href="https://www.crunchbase.com/hub/true-ventures-portfolio-companies">https://www.crunchbase.com/hub/true-ventures-portfolio-companies</a></li>
+<li><a href="https://www.crunchbase.com/hub/computer-startups">https://www.crunchbase.com/hub/computer-startups</a></li>
+<li><a href="https://www.crunchbase.com/hub/tlv-partners-portfolio-companies">https://www.crunchbase.com/hub/tlv-partners-portfolio-companies</a></li>
+<li><a href="https://www.Neosec.com/news/the-10-hottest-cybersecurity-startups-of-2021">https://www.Neosec.com/news/the-10-hottest-cybersecurity-startups-of-2021</a></li>
+<li><a href="https://www.Neosec.com/why-Neosec">https://www.Neosec.com/why-Neosec</a></li>
+<li><a href="https://www.Neosec.com/hubfs/Data%20Sheets/Neosec%20%7C%20Oveview%20Data%20Sheet.pdf">https://www.Neosec.com/hubfs/Data%20Sheets/Neosec%20%7C%20Oveview%20Data%20Sheet.pdf</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LH6n7w_Ar4pQiJtZ-K-ucA#at">https://mp.weixin.qq.com/s/LH6n7w_Ar4pQiJtZ-K-ucA#at</a></li>
+<li><a href="https://www.crunchbase.com/organization/sixthirty">https://www.crunchbase.com/organization/sixthirty</a></li>
+<li><a href="https://www.neosec.com/hubfs/Data%20Sheets/Neosec%20%7C%20Oveview%20Data%20Sheet.pdf">https://www.neosec.com/hubfs/Data%20Sheets/Neosec%20%7C%20Oveview%20Data%20Sheet.pdf</a></li>
+<li><a href="https://www.neosec.com/about">https://www.neosec.com/about</a></li>
+<li><a href="https://www.neosec.com/platform-discovery-risk-audit">https://www.neosec.com/platform-discovery-risk-audit</a></li>
+<li><a href="https://www.neosec.com/platform-security">https://www.neosec.com/platform-security</a></li>
+<li><a href="https://www.neosec.com/investigate-and-hunt">https://www.neosec.com/investigate-and-hunt</a></li>
+<li><a href="https://www.neosec.com/platform-response-prevention">https://www.neosec.com/platform-response-prevention</a></li>
+<li><a href="https://konghq.com/blog/neosec">https://konghq.com/blog/neosec</a></li>
+<li><a href="https://www.neosec.com/platform-discovery-risk-audit">https://www.neosec.com/platform-discovery-risk-audit</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2022-05-09-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E5%9B%9Bprometheus/" data-toggle="tooltip" data-placement="top" title="云原生服务风险测绘分析【四】：Prometheus">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2022-06-08-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%BA%94etcd/" data-toggle="tooltip" data-placement="top" title="云原生服务风险测绘分析【五】：Etcd">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2022
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -68,6 +68,26 @@
   </url>
   
   <url>
+    <loc>https://puming.zone/tags/api-security/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2022-05-30-neosec-%E9%9D%A2%E5%90%91api%E5%AE%89%E5%85%A8%E7%9A%84saas%E5%8C%96%E9%98%B2%E6%8A%A4%E6%96%B9%E6%A1%88/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/saas/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://puming.zone/tags/prometheus/</loc>
     <lastmod>2022-05-09T00:00:00+00:00</lastmod>
   </url>
@@ -200,11 +220,6 @@
   <url>
     <loc>https://puming.zone/post/2021-9-29-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E6%80%9D%E8%80%83%E4%BA%8C/</loc>
     <lastmod>2021-09-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/api-security/</loc>
-    <lastmod>2021-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -354,11 +369,6 @@
   
   <url>
     <loc>https://puming.zone/post/2020-2-20-appomni%E9%9D%A2%E5%90%91saas%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F%E7%9A%84%E6%8C%81%E7%BB%AD%E6%80%A7%E7%9B%91%E6%8E%A7%E5%92%8C%E5%91%8A%E8%AD%A6%E9%98%B2%E6%8A%A4/</loc>
-    <lastmod>2020-02-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/saas/</loc>
     <lastmod>2020-02-20T00:00:00+00:00</lastmod>
   </url>
   
