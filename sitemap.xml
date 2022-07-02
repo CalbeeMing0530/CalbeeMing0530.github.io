@@ -3,8 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://puming.zone/tags/anan/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/life/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/photography/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2022-07-01-%E7%BA%A2%E5%B2%A9%E5%AD%90%E4%B8%80%E6%97%A5%E6%B8%B8/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +58,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
     <lastmod>2022-06-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -108,11 +128,6 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/categories/life/</loc>
-    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2022-04-19-%E5%B7%A8%E6%B5%AA/</loc>
     <lastmod>2022-04-19T00:00:00+00:00</lastmod>
   </url>
@@ -170,11 +185,6 @@
   <url>
     <loc>https://puming.zone/post/2022-03-05-%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9C%8D%E5%8A%A1%E9%A3%8E%E9%99%A9%E6%B5%8B%E7%BB%98%E5%88%86%E6%9E%90%E4%B8%80dockerkubernetes/</loc>
     <lastmod>2022-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/anan/</loc>
-    <lastmod>2021-12-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -330,11 +340,6 @@
   <url>
     <loc>https://puming.zone/post/2021-1-22-music-corner/</loc>
     <lastmod>2021-01-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/photography/</loc>
-    <lastmod>2021-01-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
