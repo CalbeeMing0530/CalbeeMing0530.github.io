@@ -3,12 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://puming.zone/tags/anan/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+    <loc>https://puming.zone/categories/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/categories/</loc>
+    <loc>https://puming.zone/tags/ci/cd/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/devops/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/devsecops/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/security/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2022-07-06-%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%9C%B0%E4%BD%BF%E7%94%A8cicd%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/anan/</loc>
     <lastmod>2022-07-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -18,22 +63,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/tags/photography/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
     <lastmod>2022-07-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -54,16 +84,6 @@
   
   <url>
     <loc>https://puming.zone/tags/kubernetes/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2022-06-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/tech/</loc>
     <lastmod>2022-06-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -240,16 +260,6 @@
   <url>
     <loc>https://puming.zone/post/2021-7-22-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E6%80%9D%E8%80%83/</loc>
     <lastmod>2021-07-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/devops/</loc>
-    <lastmod>2021-05-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/devsecops/</loc>
-    <lastmod>2021-05-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>

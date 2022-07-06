@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="如何正确地使用CI/CD工具" />
+    <meta property="og:title" content="如何正确地使用CI/CD工具" />
+    <meta property="twitter:title" content="如何正确地使用CI/CD工具" />
+    
+
+    
+    <meta name="description" content="近年来，用户应用及软件发布整体趋于高频，另外其发布方式也趋向于向自动化方式转变，CI/CD工具的出现为开发人员带来了便利，实现了DevOps理念，打破了开发人员和运维人员之间的壁垒和鸿沟，与此同时，DevOps的安全问题也频频发生，如近年的多起供应链攻击事件均是以CI/CD流为切入点进行攻击，如何安全地使用CI/CD工具并实现DevSecOps理念是亟待解决的问题，为此本文将为各位读者进行详细的介绍">
+    <meta property="og:description" content="近年来，用户应用及软件发布整体趋于高频，另外其发布方式也趋向于向自动化方式转变，CI/CD工具的出现为开发人员带来了便利，实现了DevOps理念，打破了开发人员和运维人员之间的壁垒和鸿沟，与此同时，DevOps的安全问题也频频发生，如近年的多起供应链攻击事件均是以CI/CD流为切入点进行攻击，如何安全地使用CI/CD工具并实现DevSecOps理念是亟待解决的问题，为此本文将为各位读者进行详细的介绍" />
+    <meta property="twitter:description" content="近年来，用户应用及软件发布整体趋于高频，另外其发布方式也趋向于向自动化方式转变，CI/CD工具的出现为开发人员带来了便利，实现了DevOps理念，打破了开发人员和运维人员之间的壁垒和鸿沟，与此同时，DevOps的安全问题也频频发生，如近年的多起供应链攻击事件均是以CI/CD流为切入点进行攻击，如何安全地使用CI/CD工具并实现DevSecOps理念是亟待解决的问题，为此本文将为各位读者进行详细的介绍" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>如何正确地使用CI/CD工具-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2022-07-06-%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%9C%B0%E4%BD%BF%E7%94%A8cicd%E5%B7%A5%E5%85%B7/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/rsa_cicd.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        <a class="tag" href="/tags/ci/cd" title="CI/CD">
+                            CI/CD
+                        </a>
+                        
+                        <a class="tag" href="/tags/devsecops" title="DevSecOps">
+                            DevSecOps
+                        </a>
+                        
+                        <a class="tag" href="/tags/devops" title="DevOps">
+                            DevOps
+                        </a>
+                        
+                    </div>
+                    <h1>如何正确地使用CI/CD工具</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Pu Ming
+                             
+                            on 
+                            Wednesday, July 6, 2022
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-----概述">一.     概述</h1>
+<p>2022 RSA大会上，来自Coalfire的副总裁和首席战略官Dan Cornelld的议题《What Executives Need to Know about CI/CD Pipelines and Supply Chain Security》从使用CI/CD管道的安全性出发，首先向各位观众讲述了什么是CI/CD管道，并提出我们为何需要关注CI/CD使用过程中的安全风险，之后Dan Cornell面向安全从业人员及DevSecOps实施人员讲述了使用CI/CD需要注意的安全风险，包括源代码仓库安全接入CI/CD管道可能引发的风险，引入第三方开源依赖库的风险，项目代码在构建测试、部署、打包、分发过程中面临的安全风险。最后，Dan Cornell提出了相应的安全建议并给出了未来6个月的具体DecSecOps实施计划。</p>
+<h1 id="二-----背景">二.     背景</h1>
+<p>DevOps 全称为 Development &amp; Operations，在 2009 年被提出，其代表的并非一种具体实现技术，而是一种方法论。 DevOps 的出现最终目是为了打破开发人员与运维人员之间的壁垒和鸿沟，高效的组织团队通过自动化工具相互协作以完成软件生命周期管理，从而更快且频繁地交付高质量稳定的软件。      如 果 说 DevOps 理 念 实 现 了 软 件 的 快 速 交 付 、 那 么 CI/CD （ Continuous integration &amp; Continuous Delivery &amp; Continuous Deployment）便是实现这一理念的主要方法， CI/CD 的核心概念是持续集成、持续交付、持续部署。依托 CI/CD， 应用的整个生命周期（从集成和测试阶段，到交付和部署阶段） 可达到持续自动化和持续监控的效果。</p>
+<p>如我们所知，DevOps影响的不仅包含开发团队（Dev）和运维团队(Ops)，还应包含安全团队（Sec），在系统生命周期（SDLC Systems Development Life Cycle）中，安全团队常聚焦于运营阶段，因而往往忽视了开发阶段的安全，所以近些年“安全左移”的理念非常火，其强调安全因素应纳入应用开发的早期阶段，常见的，我们在开发（Dev）与运维（Ops）之间加入安全（Sec），也就是DevSecOps理念，其侧重点是将安全工具自身整合至CI/CD工作流中，且安全工具主要纳入应用的测试、发布和运维阶段。</p>
+<p>随着技术的不断发展，用户可采用的CI/CD工具逐渐增多，除了关注工具自身的安全问题之外，如何正确的使用CI/CD管道，关注并及时发现各个阶段存在的安全风险也尤为重要。</p>
+<h1 id="三-----供应链攻击事件">三.     供应链攻击事件</h1>
+<p>供应链攻击是一种网络攻击，攻击者可利用软件或硬件来篡改服务程序，针对组织供应链中的薄弱环节实施攻击，从而导致服务程序被破坏。鉴于供应链自身的特性，恶意软件可以安装在供应链的任何阶段，且供应链攻击允许指定目标，若被攻击的供应商有很多客户，则受影响的数量会迅速增加[4]。此外，由于供应链依赖于已被信任并且可以广泛分发的软件，因而供应链攻击很难被检测。</p>
+<h2 id="31-solar-winds供应链攻击事件">3.1 Solar Winds供应链攻击事件</h2>
+<p>2020年12月，美国安全公司FireEye爆出有攻击者通过在SolarWinds软件中植入木马程序入侵了公司网络。该木马程序具有合法的数字签名并且伴随着软件的更新下发，借助软件供应链的特性，APT攻击者组织可对目标机构发起未授权访问，达到长期对目标机构的控制，并不断窃取核心数据。事件经历短短一周内就有超过200家重要机构受到影响，其中不乏一些全球科技发达地区的敏感机构，其中美国占比超过60%，包括美国国务院、国土安全部、国防部、财政部在内的多家政府机构均受到此事件的影响，事件影响力可谓巨大[4]。</p>
+<h2 id="32-codecov供应链攻击事件">3.2 Codecov供应链攻击事件</h2>
+<p>2021年，国外软件审计平台Codecov（该软件常被用于集成至CI/CD工作流中）遭受攻击者攻击，该事件直接导致近3万用户的隐私数据泄漏，究其原因，攻击者主要利用Codecov镜像Dockerfile中的错误配置提取Bash Uploader脚本（用户可通过该脚本上传测试数据）中的访问凭证，进而通过该凭证修改用户的Bash Uploader脚本[2]，在长达1000多行的Bash Uploader脚本中添加如下两行代码[1]：</p>
+<p>
+  <figure>
+    <img src="/img/rsa_cicd/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1 Bash Uploader脚本中注入的恶意代码</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出，以上代码会将CI中所有的环境变量发送至第三方服务器，这些环境变量中可能包含Git访问凭证、API Key等敏感信息和密钥，攻击者可以进一步访问通过这些凭证访问的任何服务、数据和应用程序代码，危害巨大。</p>
+<p>近两年供应链攻击事件层出不穷，分析并总结背后原因不难看出建立可信的软件开发环境、定期进行安全检查、关注依赖组件的已知漏洞、落实DevSecOps理念的重要性。</p>
+<h1 id="四-----cicd应用过程中需要考虑的安全问题">四.     CI/CD应用过程中需要考虑的安全问题</h1>
+<p>Dan Cornell举例从数据流的角度看CI/CD管道安全，如图2所示：</p>
+<p>
+  <figure>
+    <img src="/img/rsa_cicd/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2 CI/CD管道示例图</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出示例中的CI/CD管道流程分为以下几个阶段：</p>
+<ol>
+<li>开发者提交代码至源码仓库；</li>
+<li>CI/CD管道流程的<strong>构建阶段</strong>从源码仓库及开源仓库获取最新提交的代码以及相应依赖的开源组件代码；</li>
+<li>构建结束后生成二进制文件，进入测试阶段</li>
+<li><strong>测试阶段</strong>包括安全测试、集成测试、单元测试三个部分；</li>
+<li>测试完成后进入评估阶段，若测试通过进入后续的<strong>打包和分发阶段</strong>。</li>
+</ol>
+<p>上述流程结合一定的安全知识背景，我们可以看出安全风险可能存在于各个阶段，Dan Cornell从信息安全三要素机密性、完整性、可用性的角度阐述了这些风险，如从机密性上来看，主要涉及敏感数据泄露，如IP泄露、密钥泄露、漏洞披露为造成风险的主要因素；从完整性上来看，源代码植入后门、恶意挖矿或是其他恶意行为成为供应链攻击的主要一环；从可用性上来看，功能受到影响导致延迟发布与漏洞修复无法及时推送到生产环境，最终都会对软件交付产生不同程度的影响。</p>
+<p>值得注意的是，随着业务越发复杂，系统架构从单体走向微服务化，CI/CD管道的复杂性也会相应增多，每个阶段都可能会产生大量的敏感数据，这些敏感数据往往会成为巨大的攻击杠杆。试想一旦攻击者拿到了源码仓库的访问凭证，那么整个CI/CD环境都可能遭到沦陷。因此，DevSecOps实施人员需要对数据的最终输出负责，评估软件CI/CD的运行环境，在CI/CD管道的每个阶段评估安全风险，如每一阶段涉及的服务种类、敏感数据、敏感数据存储、敏感数据分级、敏感数据传输加密等。</p>
+<p>Dan Cornell从CI/CD使用的角度出发，阐述了各个阶段产生的风险，笔者将其进行了汇总，主要分为以下五部分。</p>
+<h2 id="41-cicd管道接入源码仓库的风险">4.1 CI/CD管道接入源码仓库的风险</h2>
+<p>通常情况下，CI/CD工具根据用户自定义的管道流程，在开发者进行git push或git pull等操作时触发接入源码仓库，在接入过程中由于源码仓库自身提供多种接入方式，进而扩大了风险面，图3展示了Gitlab提供的几种访问途径：</p>
+<p>
+  <figure>
+    <img src="/img/rsa_cicd/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3 源码仓库访问途径</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出除了常规的源码访问（push/pull/merge request等）、Web访问以及API访问，Gitlab还提供Webhook访问。在第三方开发团队对源码仓库进行push/pull操作时，若未对源码仓库接入进行有效认证，则可能会导致本地代码在CI/CD以外的环境中运行，进而造成源码不可控的风险。</p>
+<h2 id="42-引入第三方开源组件的风险">4.2 引入第三方开源组件的风险</h2>
+<p>关于引入第三方开源组件的风险，通常包含以下四部分内容：</p>
+<h3 id="421-开源组件自身漏洞导致的风险">4.2.1 开源组件自身漏洞导致的风险</h3>
+<p>许多开源组件自身存在漏洞，不同风险级别的漏洞会导致CI/CD环境面临不同程度风险，例如若开源组件存在RCE漏洞，攻击者则可能利用该漏洞获取CI/CD管道中的环境变量，进而获取Gitlab或Github的有效访问凭证，最终接管整个源码仓库，引起巨大风险。</p>
+<h3 id="422-不安全的开源组件管理导致的风险">4.2.2 不安全的开源组件管理导致的风险</h3>
+<p>在CI/CD管道中，我们通常会引入第三方开源组件对项目依赖项进行构建管理。例如Java项目中，通常会引入Maven仓库，若我们的项目直接从Maven中央仓库进行拉取，我们就无法确定是否引入了含有漏洞的组件，进而可能导致组件漏洞被攻击者利用的风险。</p>
+<h3 id="423-攻击者为开源组件添加后门程序导致的风险">4.2.3 攻击者为开源组件添加后门程序导致的风险</h3>
+<p>若攻击者拥有访问开源组件仓库的权限，进而可以通过为开源组件添加恶意后门程序，之后重新对外发布的形式，引发大规模供应链攻击的风险。若用户的项目源码中引入了含有后门的开源组件，攻击者则有可能利用该漏洞对CI/CD环境进行探测，进而导致整个环境沦陷的风险。</p>
+<h3 id="424-开源软件许可证导致的风险">4.2.4 开源软件许可证导致的风险</h3>
+<p>开源组件的许可证类别较多，如常见的Apache License、MIT是相对宽容的许可证，这些许可证通常没有真正的限制条件，若将相应的开源组件引入自己开发的项目，并对外发布，仅需保留版权声明即可，不会面临使用上的法律风险。除此之外，还有一些顶级的开源许可证，例如GPL 3.0和AGPL，其为限制性的许可证，若引入了相应开源组件并进行商用，则会面临法律风险。</p>
+<h2 id="43-构建阶段的风险">4.3 构建阶段的风险</h2>
+<p>构建阶段，CI/CD管道通常会引入插件对源码以及第三方开源组件代码进行构建，该插件实际上也运行在CI/CD环境中，对于开发者而言，插件是不受信任的，含有漏洞的插件可能被攻击者利用进而访问到CI/CD管道中产生的数据，并将数据传送至第三方服务器，如3.2中提出的Codecov供应链事件影响，受害者下载了攻击者精心注入恶意代码的文件，导致CI/CD中的环境变量泄露，攻击者可以利用这些环境变量窃取受害者隐私数据，造成巨大影响。</p>
+<h2 id="44-测试阶段的风险">4.4 测试阶段的风险</h2>
+<p>自动化测试是CI/CD管道中必经的一环，自动化测试常包含集成测试、单元测试、安全测试这几类流程，CI/CD工具会调用测试插件（可能来自CI/CD环境外部或内部）进行测试，例如Gitlab的CI/CD管道默认支持引入开源代码审计工具bundler-audit、gemnasium等，这些开源工具是否可信是我们需要关注的重点，如测试阶段产生的流量是在CI/CD环境内部还是外部，若是外部将不受DevSecOps实施者的控制，可能进而会导致测试流量被代理到第三方服务器的风险，再如当测试阶段完成后，测试结果最终存储在哪里，若存储在外部，也会导致数据泄露的风险。</p>
+<p>此外，风险漏洞管理也十分关键，如当Gitlab进行镜像扫描后产生了一系列待修复的漏洞，谁拥有什么权限访问这些漏洞很重要，若管理员分配了错误的权限，则可能导致未授权访问的风险，这里的未授权访问主要针对的是第三方团队的开发人员。</p>
+<h2 id="45-打包和分发阶段的风险">4.5 打包和分发阶段的风险</h2>
+<p>经历测试阶段后，CI/CD管道会评估最新的测试结果，一旦测试通过会将软件进行打包以及后续的分发，此处以微服务架构的项目举例，打包阶段时，各个微服务通过Dockerfile文件进行镜像构建，并进行签名后将镜像上传至仓库。分发部署阶段时，Kubernetes会从镜像仓库中拉取最新版本的镜像以完成后续部署。以上过程中可能会产生一定的风险，主要包括以下两方面：</p>
+<p><strong>镜像自身内容引发的风险</strong></p>
+<p>若业务镜像依赖的基础镜像含有漏洞，可能导致攻击者利用已知漏洞对服务自身或其他微服务发起攻击，若镜像中的应用代码含有漏洞，也将会导致被攻击者利用的可能。</p>
+<p><strong>镜像分发过程引发的风险</strong></p>
+<p>由于CI/CD与Kubernetes可能不在同一环境，因而可能导致攻击者在分发过程中趁虚而入，利用镜像来源的不确定性（恶意镜像签名）对镜像的传输过程进行劫持，并替换成恶意镜像，亦或是对镜像仓库直接发起攻击，造成巨大影响。</p>
+<h1 id="五-----面向cicd使用者的安全建议">五.     面向CI/CD使用者的安全建议</h1>
+<p>在本次RSA演讲中，Dan Cornell面向CI/CD使用者提出了一些安全建议，</p>
+<p>笔者将其进行了汇总，主要包含以下几部分：</p>
+<p>针对4.1提出的风险，建议DevSecOps实施人员在CI/CD管道与源码仓库的接入上做好认证管理，并能够清晰的了解到项目源码的所处地，做好源码安全管控。</p>
+<p>针对4.2提出的风险，建议首先梳理项目中所有依赖的开源组件，可通过SBOM（Software Bill of Materials）进行梳理，并采用SCA（Software Components Analysis）工具对开源组件进行漏洞扫描。其次，当项目中引入了新的开源组件，能够具备针对性的安全管控措施。最后，引入扫描组件的自身风险范围也应达到可控。</p>
+<p>针对4.3提出的风险，建议对构建过程中的插件来源、插件需要访问的数据、数据最终的传送地进行确认，同时注意构建的频率是否异常。</p>
+<p>针对4.4提出的风险，建议首先确认测试阶段是否包含第三方团队，若包含则需要确定测试产生的流量以及测试结果的最终去处。其次，需要确认扫描工具自身的安全性，做好实时修复漏洞的准备。最后，风险漏洞管理需要给予用户适当访问权限，遵循最小权限原则。</p>
+<p>针对4.5提出的风险，建议首先从可靠源下载容器镜像，并定时对镜像进行漏洞扫描、漏洞修复以及后续的漏洞管理。其次，针对镜像构建过程进行签名，镜像拉取过程进行签名校验。最后，做好镜像仓库的安全管理，为镜像仓库用户分配合理访问项目的权限。</p>
+<h1 id="六-----总结">六.     总结</h1>
+<p>从近年RSA议题及创新沙盒入围的安全初创公司来看，DevSecOps已成为一项必不可少的话题，从最初的DevOps到安全左移的DevSecOps理念，这一过程必然会引起相应技术以及用户使用行为上的变革，将安全部分纳入DevOps并不难，难的是如何充分的践行DevSecOps理念，如我们所知，开发人员和运维人员通常没有安全背景，如何让其安全地使用CI/CD工具是一大问题，Dan Cornell的议题分享较为全面的阐述了使用CI/CD工具过程中需要注意的安全风险，并针对这些风险提出了相应的安全建议，可为各企业在DevSecOps的实际落地过程中提供一定参考。</p>
+<h1 id="七-----参考文献">七.     参考文献</h1>
+<p>[1] <a href="https://blog.gitguardian.com/codecov-supply-chain-breach/#what-happened-quick-timeline-of-events">https://blog.gitguardian.com/codecov-supply-chain-breach/#what-happened-quick-timeline-of-events</a></p>
+<p>[2] <a href="https://gist.github.com/davidrans/ca6e9ffa5865983d9f6aa00b7a4a1d10">https://gist.github.com/davidrans/ca6e9ffa5865983d9f6aa00b7a4a1d10</a></p>
+<p>[3] <a href="https://www.secrss.com/articles/35210">https://www.secrss.com/articles/35210</a></p>
+<p>[4] 北京金融科技产业联盟《供应链攻击安全启示 - SolarWinds事件分析》</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2022-07-01-%E7%BA%A2%E5%B2%A9%E5%AD%90%E4%B8%80%E6%97%A5%E6%B8%B8/" data-toggle="tooltip" data-placement="top" title="红岩子游">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2022
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

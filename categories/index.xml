@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 Jul 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tech</title>
+      <link>https://puming.zone/categories/tech/</link>
+      <pubDate>Wed, 06 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/categories/tech/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>life</title>
@@ -17,15 +26,6 @@
       <pubDate>Fri, 01 Jul 2022 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/categories/life/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tech</title>
-      <link>https://puming.zone/categories/tech/</link>
-      <pubDate>Wed, 08 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/categories/tech/</guid>
       <description></description>
     </item>
     

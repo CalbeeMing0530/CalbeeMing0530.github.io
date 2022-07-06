@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CI/CD on Ming Blog</title>
+    <link>https://puming.zone/tags/ci/cd/</link>
+    <description>Recent content in CI/CD on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Jul 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/ci/cd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何正确地使用CI/CD工具</title>
+      <link>https://puming.zone/post/2022-07-06-%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%9C%B0%E4%BD%BF%E7%94%A8cicd%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 06 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2022-07-06-%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%9C%B0%E4%BD%BF%E7%94%A8cicd%E5%B7%A5%E5%85%B7/</guid>
+      <description>一. 概述 2022 RSA大会上，来自Coalfire的副总裁和首席战略官Dan Cornelld的议题《What Executives Need to Know about CI/CD Pipelines and Supply Chain Security》</description>
+    </item>
+    
+  </channel>
+</rss>
