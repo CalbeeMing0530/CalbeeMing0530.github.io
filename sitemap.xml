@@ -8,7 +8,12 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/post/2021-12-31-goodbye-2022-what-up-2023/</loc>
+    <loc>https://puming.zone/post/2022-12-31-goodbye-2022-what-up-2023/</loc>
+    <lastmod>2022-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/life/</loc>
     <lastmod>2022-12-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -24,6 +29,11 @@
   
   <url>
     <loc>https://puming.zone/post/</loc>
+    <lastmod>2022-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
     <lastmod>2022-12-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -44,11 +54,6 @@
   
   <url>
     <loc>https://puming.zone/tags/security/</loc>
-    <lastmod>2022-07-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
     <lastmod>2022-07-06T00:00:00+00:00</lastmod>
   </url>
   
@@ -145,11 +150,6 @@
   <url>
     <loc>https://puming.zone/tags/%E7%9B%91%E6%8E%A7/</loc>
     <lastmod>2022-05-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2022-04-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
