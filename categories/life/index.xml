@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>life on Ming Blog</title>
+    <title>Life on Ming Blog</title>
     <link>https://puming.zone/categories/life/</link>
-    <description>Recent content in life on Ming Blog</description>
+    <description>Recent content in Life on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Dec 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/categories/life/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Goodbye 2022, what up 2023</title>
+      <link>https://puming.zone/post/2021-12-31-goodbye-2022-what-up-2023/</link>
+      <pubDate>Sat, 31 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2021-12-31-goodbye-2022-what-up-2023/</guid>
+      <description>2022年的最后一天，还有1个半小时就迎来新的一年了，自己真的很久没有写博客了，之前累计了一些没有完成的旧文看来也只能到2023年再发了。总</description>
+    </item>
     
     <item>
       <title>红岩子游</title>
