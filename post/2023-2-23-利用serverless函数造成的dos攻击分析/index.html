@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="利用Serverless函数造成的DoS攻击分析" />
+    <meta property="og:title" content="利用Serverless函数造成的DoS攻击分析" />
+    <meta property="twitter:title" content="利用Serverless函数造成的DoS攻击分析" />
+    
+
+    
+    <meta name="description" content="《 Warmonger: Inflicting Denial-of-Service via Serverless Functions in the Cloud 》论文分析">
+    <meta property="og:description" content="《 Warmonger: Inflicting Denial-of-Service via Serverless Functions in the Cloud 》论文分析" />
+    <meta property="twitter:description" content="《 Warmonger: Inflicting Denial-of-Service via Serverless Functions in the Cloud 》论文分析" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>利用Serverless函数造成的DoS攻击分析-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2023-2-23-%E5%88%A9%E7%94%A8serverless%E5%87%BD%E6%95%B0%E9%80%A0%E6%88%90%E7%9A%84dos%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e5%88%a9%e7%94%a8Serverless%e5%87%bd%e6%95%b0%e9%80%a0%e6%88%90%e7%9a%84DoS%e6%94%bb%e5%87%bb%e5%88%86%e6%9e%90.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/serverless" title="Serverless">
+                            Serverless
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-security" title="Cloud Security">
+                            Cloud Security
+                        </a>
+                        
+                    </div>
+                    <h1>利用Serverless函数造成的DoS攻击分析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Pu Ming
+                             
+                            on 
+                            Thursday, February 23, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-背景介绍">一. 背景介绍</h1>
+<p>来自美国南佛罗里达大学（University of South Florida）以及乔治梅森大学（George Mason University）的老师共同发表了一篇Serverless安全相关的论文（Warmonger: Inflicting Denial-of-Service via Serverless Functions in the Cloud），该论文提出SSP(Serverless Service Provider)存在多出口IP以及这些IP会在各Serverless用户间共享的脆弱性问题，这一脆弱性进一步会导致攻击者利用Serverless函数作为中介对目标服务器发送大量请求，从而触发在目标服务器前部署的IDS设备的检测规则，IDS将这些出口IP进行封锁，使得云租户部署的Serverless函数无法访问目标服务器，造成被拒绝服务。此外，该论文还通过各项实验验证了各SSP（AWS Lambda、Cloudflare Workers、Microsoft Azure Functions、Google App Engine ）的多出口IP使用模式，从而总结出出口IP变换规律，为Serverless攻防研究提供了土壤。最后该论文还提出了相应的防护方法。</p>
+<p><strong>warmonger</strong>是这一类攻击的总称，意思为“发起战争的人”，本质上讲，warmonger攻击是一种拒绝服务（DoS）攻击，目的是破坏受害者的操作，而不获得任何直接利益。但warmonger攻击与传统的DoS攻击又有以下不同：</p>
+<ul>
+<li>传统DoS攻击中，攻击者通常独立于受害者环境之外。而Warmonger攻击中，攻击者和受害者在同一环境下（同一FaaS平台上部署Serverless函数）。攻击者就像一个 &ldquo;挑事的人&rdquo;，在无服务器计算平台和目标服务器之间发起 &ldquo;战争&rdquo;。因此，将这种攻击命名为 Warmonger攻击。</li>
+<li>传统DoS攻击中，攻击者的目的是使目标服务器瘫痪或耗尽其带宽，而Warmonger攻击的目的是对目标服务器的IPS设备进行攻击，以使IPS设备阻止SSP的出口IP，这相比于传统DoS攻击实现难度容易很多。实际上，Warmonger攻击是传统DoS攻击的反面：DoS攻击试图寻找新的方法来规避IPS并对目标服务器造成损害；而Warmonger攻击使用恶意payload来 &ldquo;通知&quot;IPS攻击的到来，以引起IPS设备对相同出口IP用户的DoS。</li>
+</ul>
+<h1 id="二-攻击流程">二. 攻击流程</h1>
+<p>
+  <figure>
+    <img src="/img/%e5%88%a9%e7%94%a8Serverless%e5%87%bd%e6%95%b0%e9%80%a0%e6%88%90%e7%9a%84DoS%e6%94%bb%e5%87%bb%e5%88%86%e6%9e%90/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1.攻击流程图</figcaption></center>
+  </figure>
+
+</p>
+<ul>
+<li>攻击者通过某种方法收集SSP的出口IP，发现规律，比如发现一直常用的IP可能为10个左右（数量上每个SSP均有不同，论文中提到cloudflare wokers平均使用4个出口IP，并在租户中共享，每月进行一次出口IP轮换）；</li>
+<li>攻击者编写FaaS函数并部署在SSP中，该函数的主要目的为向指定目标服务器发送大量恶意request请求，以便触发IPS/WAF设备的检测规则，从而对SSP的出口IP进行封锁；</li>
+<li>攻击者触发其编写的FaaS函数，大量恶意请求被发送至目标服务器前部署的IPS中，触发IPS检测规则，最终导致SSP的大量出口IP被封锁；</li>
+<li>由于visitor(访客)与攻击者共享同一组出口IP，因而这些访客无法访问目的服务器，进而引起访客被拒绝服务；</li>
+</ul>
+<h1 id="三-关键利用点">三. 关键利用点</h1>
+<ul>
+<li>
+<p>SSP在不同租户中共享出口IP
+1）统计出口IP使用模式（如多久进行一次出口IP轮换、是否受访客地理位置影响、是否受Serverless函数部署地理位置影响、出现频次较高的出口IP）</p>
+</li>
+<li>
+<p>触发IPS的封禁IP操作
+1）泛洪攻击，大量请求Serverless函数或在Serverless函数中发起大量请求以触发IP被封
+2）发送恶意请求，Serverless函数中对目标服务器的请求中带有大量恶意payload以触发IP被封
+3）端口消耗及扫描，Serverless函数中建立一个自定义的端口扫描器，不断向目标服务器发送端口扫描包以触发IP被封
+4）SSH, Serverless函数中不断对目标服务器进行SSH操作以触发IP被封</p>
+</li>
+<li>
+<p>FaaS函数部署成本低
+1）免费部署
+2）只用负责函数开发侧，服务端无需管理</p>
+</li>
+<li>
+<p>FaaS租户访问同一目标服务器
+1）限于用户访问的是公共的服务（目标服务器），比如12306火车票购买平台、机票购买平台、github等，因为只有这样才能造成大范围的访问被拒绝服务；</p>
+</li>
+</ul>
+<h1 id="四-影响范围">四. 影响范围</h1>
+<p>影响范围应从以下几点考虑：</p>
+<ul>
+<li>各SSP是否有针对单个FaaS函数在单位时间内执行时间的限制，如果有，每个SSP限制规则不一，这也会导致影响范围大小，例如lambda支持在函数中并发执行，但每秒最多可以发送100个请求，AWS和Azure不支持并发，每秒只能发送5-8个请求，因此可以看出影响范围差距很明显；</li>
+<li>各SSP的常用出口IP数量以及出口IP的轮换周期也会最终影响范围的大小，例如论文中提到Cloudflare Workers常用出口IP仅4个，并平均1个月更换一次，那么对于攻击者而言是较好利用的。AWS Lambda由于出口IP每天都在变化因此无法轻易找出常用IP，那么对于攻击者而言必然加大了攻击难度，也会最终导致影响范围；</li>
+<li>FaaS租户访问的目标服务器是否一致，例如租户使用FaaS函数进行定时抢票操作，那么目标服务器可能为12306或某航空公司售票网站等，这些目标服务器对各租户而言是一致的，因此可以扩大危害范围，但如果各租户访问的目标服务器均不一致，那么危害范围会急剧缩小；</li>
+</ul>
+<h1 id="五-防护方法">五. 防护方法</h1>
+<ul>
+<li>云厂商角度
+1）从SSP的硬件设置、软件配置、服务组合出发，采取多方位保护方法，如轮换出口IP、冷却IP（停止重复IP的使用）、扩大IP池、出口IP不在租户中共享、恶意行为识别等。
+ps: 实际上不在租户中共享IP，即每个用户一个出口IP也是一种很危险的做法，因为可能会引起“<strong>point kill</strong>”攻击（点杀攻击），即攻击者可以针对单个出口IP进行攻击；</li>
+<li>目标服务器角度
+1）在租户间不共享IP的前提下，目标服务器可以接收带有凭证的访问进行相应缓解，例如目标服务器为Github，由于Github可以启动基于token的速率限制，如允许每小时有5000个认证请求，这种限制通常不会阻止请求发出的IP地址（出口IP），所以当攻击者发起warmonger攻击时需要先突破5000个认证请求，因此可在一定程度上缓解warmonger攻击；</li>
+<li>Ipv6
+1）IPv6的部署理论可以完全挫败Warmonger的攻击，因为SSP能够负担更多的IPv6地址，并且不在用户之间共享；
+ps: 论文中对AWS Lambda、Cloudflare Workers、Microsoft Azure Functions、Google App Engine四个SSP进行了Ipv6的支持调研，发现目前仅有Google 和Cloudflare支持ipv6，Azure和AWS给出了“network is unreachable” 和“address family not supported by protocol”的错误信息</li>
+</ul>
+<h1 id="六-参考文献">六. 参考文献</h1>
+<p>[1] Warmonger: Inflicting Denial-of-Service via Serverless Functions in the Cloud Junjie Xiong University of South Florida <a href="mailto:junjiexiong@usf.edu">junjiexiong@usf.edu</a> ，Mingkui Wei George Mason University <a href="mailto:mwei2@gmu.edu">mwei2@gmu.edu</a>，Zhuo Lu</p>
+<p>University of South Florida <a href="mailto:zhuolu@usf.edu">zhuolu@usf.edu</a>，Yao Liu University of South Florida <a href="mailto:yliu21@usf.edu">yliu21@usf.edu</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2022-12-31-goodbye-2022-what-up-2023/" data-toggle="tooltip" data-placement="top" title="Goodbye 2022, what up 2023">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/" data-toggle="tooltip" data-placement="top" title="OpenTelemetry Operator for Kubernetes实践">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
