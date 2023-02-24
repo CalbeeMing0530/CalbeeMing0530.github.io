@@ -6,10 +6,19 @@
     <description>Recent content in Tech on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 06 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Feb 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OpenTelemetry Operator for Kubernetes实践</title>
+      <link>https://puming.zone/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</guid>
+      <description>一. 运行环境 Kubernetes 1.23.1 单集群两节点 192.168.19.210/192.168.19.211 Ubuntu 20.04 微服务开发语言：Python 3.7 二. 实践过程 2.1 部署追踪服务Jaeger 部署All in one jaeger yaml如下 apiVersion: v1 kind: Service metadata:</description>
+    </item>
     
     <item>
       <title>如何正确地使用CI/CD工具</title>

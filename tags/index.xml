@@ -6,10 +6,55 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Dec 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Feb 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>API安全</title>
+      <link>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud Native</title>
+      <link>https://puming.zone/tags/cloud-native/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cloud-native/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://puming.zone/tags/kubernetes/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Observability</title>
+      <link>https://puming.zone/tags/observability/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/observability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云原生可观测性</title>
+      <link>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/</link>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>life</title>
@@ -75,29 +120,11 @@
     </item>
     
     <item>
-      <title>Cloud Native</title>
-      <link>https://puming.zone/tags/cloud-native/</link>
-      <pubDate>Wed, 08 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/cloud-native/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Etcd</title>
       <link>https://puming.zone/tags/etcd/</link>
       <pubDate>Wed, 08 Jun 2022 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/etcd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://puming.zone/tags/kubernetes/</link>
-      <pubDate>Wed, 08 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -134,15 +161,6 @@
       <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/api-security/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>API安全</title>
-      <link>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</guid>
       <description></description>
     </item>
     
