@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="云攻防课程系列：云计算基础与整体安全" />
+    <meta property="og:title" content="云攻防课程系列：云计算基础与整体安全" />
+    <meta property="twitter:title" content="云攻防课程系列：云计算基础与整体安全" />
+    
+
+    
+    <meta name="description" content="云攻防课程系列：云计算基础与整体安全">
+    <meta property="og:description" content="云攻防课程系列：云计算基础与整体安全" />
+    <meta property="twitter:description" content="云攻防课程系列：云计算基础与整体安全" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>云攻防课程系列：云计算基础与整体安全-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2023-05-04-%E4%BA%91%E6%94%BB%E9%98%B2%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B4%E4%BD%93%E5%AE%89%E5%85%A8/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                    </div>
+                    <h1>云攻防课程系列：云计算基础与整体安全</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, May 4, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/aawAVNpMuaHpikMfqagYOA">《云攻防课程系列（一）：云计算基础与整体安全》</a></p>
+<h2 id="专题云攻防课程系列">专题：【云攻防课程系列】</h2>
+<h2 id="往期回顾">往期回顾：</h2>
+<p><a href="https://mp.weixin.qq.com/s/c0jz5c-svnznaf_ABeYbxg">云攻防课程系列（二）：云上攻击路径</a></p>
+<p><a href="https://mp.weixin.qq.com/s/e1JJYsbBy0QMEICIJfyGkQ">云攻防课程系列（三）：云上资产发现与信息收集</a></p>
+<p><a href="https://mp.weixin.qq.com/s/s0orfp0eBUORyykW1bWFvg">云攻防课程系列（四）：云服务安全攻防</a></p>
+<p><a href="https://mp.weixin.qq.com/s/0x-m32kz7t5PYtD2DtmElQ">云攻防课程系列（五）：云原生安全攻防</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247495339&amp;idx=1&amp;sn=0f66b5388f11d6f42cad47b8ce3ba108&amp;chksm=e84c4874df3bc162ec6a63cf3ba5751fea1f68821e60ac47c00bfaf25d71812274de9156ed5d&amp;mpshare=1&amp;scene=1&amp;srcid=0509B1hR9n2dkTw7hOsCzuJt&amp;sharer_sharetime=1685284499550&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.3.70185&amp;platform=mac#rd">云攻防课程系列（六）：虚拟化安全攻防</a></p>
+<h1 id="一-概述">一. 概述</h1>
+<p>近日，绿盟科技星云实验室与北京豪密科技有限公司联合推出了一项云攻防技术培训课程。该课程旨在根据客户需求，为客户提供专题培训，帮助客户熟悉常见的云安全架构，并提供云攻防技术理解，同时结合模拟攻击实验提升攻防能力。该课程参与学员涵盖了特殊行业的单位、国企等十多家单位。课程共分为六个章节，分别就云计算基础、云上攻击面、云上资产发现与信息收集、云服务层攻防、云原生安全攻防以及虚拟化安全攻防进行了详细介绍。</p>
+<p>本系列文章旨在以科普为目的面向各位读者推出，本文是该系列的第一篇，涵盖了云计算基础架构和云计算安全的核心内容。文章首先从云计算的基本概念和体系架构入手，方便读者理解云计算的基本定义、特征以及常见的云计算部署模型，如公有云、私有云、社区云、混合云和云原生等。然后，文章从云化风险分析、云安全概念模型以及范围和职责等角度出发，帮助读者深入了解云计算整体安全。最后，笔者对云安全能力发展趋势进行展望并介绍了星云实验室的一些主要工作。</p>
+<h1 id="二-云计算基础与整体安全">二. 云计算基础与整体安全</h1>
+<h2 id="21-云计算基础">2.1 云计算基础</h2>
+<h3 id="211-云计算基本定义">2.1.1 云计算基本定义</h3>
+<p>关于云计算的定义，NIST 以及 ISO/IEC 这两大机构都给出了权威定义。NIST 主张云计算是一种支持无处不在、便捷、按需、广泛网络访问的公共计算资源池。通俗地说，使用者只需要具备连接上云的能力，就可以通过在公共资源池中调配、部署、扩充、缩减、回收，以按需提供的、类似于效用计算的分配和消费模式。ISO/IEC也强调云计算需要具备网络可访问、可扩展、弹性，可共享的资源池。</p>
+<p>NIST对云计算的定义中包含了五个基本特征、三个云服务模型、以及四个云部署模型，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/1.png" alt="image">
+    <center><figcaption>图1 NIST对云计算的定义</figcaption></center>
+  </figure>
+
+</p>
+<p>云服务具有五大特征，包括广泛的网络访问、可测量的服务、按需自服务、快速弹性和可扩展性以及资源池化。云服务也可分为三种类型，包括服务即软件 (SaaS)、平台即服务 (PaaS) 和基础设施即服务 (IaaS)。云部署模型包括公共云、私有云和社区云，以及混合云和多云。其中，混合云是多个云服务提供商的组合，而多云则是多个云服务商的组合，以满足不同的需求。</p>
+<h3 id="212-云计算参考架构">2.1.2 云计算参考架构</h3>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/2.png" alt="image">
+    <center><figcaption>图2 NIST提出的云计算参考架构</figcaption></center>
+  </figure>
+
+</p>
+<p>云计算参考架构，笔者仍然以NIST提出的标准进行解释，这个标准主要确定了云计算中的主要参与者以及对应的功能，下面这张图描述了一个通用架构，其中定义了5个参与者，分别为云消费者，云提供者，云载体，云审计者和云代理。</p>
+<p>云提供者是向云消费者提供云服务的个人、组织或实体。他们负责安装、管理和维护云基础设施中的软件应用程序、平台和 IT 基础设施。云消费者是使用云提供者服务的个人或组织。他们在 SaaS 层面使用应用程序，在 PaaS 层面开发、部署和管理托管于云平台中的应用程序，在 IaaS 层面创建、安装、管理和监控作为 IT 基础设施操作的服务。云代理是协调云提供者和云消费者关系的实体。他们的目的是提供更加贴合需求的服务，通过简化和提升服务和契约、集合多重云服务或提供有附加价值的服务器来实现。云审计者是中立评估云服务栈性能和安全性的机构或实体，并保证相应的服务水平协议是完整的。云载体是云服务提供商向云消费者提供云服务时所使用的连接和传输媒介。</p>
+<h3 id="213-共享职责模型">2.1.3 共享职责模型</h3>
+<p>云计算是一种共享技术模式，不同的组织通常会承担实施和管理不同部分的责任。因此，安全职责也由不同的组织分担，云计算自然形成了共享责任模型，清晰的划分出了云提供商和消费者的边界，右边这张图我们可以清晰的看出在IaaS、PaaS、SaaS三个云计算模型中，云提供商和云服务商的责任</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/3.png" alt="image">
+    <center><figcaption>图3 云计算共享责任模型</figcaption></center>
+  </figure>
+
+</p>
+<p>云服务参与者需要承担相应职责，以确保云安全和合规性。在 SaaS、PaaS 和 IaaS 模式下，云服务提供商、云消费者和云代理等各方的责任范围是不同的。云服务提供商主要负责基本安全、周边安全、日志/监控/审计和应用安全性，而云消费者则需要负责在平台上部署的应用的安全配置。云代理则负责协调云服务提供商和云消费者之间的关系，并提供安全服务等。在云服务全过程中，安全职责是与任何角色对于架构堆栈的控制程度相对应的。</p>
+<h2 id="22-云计算安全">2.2 云计算安全</h2>
+<h3 id="221-云化风险分析">2.2.1 云化风险分析</h3>
+<p>我们知道，云计算带来高效、弹性、便捷的同时，新的风险也在增加，但原有的安全问题也并没有消除。由于数据的重要性加上云用户对数据的掌控权丢失，那么如何让用户放心地使用云，就必须解决云计算本身面临的各种安全问题。云计算的风险包括通用风险与具体场景的特有风险。</p>
+<h4 id="2211-通用风险">2.2.1.1 通用风险</h4>
+<p>云计算平台面临着多种安全风险，包括平台安全风险、虚拟化安全风险、云应用安全风险、数据与隐私泄露风险、法律与合规性风险、制度管理风险等。其中，平台安全风险是云计算平台最普遍存在的风险之一，由于云计算规模庞大，承载各类服务，平台安全风险被利用所造成的后果和破坏性远超传统应用平台。虚拟化安全风险是虚拟化技术所特有的安全风险，包括虚拟化层引入的新安全风险和新的虚拟化特有的安全风险。云应用安全风险需要分析云应用自身的安全风险，包括 API、Web 应用等面临的安全风险，同时还需要考虑整个网络体系的安全，特别是底层计算与网络架构。数据与隐私泄露风险是由于云上数据泄露所引发的风险，其原因是没有对云上的服务、数据访问进行认证授权，或访问凭证暴露在代码仓库、镜像或网站页面中，导致攻击者能够非授权地通过凭证访问云上数据。法律与合规性风险是指云服务商声明的 SLA 协议以及服务内容在法律意义上存在的违反规定的风险，如网络安全法提出的安全保护要求等。制度管理风险是由于云服务商或用户部署、使用、运营云服务的过程中的制度不完备所带来的风险[2]。</p>
+<h4 id="2212-云计算应用场景安全风险">2.2.1.2 云计算应用场景安全风险</h4>
+<p>除了通用安全风险外，笔者认为还存在一些应用场景安全风险[2]：</p>
+<ul>
+<li>公有云安全风险</li>
+</ul>
+<p>主要为云应用的安全风险与云服务商的安全风险。公有云上应用的主要安全风险有两种：漏洞利用和弱密码爆破。攻击者利用漏洞利用或弱密码爆破入侵部分云主机后，一般利用多种黑客工具进行扩散传播，最终攻击手段为挖矿、勒索、窃密、DDoS攻击完全取决攻击者的喜好和目的。</p>
+<ul>
+<li>私有云/行业云安全风险</li>
+</ul>
+<p>相比公有云，私有云/行业云因其业务差异大有较大的定制需求，在应对用户业务本身安全问题也是私有云安全重要的一部分。如金融行业云面临欺诈风险，攻击者利用猫池、手机墙，修改手机硬件的模拟器，模仿正常用户的注册、认证、使用等流程从而不正当获利</p>
+<ul>
+<li>多云/混合云安全风险</li>
+</ul>
+<p>企业将业务部署在公有云上，其安全能力建设重度依赖云服务商，而各云厂商安全能力差异性较大且水平参差不齐，无法直接使用一套安全方案。此外，Gartner分析得出99%以上的云安全事件其根本原因将是最终用户在云上的错误配置，在多云或混合云的场景下，用户无法保证在所有环境中保持统一、正确的安全策略，从而引发数据泄露或攻击者渗透穿越。</p>
+<ul>
+<li>云原生安全风险</li>
+</ul>
+<p>云原生可称为云计算的下半场，近年兴起的容器和编排技术凭借其弹性敏捷的特性和活跃强大的社区支持，成为了云原生生态的重要支撑技术。容器化部署形态也在改变云端应用的设计、开发、部署和运行，从而重构云上业务模式。从IT基础设施的视角看，云原生系统底层是容器，其基于操作系统虚拟化技术，跟其他的虚拟化云计算平台一样，存在逃逸和云内横向移动的风险；上层是以微服务为中心的容器编排、服务网格、无服务器计算（Serverless Computing）等系统，其API、业务存在被攻击的风险。此外，从DevOps的视角看，云原生系统所包含的软件供应链（如第三方软件库、容器镜像等、第三方厂商非授权发布软件仓库等）也存在被投毒或恶意攻击的风险；整个开发环节，如CI/CD，也存在被攻击的风险。</p>
+<ul>
+<li>5G/MEC安全风险</li>
+</ul>
+<p>5G/MEC也是赋能工业生产的重要通信和计算基础设施，它们的底层均是以云计算为支撑技术，例如虚拟化、SDN和NFV等。5G/MEC系统对时延、可靠性和安全性有很高的要求。很多生产业务对延迟有严格要求，如远程塔吊控制信息流的端到端延迟要小于 18ms一方面，5G网元和MEC系统都是基于云计算技术构建的，其存在云计算本身的风险；另一方面，5G/MEC系统还受到泛终端接入、本地安全管理、MEC平台漏洞、攻击企业云、攻击核心网等安全问题的困扰。</p>
+<h3 id="222-云安全体系架构">2.2.2 云安全体系架构</h3>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/4.png" alt="image">
+    <center><figcaption>图4 云安全体系架构</figcaption></center>
+  </figure>
+
+</p>
+<p>云计算整体安全体系包括技术架构、安全流程和人员。从技术架构角度，进而可细分为四层，自底向上分别为基础云安全能力、场景化复合云安全能力、云安全框架方法论和架构，以及领域行业级安全解决方案[3]。其中：</p>
+<p><strong>基础云安全能力</strong></p>
+<p>云领域较基础的安全能力，只应对某单一类型的安全风险，如入侵检测、URL过滤等。</p>
+<p><strong>复合云安全能力</strong></p>
+<p>即产品级解决方案，为多种基础安全能力的聚合，并且基于业务场景做一些变形，旨在应对某单一场景下的多种安全风险，如Gartner提出CWPP、CSPM等。</p>
+<p><strong>云安全框架/方法论/架构</strong></p>
+<p>基于业务系统的风险分析和一定方法论，指导如何利用人、流程和技术应对安全风险。</p>
+<p><strong>领域/行业级安全解决方案</strong></p>
+<p>应对某领域或行业场景集的整体安全解决方案，如：政务云安全解决方案、多云安全解决方案等。以安全框架方法论和架构为理论指引，将人、流程和技术(云基础能力或场景化复合云安全能力)进行有机的结合。</p>
+<p>更多相关内容可参考《绿盟科技云安全纲领中》[3]一文，此处不做赘述。</p>
+<h3 id="223-云安全能力发展趋势展望">2.2.3 云安全能力发展趋势展望</h3>
+<h4 id="2231-云上攻防">2.2.3.1 云上攻防</h4>
+<p>从驱动力的角度看，云计算安全也在发生巨大的变化。当前云计算安全建设的驱动力主要是合规性要求。其中最大的动力是满足等级保护2.0标准中云计算安全的要求，以及相关主管机构所颁布的云计算安全条例，这期间的云计算安全主要是各类安全能力的建设。</p>
+<p>然而能力建设只是过程，并非目标。事实上，安全的本质是对抗，安全能力的运营，抵御各类威胁，才是云安全的最终目标。云计算已经得到了广泛应用，可预见国家支持的威胁、大型攻防对抗活动，以及各种网络犯罪会瞄准部署在云计算平台之上的各类服务。</p>
+<p>星云实验室提出了高效、沉淀、自动化的理念，从以攻促防的角度结合自研云原生靶场Metarget,实现了攻击技术演进推动防守升级，加速攻击研究、培养对抗技能，加速防御能力验证三个主要目的，靶场方面，Metarget目前已开源，支持云原生核心组件如Docker、containerd、runC、Kubernetes漏洞复现，相关CVE漏洞覆盖面全，Metarget（https://github.com/Metarget/metarget）还于近期入选了CNCF的sandbox项目。</p>
+<p>
+  <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/5.png" alt="image">
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/6.png" alt="image">
+    <center><figcaption>图5 Metarget入选CNCF Sandbox项目</figcaption></center>
+  </figure>
+
+</p>
+<h4 id="2232-云安全态势与安全能力评估">2.2.3.2 云安全态势与安全能力评估</h4>
+<p>云安全方案虽然再不断创新，但我们对业务上云是否安全、云环境是否安全、云安全平台是否可靠无从得知，因而笔者认为对应安全评估的能力是迫在眉睫的，目前BAS(入侵与攻击模拟平台)是云安全的一个发展趋势。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/7.png" alt="image">
+    <center><figcaption>图6 绿盟云原生BAS</figcaption></center>
+  </figure>
+
+</p>
+<p>星云实验室对此孵化了一款云原生BAS平台，CNBAS，主要目的是对用户的云原生环境以及安全能力项进行评估，利用各种攻击手段发现风险，更侧重于漏洞和情报的利用，攻击的链路组合，最终可以输出安全风险报告，给出安全建议，从而帮用户早于对手发现威胁，规避风险。</p>
+<h4 id="2233-云上风险发现">2.2.3.3 云上风险发现</h4>
+<p>从监管部门的角度，对云上风险进行治理，有助于确保重要数据和关键数据不外泄、重要基础设施（包括政府站点服务、智能网联车、工业互联网等）正常运行不造成社会危害，以及避免各类伴生网络攻击和地缘政治冲突，是非常必要的。但云上安全治理在未来一段时间内，涉及到云上资产与风险测绘、梳理云上资产归属，以及相关的治理体系和技术建设，将是一个较为长期、体系化的过程。</p>
+<p>从机构的角度，对自身相关的云上风险进行管理和缓解，则是非常必要和可行的。Gartner在云安全框架中将配置和管理面的安全统称为云安全态势管理（Security Posture Management， CSPM） ，其中最重要的是各类云服务对外暴露的管理面服务是否存在错误配置或弱访问凭证等风险。如果再把数据面服务暴露的风险防护加上，即云上的整体暴露的攻击面进行管理，Gartner又把这部分安全技术合称为外部攻击面管理（External Attack Surface Management， EASM) ，并将该技术列入了2022年安全与风险管理趋势中，可见其重要程度，而外部攻击面管理，主要就是持续测绘互联网上各类资产与服务的暴露面，分析其面临的攻击面，特别是在攻击者利用之前，及时发现并缓解潜在的风险。</p>
+<p>星云实验室借助测绘技术对云上数据泄露进行风险测绘，从而可以了解具体是“谁”在“哪里”泄露了“多少”，“什么”，以及有什么“后果”，从而实现发现、分析、治理的闭环。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/8.png" alt="image">
+    <center><figcaption>图7 云上风险发现</figcaption></center>
+  </figure>
+
+</p>
+<h4 id="2234-api与服务类安全">2.2.3.4 API与服务类安全</h4>
+<p>在市场上已存在大量云基础设施安全设备、容器安全产品、云安全解决方案后，可以预见到的是，云应用安全是目前能看到云计算的未来，API作为云应用交互的媒介，其自身的安全必然是需要研究和探索的。星云实验室孵化出了云原生API安全解决方案，主要用于解决云原生环境下资产理不清、链路看不见、滥用防不住、信息会泄漏等问题，实现防护粒度基于每个微服务，并且可对云原生环境下的东西向流量进行威胁防护。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/9.png" alt="image">
+    <center><figcaption>图8 API安全</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="三-总结">三. 总结</h1>
+<p>本文作者根据课程内容，简要介绍了云计算和云安全的基本概念、理论框架以及发展趋势，旨在科普相关知识，帮助更多读者深入了解云计算和云安全。由于文中可能存在错误或不当之处，欢迎读者批评指正，以使得文章更加准确和完善。</p>
+<p>最后笔者推荐由星云实验室牵头对外发布的一些参考资料，希望可以给各位读者带来帮助。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%ba%91%e6%94%bb%e9%98%b2%e8%af%be%e7%a8%8b/10.png" alt="image">
+    <center><figcaption>图9 推荐阅读</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="四-参考文献">四. 参考文献</h1>
+<p>[1] 《云原生安全 – 攻防实践与体系构建》</p>
+<p>[2] <a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247493450&amp;idx=1&amp;sn=207233ce8645881310bdebd62316c7a9&amp;chksm=e84c4195df3bc883ef61d995c169c5a181a97166c41ec6c6e13586a7dc1ad1bf1fe6464589af&amp;mpshare=1&amp;scene=1&amp;srcid=1008UK5qstECqpdcdxz9m3K3&amp;sharer_sharetime=1682074475111&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.3.6008&amp;platform=win#rd">《绿盟科技云安全纲领上》</a></p>
+<p>[3] <a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247493485&amp;idx=1&amp;sn=b23094071581dfe656d74dff5634147e&amp;chksm=e84c41b2df3bc8a4da07cf6a74e6e49054445b6f2a44ceea19f673537d76cea2a8480fa4a42a&amp;mpshare=1&amp;scene=1&amp;srcid=10107LtrhinqbdayuEtM47PM&amp;sharer_sharetime=1682074517973&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.3.6008&amp;platform=win#rd">《绿盟科技云安全纲领中》</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-04-11-rsa%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92%E7%9B%98%E7%82%B9dazz-%E9%9D%A2%E5%90%91saas%E5%8C%96%E7%9A%84%E4%BA%91%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E7%BC%93%E8%A7%A3%E5%B9%B3%E5%8F%B0/" data-toggle="tooltip" data-placement="top" title="RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -6,26 +6,35 @@
     <description>Recent content in Cloud Native on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 May 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/cloud-native/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>云攻防课程系列：云计算基础与整体安全</title>
+      <link>https://puming.zone/post/2023-05-04-%E4%BA%91%E6%94%BB%E9%98%B2%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B4%E4%BD%93%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2023-05-04-%E4%BA%91%E6%94%BB%E9%98%B2%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B4%E4%BD%93%E5%AE%89%E5%85%A8/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《云攻防课程系列（一）：云计算基础与整体安全》 专题：【云攻防课程系列】 往期回顾： 云攻防课程系列（二）：云上攻击</description>
+    </item>
+    
+    <item>
       <title>云原生API安全：背景、态势与风险防护</title>
-      <link>https://puming.zone/post/2023-3-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</link>
+      <link>https://puming.zone/post/2023-03-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</link>
       <pubDate>Thu, 23 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://puming.zone/post/2023-3-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</guid>
+      <guid>https://puming.zone/post/2023-03-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</guid>
       <description>本文转自绿盟科技研究通讯公众号 《云原生API安全：背景、态势与风险防护》 专题：【云原生安全】 往期回顾： 【云原生应用安全】云原生应用安全防护思</description>
     </item>
     
     <item>
       <title>OpenTelemetry Operator for Kubernetes实践</title>
-      <link>https://puming.zone/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</link>
+      <link>https://puming.zone/post/2023-02-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://puming.zone/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</guid>
+      <guid>https://puming.zone/post/2023-02-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</guid>
       <description>一. 运行环境 Kubernetes 1.23.1 单集群两节点 192.168.19.210/192.168.19.211 Ubuntu 20.04 微服务开发语言：Python 3.7 二. 实践过程 2.1 部署追踪服务Jaeger 部署All in one jaeger yaml如下 apiVersion: v1 kind: Service metadata:</description>
     </item>
     

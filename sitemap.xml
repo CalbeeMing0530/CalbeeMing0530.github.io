@@ -4,21 +4,56 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/devsecops/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
+    <loc>https://puming.zone/tags/cloud-native/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/post/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2023-05-04-%E4%BA%91%E6%94%BB%E9%98%B2%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B4%E4%BD%93%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</loc>
+    <lastmod>2023-05-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/devsecops/</loc>
     <lastmod>2023-04-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -28,22 +63,12 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/post/2023rsa%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92%E7%9B%98%E7%82%B9dazz-%E9%9D%A2%E5%90%91saas%E5%8C%96%E7%9A%84%E4%BA%91%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E7%BC%93%E8%A7%A3%E5%B9%B3%E5%8F%B0/</loc>
+    <loc>https://puming.zone/post/2023-04-11-rsa%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92%E7%9B%98%E7%82%B9dazz-%E9%9D%A2%E5%90%91saas%E5%8C%96%E7%9A%84%E4%BA%91%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E7%BC%93%E8%A7%A3%E5%B9%B3%E5%8F%B0/</loc>
     <lastmod>2023-04-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/tags/saas/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/tech/</loc>
     <lastmod>2023-04-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -68,17 +93,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/cloud-native/</loc>
-    <lastmod>2023-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/2023-3-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</loc>
-    <lastmod>2023-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</loc>
+    <loc>https://puming.zone/post/2023-03-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</loc>
     <lastmod>2023-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -93,7 +108,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/post/2023-2-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</loc>
+    <loc>https://puming.zone/post/2023-02-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2023-02-24T00:00:00+00:00</lastmod>
   </url>
   
@@ -113,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/post/2023-2-23-%E5%88%A9%E7%94%A8serverless%E5%87%BD%E6%95%B0%E9%80%A0%E6%88%90%E7%9A%84dos%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/</loc>
+    <loc>https://puming.zone/post/2023-02-23-%E5%88%A9%E7%94%A8serverless%E5%87%BD%E6%95%B0%E9%80%A0%E6%88%90%E7%9A%84dos%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/</loc>
     <lastmod>2023-02-23T00:00:00+00:00</lastmod>
   </url>
   

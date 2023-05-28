@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="OpenTelemetry Operator for Kubernetes实践" />
+    <meta property="og:title" content="OpenTelemetry Operator for Kubernetes实践" />
+    <meta property="twitter:title" content="OpenTelemetry Operator for Kubernetes实践" />
+    
+
+    
+    <meta name="description" content="OTEL Operator在k8s环境中的可观测性实践">
+    <meta property="og:description" content="OTEL Operator在k8s环境中的可观测性实践" />
+    <meta property="twitter:description" content="OTEL Operator在k8s环境中的可观测性实践" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>OpenTelemetry Operator for Kubernetes实践-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2023-02-24-opentelemetry-operator-for-kubernetes%E5%AE%9E%E8%B7%B5/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/OpenTelemetryOperatorforKubernetes%e5%ae%9e%e8%b7%b5.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7" title="云原生可观测性">
+                            云原生可观测性
+                        </a>
+                        
+                        <a class="tag" href="/tags/api%E5%AE%89%E5%85%A8" title="API安全">
+                            API安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        <a class="tag" href="/tags/observability" title="Observability">
+                            Observability
+                        </a>
+                        
+                        <a class="tag" href="/tags/kubernetes" title="Kubernetes">
+                            Kubernetes
+                        </a>
+                        
+                    </div>
+                    <h1>OpenTelemetry Operator for Kubernetes实践</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Pu Ming
+                             
+                            on 
+                            Friday, February 24, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-运行环境">一. 运行环境</h1>
+<p>Kubernetes 1.23.1 单集群两节点 192.168.19.210/192.168.19.211</p>
+<p>Ubuntu 20.04</p>
+<p>微服务开发语言：Python 3.7</p>
+<h1 id="二-实践过程">二. 实践过程</h1>
+<h2 id="21-部署追踪服务jaeger">2.1 部署追踪服务Jaeger</h2>
+<p>部署All in one jaeger</p>
+<p>yaml如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: jaeger-all-in-one
+  <span style="color:#ff79c6">namespace</span>: opentelemetry
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: opentelemetry
+    <span style="color:#ff79c6">component</span>: otel-collector
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">ports</span>:
+  - <span style="color:#ff79c6">name</span>: collector
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">14250</span>
+    <span style="color:#ff79c6">protocol</span>: TCP
+    <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">14250</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">component</span>: otel-collector
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: jaeger-all-in-one-ui
+  <span style="color:#ff79c6">namespace</span>: opentelemetry
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: opentelemetry
+    <span style="color:#ff79c6">component</span>: otel-collector
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">ports</span>:
+  - <span style="color:#ff79c6">name</span>: jaeger
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">16686</span>
+    <span style="color:#ff79c6">protocol</span>: TCP
+    <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">16686</span>
+    <span style="color:#ff79c6">nodePort</span>: <span style="color:#bd93f9">30086</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">component</span>: otel-collector
+  <span style="color:#ff79c6">type</span>: NodePort
+---
+<span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: jaeger-all-in-one
+  <span style="color:#ff79c6">namespace</span>: opentelemetry
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: opentelemetry
+    <span style="color:#ff79c6">component</span>: otel-collector
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">matchLabels</span>:
+      <span style="color:#ff79c6">app</span>: opentelemetry
+      <span style="color:#ff79c6">component</span>: otel-collector
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: opentelemetry
+        <span style="color:#ff79c6">component</span>: otel-collector
+    <span style="color:#ff79c6">spec</span>:
+      <span style="color:#ff79c6">containers</span>:
+      - <span style="color:#ff79c6">image</span>: jaegertracing/all-in-one:<span style="color:#bd93f9">1.35</span>
+        <span style="color:#ff79c6">name</span>: jaeger
+        <span style="color:#ff79c6">ports</span>:
+        - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">16686</span>
+        - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">14268</span>
+        - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">14250</span> 
+</code></pre></div><p>部署后查看状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl get pod,svc -n opentelemetry
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/jaeger-all-in-one-6475d5bf77-xm78p   1/1     Running   <span style="color:#bd93f9">0</span>          2d
+ 
+NAME                           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>           AGE
+service/jaeger-all-in-one      ClusterIP   10.102.246.238   &lt;none&gt;        14250/TCP         2d
+service/jaeger-all-in-one-ui   NodePort    10.108.73.154    &lt;none&gt;        16686:30086/TCP   2d
+</code></pre></div><h2 id="22-部署opentelemetry-operator">2.2 部署Opentelemetry Operator</h2>
+<h3 id="221-部署cert-manager">2.2.1 部署cert-manager</h3>
+<p>Opentelemetry Operator是针对Kubernetes Operator的二次封装实现，主要管理Opentelemetry Collector以及使用Opentelemetry检测库完成微服务应用Pod的自动注入，cert-manager需要预先安装</p>
+<p>kubectl apply -f <a href="https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml">https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml</a></p>
+<p>查看Cert-manager的安装状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl get all -n cert-manager
+NAME                                           READY   STATUS    RESTARTS        AGE
+pod/cert-manager-5b65cb968c-pl9ng              1/1     Running   <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">(</span>7d18h ago<span style="color:#ff79c6">)</span>   8d
+pod/cert-manager-cainjector-56b88bcdf7-hp2f6   1/1     Running   <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">(</span>7d18h ago<span style="color:#ff79c6">)</span>   8d
+pod/cert-manager-webhook-c784c79c7-6brgr       1/1     Running   <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>7d18h ago<span style="color:#ff79c6">)</span>   8d
+ 
+NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>    AGE
+service/cert-manager           ClusterIP   10.97.77.33     &lt;none&gt;        9402/TCP   8d
+service/cert-manager-webhook   ClusterIP   10.103.21.107   &lt;none&gt;        443/TCP    8d
+ 
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/cert-manager              1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           8d
+deployment.apps/cert-manager-cainjector   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           8d
+deployment.apps/cert-manager-webhook      1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           8d
+ 
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/cert-manager-5b65cb968c              <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       8d
+replicaset.apps/cert-manager-cainjector-56b88bcdf7   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       8d
+replicaset.apps/cert-manager-webhook-c784c79c7       <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       8d
+</code></pre></div><h3 id="222-部署适配k8s版本的opentelemetry-operator">2.2.2 部署适配k8s版本的opentelemetry operator</h3>
+<p>由于Opentelemetry Operator基于Kubernetes Operator实现，因此安装版本需与当前环境中的K8S版本适配才可，Opentelemetry Operator Github项目中给出了版本匹配列表，可参考 <a href="https://github.com/open-telemetry/opentelemetry-operator#opentelemetry-operator-vs-kubernetes-vs-cert-manager">https://github.com/open-telemetry/opentelemetry-operator#opentelemetry-operator-vs-kubernetes-vs-cert-manager</a></p>
+<p>目前安装的适配版本为0.69.0 PS. 上一步Cert-manager版本也需与Kubernetes及Opentelemetry Operator版本进行适配</p>
+<p>kubectl apply -f <a href="https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml">https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml</a></p>
+<p>部署后查看运行状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl get all -n opentelemetry-operator-system
+NAME                                                             READY   STATUS    RESTARTS        AGE
+pod/opentelemetry-operator-controller-manager-676796b79f-9nr9m   2/2     Running   <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>7d18h ago<span style="color:#ff79c6">)</span>   8d
+ 
+NAME                                                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>    AGE
+service/opentelemetry-operator-controller-manager-metrics-service   ClusterIP   10.96.5.88       &lt;none&gt;        8443/TCP   8d
+service/opentelemetry-operator-webhook-service                      ClusterIP   10.102.197.132   &lt;none&gt;        443/TCP    8d
+ 
+NAME                                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/opentelemetry-operator-controller-manager   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           8d
+ 
+NAME                                                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/opentelemetry-operator-controller-manager-676796b79f   <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       8d
+</code></pre></div><h2 id="23-部署微服务环境">2.3 部署微服务环境</h2>
+<p>Opentelemetry Operator目前支持的instrumentation开发语言有4种，分别是Node.js 、.Net Python、 Java，本实验搭建使用Python，需要注意的是Opentelemetry Operator适配的Python版本需要大于3.6以上（https://opentelemetry.io/docs/instrumentation/python/#version-support）</p>
+<p>简单搭建了Flask服务</p>
+<p>Dockerfile:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> python:3.7</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /usr/src/app</span>
+<span style="color:#ff79c6">COPY</span> app.py /usr/src/app/
+<span style="color:#ff79c6">COPY</span> requirements.txt /usr/src/app/
+ 
+<span style="color:#ff79c6">ENV</span> DEBIAN_FRONTEND noninteractive
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> apt-get install -y inetutils-ping telnet
+<span style="color:#ff79c6">RUN</span> pip install -r /usr/src/app/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+ 
+<span style="color:#ff79c6">EXPOSE</span><span style="color:#f1fa8c"> 3000</span>
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;flask&#34;</span>, <span style="color:#f1fa8c">&#34;run&#34;</span>,<span style="color:#f1fa8c">&#34;-h&#34;</span>,<span style="color:#f1fa8c">&#34;0.0.0.0&#34;</span>,<span style="color:#f1fa8c">&#34;-p&#34;</span>,<span style="color:#f1fa8c">&#34;3000&#34;</span> ]
+</code></pre></div><p>app.py:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">from</span> random <span style="color:#ff79c6">import</span> randint
+<span style="color:#ff79c6">from</span> flask <span style="color:#ff79c6">import</span> Flask, request
+<span style="color:#ff79c6">import</span> requests
+ 
+app <span style="color:#ff79c6">=</span> Flask(__name__)
+ 
+@app.route(<span style="color:#f1fa8c"></span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">/rolldice</span><span style="color:#f1fa8c">&#34;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">roll_dice</span>():
+    r <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(<span style="color:#f1fa8c"></span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">http://express-server2.application.svc.cluster.local:3001/api/v1/get_commodity/</span><span style="color:#f1fa8c">&#34;</span>) 此处rolldice api还会进一步访问k8s环境中的另一个微服务，通过域名进行访问
+    <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">str</span>(do_roll())
+ 
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">do_roll</span>():
+    <span style="color:#ff79c6">return</span> randint(<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">6</span>)
+</code></pre></div><p>requirments.txt:</p>
+<pre><code>flask 
+requests
+</code></pre><p>app.yaml</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: express-server
+  <span style="color:#ff79c6">namespace</span>: application
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: application
+    <span style="color:#ff79c6">component</span>: express-server
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">ports</span>:
+    - <span style="color:#ff79c6">name</span>: express
+      <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">3000</span>
+      <span style="color:#ff79c6">protocol</span>: TCP
+      <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">3000</span>
+      <span style="color:#ff79c6">nodePort</span>: <span style="color:#bd93f9">30099</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">component</span>: express-server
+  <span style="color:#ff79c6">type</span>: NodePort
+ 
+---
+<span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: express-server
+  <span style="color:#ff79c6">namespace</span>: application
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: application
+    <span style="color:#ff79c6">component</span>: express-server
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">matchLabels</span>:
+      <span style="color:#ff79c6">app</span>: application
+      <span style="color:#ff79c6">component</span>: express-server
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+  <span style="color:#ff79c6">template</span>:
+      <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: application
+        <span style="color:#ff79c6">component</span>: express-server
+    <span style="color:#ff79c6">spec</span>:
+      <span style="color:#ff79c6">containers</span>:
+        - <span style="color:#ff79c6">name</span>: express-server
+          <span style="color:#ff79c6">ports</span>:
+            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">3000</span>
+          <span style="color:#ff79c6">image</span>: registry.ic.intra.nsfocus.com/test/example-app:latest
+          <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+</code></pre></div><p>构建镜像</p>
+<pre><code>docker build -t registry.ic.intra.nsfocus.com/test/example-app:latest . --no-cache
+</code></pre><p>部署微服务</p>
+<p>kubectl apply -f app.yaml</p>
+<p>查看运行状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl get all -n application
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/express-server-8c5bdd7c7-x6grb     1/1     Running   <span style="color:#bd93f9">0</span>          175m
+ 
+NAME                      TYPE       CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>          AGE
+service/express-server    NodePort   10.111.123.124   &lt;none&gt;        3000:30099/TCP   175m
+ 
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/express-server    1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           175m
+ 
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/express-server-8c5bdd7c7     <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>         <span style="color:#bd93f9">1</span>       175m
+</code></pre></div><h2 id="24-部署crd-opentelemetry-collector">2.4 部署CRD-Opentelemetry Collector</h2>
+<p>部署Oepntelemetry Collector用于收集微服务的观测数据，并将观测数据进行处理，过滤，再export到后端的服务，此处后端服务为开始部署的Jaeger，通过Opentelemtry Operator，我们可以定义资源类型为OpenTelemetryCollector，部署yaml如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: opentelemetry.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: OpenTelemetryCollector
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: otel-collector
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: opentelemetry
+    <span style="color:#ff79c6">component</span>: otel-collector
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">mode</span>: deployment <span style="color:#6272a4">#提供三种部署方式，sidecar、daemonset、deployment，默认为deployment</span>
+  <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">   </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">receivers: #配置receivers, OpenTelemetryCollector会暴露4317（grpc），4318(http)两个端口用于接收微服务观测数据，此处使用OpenTelemetry的otlp协议（http/proto）传输，配置如下</span>
+      <span style="color:#ff79c6">otlp</span>:
+        <span style="color:#ff79c6">protocols</span>:
+          <span style="color:#ff79c6">grpc</span>:
+            <span style="color:#ff79c6">endpoint</span>: <span style="color:#bd93f9">0.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.0</span>:<span style="color:#bd93f9">4317</span>
+          <span style="color:#ff79c6">http</span>:
+            <span style="color:#ff79c6">endpoint</span>: <span style="color:#bd93f9">0.0</span><span style="color:#bd93f9">.0</span><span style="color:#bd93f9">.0</span>:<span style="color:#bd93f9">4318</span>
+    <span style="color:#ff79c6">exporters</span>: <span style="color:#6272a4">#配置exporters, receivers接收完数据后通过proessors步骤可对数据进行过滤，重组，如下一步processors配置，数据经过滤后可发送至后端服务，此处配置后端服务为Jaeger,endpoint为后端服务地址，此处也可以使用K8S FQDN域名，通信过程未进行加密</span>
+      <span style="color:#ff79c6">jaeger</span>:
+        <span style="color:#ff79c6">endpoint</span>: <span style="color:#bd93f9">10.102</span><span style="color:#bd93f9">.246</span><span style="color:#bd93f9">.238</span>:<span style="color:#bd93f9">14250</span>
+        <span style="color:#ff79c6">tls</span>:
+          <span style="color:#ff79c6">insecure</span>: <span style="color:#ff79c6">true</span>
+      <span style="color:#ff79c6">logging</span>:
+        <span style="color:#ff79c6">verbosity</span>: detailed
+    <span style="color:#ff79c6">processors</span>: <span style="color:#6272a4">#配置processors，此处在http协议传输的header头种加入了一对k/v，用于测试</span>
+      <span style="color:#ff79c6">batch</span>:
+      <span style="color:#ff79c6">resource</span>:
+        <span style="color:#ff79c6">attributes</span>:
+          - <span style="color:#ff79c6">key</span>: test.key
+            <span style="color:#ff79c6">value</span>: <span style="color:#f1fa8c">&#34;test-value&#34;</span>
+            <span style="color:#ff79c6">action</span>: insert
+    <span style="color:#ff79c6">extensions</span>: <span style="color:#6272a4">#配置插件，Extention主要用来扩充Collector, 提供核心流程（receivers、processors、exporters）之外的插件, 內建插件包括healthcheck, zpages, pprof, memory_balllast等, 或与auth相关插件，如basic, oauth2, oidc等，此处配置了healthcheck和zpages</span>
+      <span style="color:#ff79c6">health_check</span>:
+      <span style="color:#ff79c6">zpages</span>:
+        <span style="color:#ff79c6">endpoint</span>: :<span style="color:#bd93f9">55679</span> <span style="color:#6272a4">#zpages由OpenCensus标准引入的一种格式。主要用于创建HTTP服务以提供用于调试Collctor不同组件的实时数据。默认配置未localhost:55679</span>
+    <span style="color:#ff79c6">service</span>: <span style="color:#6272a4">#配置服务使用的opentelemetry配置，包括使用上述引入的插件以及pipeline等</span>
+      <span style="color:#ff79c6">telemetry</span>:
+        <span style="color:#ff79c6">logs</span>:
+          <span style="color:#ff79c6">level</span>: <span style="color:#f1fa8c">&#34;debug&#34;</span> <span style="color:#6272a4">#此处设置观测数据日志为debug级别，用于调试</span>
+      <span style="color:#ff79c6">extensions</span>: [zpages, health_check] <span style="color:#6272a4">#此处配置使用的插件</span>
+      <span style="color:#ff79c6">pipelines</span>: <span style="color:#6272a4">#此处设置traces的pipeline，如果后端有监控服务如Prometheus，也可以配置对应的metrics的Pipeline</span>
+        <span style="color:#ff79c6">traces</span>:
+          <span style="color:#ff79c6">receivers</span>: [otlp] <span style="color:#6272a4">#采用上述提到的otlp协议进行观测数据传输</span>
+          <span style="color:#ff79c6">processors</span>: [batch, resource] <span style="color:#6272a4">#采用batch(将traces、metric、logging数据均传送，也可指定传输数据类别)类型传输，采用resource将传输数据进行二次修改</span>
+          <span style="color:#ff79c6">exporters</span>: [logging, jaeger] <span style="color:#6272a4"># 最终数据导出至日志以及后端服务Jaeger种</span>
+</code></pre></div><p>部署完成后查看状态</p>
+<p>kubectl apply -f collector.yaml</p>
+<p>由于采用Deployment方式进行部署，因此k8s集群只含有一个Collector实例</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl get pod,svc
+NAME                                               READY   STATUS    RESTARTS        AGE
+...
+pod/otel-collector-collector-c974987cf-gpbx5       1/1     Running   <span style="color:#bd93f9">0</span>               4h19m
+...
+ 
+NAME                                          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>             AGE
+...
+service/otel-collector-collector              ClusterIP   10.105.49.46     &lt;none&gt;        4317/TCP,4318/TCP   4h19m
+service/otel-collector-collector-headless     ClusterIP   None             &lt;none&gt;        4317/TCP,4318/TCP   4h19m
+service/otel-collector-collector-monitoring   ClusterIP   10.99.57.224     &lt;none&gt;        8888/TCP            4h19m
+...
+</code></pre></div><h2 id="25-部署crd-instrumentation">2.5 部署CRD-Instrumentation</h2>
+<p>部署Instrumentation CRD资源，该资源主要为适配各类语言的检测机制（如python、node.js 、.net、java），配置yaml如下所示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># instrumentation.yml</span>
+<span style="color:#ff79c6">apiVersion</span>: opentelemetry.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: Instrumentation
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: python-instrumentation <span style="color:#6272a4">#给该instrumentation命名，后续在自动注入时会用到</span>
+  <span style="color:#ff79c6">namespace</span>: application <span style="color:#6272a4">#该instrumentation仅在application命名空间生效</span>
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">exporter</span>:
+    <span style="color:#ff79c6">endpoint</span>: http://otel-collector-collector.default.svc.cluster.local:<span style="color:#bd93f9">4318</span> <span style="color:#6272a4">#将检测后的观测数据导出到上一步部署的Collector中</span>
+  <span style="color:#ff79c6">propagators</span>:
+  - tracecontext
+  - baggage
+  - b3
+  <span style="color:#ff79c6">sampler</span>: <span style="color:#6272a4">#采样频率，可以做调整</span>
+    <span style="color:#ff79c6">type</span>: always_on
+  <span style="color:#ff79c6">python</span>: <span style="color:#6272a4">#此处若不指定镜像，则使用官方镜像</span>
+    <span style="color:#ff79c6">image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:latest
+</code></pre></div><p>官方采用的各类语言检测镜像，我们可对其进行裁剪和定制，如python，我们可以更改Dockerfile甚至requirements.txt ，具体可参考 <a href="https://github.com/open-telemetry/opentelemetry-operator/tree/main/autoinstrumentation/python">https://github.com/open-telemetry/opentelemetry-operator/tree/main/autoinstrumentation/python</a></p>
+<p>部署后查看状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app<span style="color:#6272a4"># kubectl get Instrumentation -n application</span>
+NAME                     AGE     ENDPOINT                                                         SAMPLER     SAMPLER ARG
+python-instrumentation   4h28m   http://otel-collector-collector.default.svc.cluster.local:<span style="color:#bd93f9">4318</span>   always_on
+root@apisec-node-master:/home/nsfocus/puming/otel_operator/app<span style="color:#6272a4"># kubectl get Instrumentation python-instrumentation -o yaml -n application</span>
+<span style="color:#ff79c6">apiVersion</span>: opentelemetry.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: Instrumentation
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">annotations</span>:
+    <span style="color:#ff79c6">instrumentation.opentelemetry.io/default-auto-instrumentation-dotnet-image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-dotnet:<span style="color:#bd93f9">0.5</span><span style="color:#bd93f9">.0</span>
+    <span style="color:#ff79c6">instrumentation.opentelemetry.io/default-auto-instrumentation-java-image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:<span style="color:#bd93f9">1.22</span><span style="color:#bd93f9">.1</span>
+    <span style="color:#ff79c6">instrumentation.opentelemetry.io/default-auto-instrumentation-nodejs-image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-nodejs:<span style="color:#bd93f9">0.34</span><span style="color:#bd93f9">.0</span>
+    <span style="color:#ff79c6">instrumentation.opentelemetry.io/default-auto-instrumentation-python-image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:<span style="color:#bd93f9">0.</span>36b0
+    <span style="color:#ff79c6">kubectl.kubernetes.io/last-applied-configuration</span>: <span style="color:#f1fa8c">|
+</span><span style="color:#f1fa8c">     </span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">{&#34;apiVersion&#34;:&#34;opentelemetry.io/v1alpha1&#34;,&#34;kind&#34;:&#34;Instrumentation&#34;,&#34;metadata&#34;:{&#34;annotations&#34;:{},&#34;name&#34;:&#34;python-instrumentation&#34;,&#34;namespace&#34;:&#34;application&#34;},&#34;spec&#34;:{&#34;exporter&#34;:{&#34;endpoint&#34;:&#34;http://otel-collector-collector.default.svc.cluster.local:4318&#34;},&#34;propagators&#34;:[&#34;tracecontext&#34;,&#34;baggage&#34;,&#34;b3&#34;],&#34;python&#34;:{&#34;image&#34;:&#34;ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:latest&#34;},&#34;sampler&#34;:{&#34;type&#34;:&#34;always_on&#34;}}}</span>
+  <span style="color:#ff79c6">creationTimestamp</span>: <span style="color:#f1fa8c">&#34;2023-02-23T02:25:12Z&#34;</span>
+  <span style="color:#ff79c6">generation</span>: <span style="color:#bd93f9">1</span>
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app.kubernetes.io/managed-by</span>: opentelemetry-operator
+  <span style="color:#ff79c6">name</span>: python-instrumentation
+  <span style="color:#ff79c6">namespace</span>: application
+  <span style="color:#ff79c6">resourceVersion</span>: <span style="color:#f1fa8c">&#34;1092354&#34;</span>
+  <span style="color:#ff79c6">uid</span>: 62d2e006-f1ce-4fe0-9a6f-19b0f3bacf5c
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">apacheHttpd</span>:
+    <span style="color:#ff79c6">configPath</span>: /usr/local/apache2/conf
+    <span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#34;2.4&#34;</span>
+  <span style="color:#ff79c6">dotnet</span>:
+    <span style="color:#ff79c6">image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-dotnet:<span style="color:#bd93f9">0.5</span><span style="color:#bd93f9">.0</span>
+  <span style="color:#ff79c6">exporter</span>:
+    <span style="color:#ff79c6">endpoint</span>: http://otel-collector-collector.default.svc.cluster.local:<span style="color:#bd93f9">4318</span>
+  <span style="color:#ff79c6">java</span>:
+    <span style="color:#ff79c6">image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:<span style="color:#bd93f9">1.22</span><span style="color:#bd93f9">.1</span>
+  <span style="color:#ff79c6">nodejs</span>:
+    <span style="color:#ff79c6">image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-nodejs:<span style="color:#bd93f9">0.34</span><span style="color:#bd93f9">.0</span>
+  <span style="color:#ff79c6">propagators</span>:
+  - tracecontext
+  - baggage
+  - b3
+  <span style="color:#ff79c6">python</span>:
+    <span style="color:#ff79c6">image</span>: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:latest
+  <span style="color:#ff79c6">resource</span>: {}
+  <span style="color:#ff79c6">sampler</span>:
+    <span style="color:#ff79c6">type</span>: always_on
+</code></pre></div><h2 id="26-配置自动检测注入机制">2.6 配置自动检测注入机制</h2>
+<p>实现微服务数据采样需首先注入检测机制，配置方式可通过在微服务yaml配置中增加annotation实现，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+ ...
+<span style="color:#ff79c6">spec</span>:
+  ...
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">annotations</span>:
+        <span style="color:#ff79c6">instrumentation.opentelemetry.io/inject-python</span>: <span style="color:#f1fa8c">&#34;python-instrumentation&#34;</span>
+...
+</code></pre></div><p>之后需要重启应用（kubectl apply）自动检测机制才能被注入至微服务中，重启后可通过kubectl describe pod查看注入信息，如下所示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl describe pod express-server-8c5bdd7c7-x6grb -n application
+Name:         express-server-8c5bdd7c7-x6grb
+Namespace:    application
+Priority:     <span style="color:#bd93f9">0</span>
+Node:         apisec-node-worker/192.168.19.211
+Start Time:   Thu, <span style="color:#bd93f9">23</span> Feb <span style="color:#bd93f9">2023</span> 03:21:44 +0000
+Labels:       <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>application
+              <span style="color:#8be9fd;font-style:italic">component</span><span style="color:#ff79c6">=</span>express-server
+              pod-template-hash<span style="color:#ff79c6">=</span>8c5bdd7c7
+Annotations:  instrumentation.opentelemetry.io/inject-python: python-instrumentation
+Status:       Running
+IP:           10.244.1.122
+IPs:
+  IP:           10.244.1.122
+Controlled By:  ReplicaSet/express-server-8c5bdd7c7
+Init Containers: <span style="color:#6272a4">#可以看到通过init_container实现检测机制植入</span>
+  opentelemetry-auto-instrumentation:
+    Container ID:  docker://1f53a3eb8b08c3b504b1cb4187d048c9302ff125be44e33294cc516851ab1b8e
+    Image:         ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:latest
+    Image ID:      docker-pullable://ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python@sha256:b7cf74d710b0c33b9b65aaa64e82f0cef962398561700c34b9a47b5ec7068aa4
+    Port:          &lt;none&gt;
+    Host Port:     &lt;none&gt;
+    Command:
+      cp
+      -a
+      /autoinstrumentation/.
+      /otel-auto-instrumentation/
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    <span style="color:#bd93f9">0</span>
+      Started:      Thu, <span style="color:#bd93f9">23</span> Feb <span style="color:#bd93f9">2023</span> 03:21:51 +0000
+      Finished:     Thu, <span style="color:#bd93f9">23</span> Feb <span style="color:#bd93f9">2023</span> 03:21:51 +0000
+    Ready:          True
+    Restart Count:  <span style="color:#bd93f9">0</span>
+    Environment:    &lt;none&gt;
+    Mounts:
+      /otel-auto-instrumentation from opentelemetry-auto-instrumentation <span style="color:#ff79c6">(</span>rw<span style="color:#ff79c6">)</span>
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-n8cgd <span style="color:#ff79c6">(</span>ro<span style="color:#ff79c6">)</span>
+Containers:
+  express-server:
+    Container ID:   docker://9981853e867d432647dd26f0618ad2b4f57d86fcdfc3c98d6f85322a1040907e
+    Image:          registry.ic.intra.nsfocus.com/test/example-app:latest
+    Image ID:       docker-pullable://registry.ic.intra.nsfocus.com/test/example-app@sha256:18e1f61a1ecce9a22abe6f2ff6da074da4b3ef24808375c7dd51eea2b6e83109
+    Port:           3000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, <span style="color:#bd93f9">23</span> Feb <span style="color:#bd93f9">2023</span> 03:21:57 +0000
+    Ready:          True
+    Restart Count:  <span style="color:#bd93f9">0</span>
+    Environment: <span style="color:#6272a4">#添加环境变量供sdk使用</span>
+      PYTHONPATH:                           /otel-auto-instrumentation/opentelemetry/instrumentation/auto_instrumentation:/otel-auto-instrumentation
+      OTEL_TRACES_EXPORTER:                 otlp
+      OTEL_EXPORTER_OTLP_TRACES_PROTOCOL:   http/protobuf
+      OTEL_METRICS_EXPORTER:                otlp
+      OTEL_EXPORTER_OTLP_METRICS_PROTOCOL:  http/protobuf
+      OTEL_SERVICE_NAME:                    express-server
+      OTEL_EXPORTER_OTLP_ENDPOINT:          http://otel-collector-collector.default.svc.cluster.local:4318
+      OTEL_RESOURCE_ATTRIBUTES_POD_NAME:    express-server-8c5bdd7c7-x6grb <span style="color:#ff79c6">(</span>v1:metadata.name<span style="color:#ff79c6">)</span>
+      OTEL_RESOURCE_ATTRIBUTES_NODE_NAME:    <span style="color:#ff79c6">(</span>v1:spec.nodeName<span style="color:#ff79c6">)</span>
+      OTEL_PROPAGATORS:                     tracecontext,baggage,b3
+      OTEL_TRACES_SAMPLER:                  always_on
+      OTEL_RESOURCE_ATTRIBUTES:             k8s.container.name<span style="color:#ff79c6">=</span>express-server,k8s.deployment.name<span style="color:#ff79c6">=</span>express-server,k8s.namespace.name<span style="color:#ff79c6">=</span>application,k8s.node.name<span style="color:#ff79c6">=</span><span style="color:#ff79c6">$(</span>OTEL_RESOURCE_ATTRIBUTES_NODE_NAME<span style="color:#ff79c6">)</span>,k8s.pod.name<span style="color:#ff79c6">=</span><span style="color:#ff79c6">$(</span>OTEL_RESOURCE_ATTRIBUTES_POD_NAME<span style="color:#ff79c6">)</span>,k8s.replicaset.name<span style="color:#ff79c6">=</span>express-server-8c5bdd7c7
+    Mounts:
+      /otel-auto-instrumentation from opentelemetry-auto-instrumentation <span style="color:#ff79c6">(</span>rw<span style="color:#ff79c6">)</span>
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-n8cgd <span style="color:#ff79c6">(</span>ro<span style="color:#ff79c6">)</span>
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-n8cgd:
+    Type:                    Projected <span style="color:#ff79c6">(</span>a volume that contains injected data from multiple sources<span style="color:#ff79c6">)</span>
+    TokenExpirationSeconds:  <span style="color:#bd93f9">3607</span>
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             <span style="color:#8be9fd;font-style:italic">true</span>
+  opentelemetry-auto-instrumentation:
+    Type:        EmptyDir <span style="color:#ff79c6">(</span>a temporary directory that shares a pod&#39;s lifetime<span style="color:#ff79c6">)</span>
+    Medium:
+    SizeLimit:   &lt;unset&gt;
+QoS Class:       BestEffort
+Node-Selectors:  &lt;none&gt;
+Tolerations:     node.kubernetes.io/not-ready:NoExecute <span style="color:#8be9fd;font-style:italic">op</span><span style="color:#ff79c6">=</span>Exists <span style="color:#ff79c6">for</span> 300s
+                 node.kubernetes.io/unreachable:NoExecute <span style="color:#8be9fd;font-style:italic">op</span><span style="color:#ff79c6">=</span>Exists <span style="color:#ff79c6">for</span> 300s
+Events:          &lt;none&gt;
+</code></pre></div><h2 id="27-追踪过程及微服务拓扑关系可视化">2.7 追踪过程及微服务拓扑关系可视化</h2>
+<p>可通过两种方式进行观测</p>
+<ol>
+<li>通过Collector日志查看</li>
+</ol>
+<p>​    针对微服务发送一个请求，观察Collector日志</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">devops@devops-node1:~$ curl -v 192.168.19.210:30099/rolldice
+*   Trying 192.168.19.210:30099...
+* TCP_NODELAY <span style="color:#8be9fd;font-style:italic">set</span>
+* Connected to 192.168.19.210 <span style="color:#ff79c6">(</span>192.168.19.210<span style="color:#ff79c6">)</span> port <span style="color:#bd93f9">30099</span> <span style="color:#ff79c6">(</span><span style="color:#6272a4">#0)</span>
+&gt; GET /rolldice HTTP/1.1
+&gt; Host: 192.168.19.210:30099
+&gt; User-Agent: curl/7.68.0
+&gt; Accept: */*
+&gt;
+* Mark bundle as not supporting multiuse
+&lt; HTTP/1.1 <span style="color:#bd93f9">200</span> OK
+&lt; Server: Werkzeug/2.2.3 Python/3.7.16
+&lt; Date: Thu, <span style="color:#bd93f9">23</span> Feb <span style="color:#bd93f9">2023</span> 07:04:53 GMT
+&lt; Content-Type: text/html; <span style="color:#8be9fd;font-style:italic">charset</span><span style="color:#ff79c6">=</span>utf-8
+&lt; Content-Length: <span style="color:#bd93f9">1</span>
+&lt; Connection: close
+&lt;
+* Closing connection <span style="color:#bd93f9">0</span>
+<span style="color:#bd93f9">5</span> <span style="color:#6272a4">#返回值</span>
+ 
+root@apisec-node-master:/home/nsfocus/puming/otel_operator/app# kubectl logs otel-collector-collector-c974987cf-gpbx5
+2023-02-23T02:20:02.376Z        info    service/telemetry.go:92 Setting up own telemetry...
+2023-02-23T02:20:02.376Z        info    service/telemetry.go:118        Serving Prometheus metrics      <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;address&#34;</span>: <span style="color:#f1fa8c">&#34;:8888&#34;</span>, <span style="color:#f1fa8c">&#34;level&#34;</span>: <span style="color:#f1fa8c">&#34;Basic&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.376Z        debug   extension/extension.go:150      Beta component. May change in the future.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;extension&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;zpages&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.376Z        debug   extension/extension.go:150      Beta component. May change in the future.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;extension&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;health_check&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.376Z        info    exporter/exporter.go:290        Development component. May change in the future.        <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;exporter&#34;</span>, <span style="color:#f1fa8c">&#34;data_type&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;logging&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.376Z        debug   exporter/exporter.go:288        Beta component. May change in the future.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;exporter&#34;</span>, <span style="color:#f1fa8c">&#34;data_type&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;jaeger&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.377Z        debug   processor/processor.go:302      Beta component. May change in the future.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;processor&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;resource&#34;</span>, <span style="color:#f1fa8c">&#34;pipeline&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.377Z        debug   processor/processor.go:302      Stable component.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;processor&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;batch&#34;</span>, <span style="color:#f1fa8c">&#34;pipeline&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.377Z        debug   receiver/receiver.go:309        Stable component.       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;receiver&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;otlp&#34;</span>, <span style="color:#f1fa8c">&#34;pipeline&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.379Z        info    service/service.go:123  Starting otelcol...     <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;Version&#34;</span>: <span style="color:#f1fa8c">&#34;0.69.0&#34;</span>, <span style="color:#f1fa8c">&#34;NumCPU&#34;</span>: 16<span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.379Z        info    extensions/extensions.go:42     Starting extensions...
+2023-02-23T02:20:02.379Z        info    extensions/extensions.go:45     Extension is starting...        <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;extension&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;health_check&#34;</span><span style="color:#ff79c6">}</span>
+...
+2023-02-23T02:20:02.380Z        info    service/pipelines.go:89 Starting processors...
+...
+2023-02-23T02:20:02.381Z        info    otlpreceiver@v0.69.0/otlp.go:94 Starting GRPC server    <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;receiver&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;otlp&#34;</span>, <span style="color:#f1fa8c">&#34;pipeline&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;endpoint&#34;</span>: <span style="color:#f1fa8c">&#34;0.0.0.0:4317&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.381Z        info    otlpreceiver@v0.69.0/otlp.go:112        Starting HTTP server    <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;receiver&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;otlp&#34;</span>, <span style="color:#f1fa8c">&#34;pipeline&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;endpoint&#34;</span>: <span style="color:#f1fa8c">&#34;0.0.0.0:4318&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:20:02.381Z        info    service/service.go:140  Everything is ready. Begin running and processing data.
+2023-02-23T02:20:03.381Z        info    jaegerexporter@v0.69.0/exporter.go:181  State of the connection with the Jaeger Collector backend       <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;exporter&#34;</span>, <span style="color:#f1fa8c">&#34;data_type&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;jaeger&#34;</span>, <span style="color:#f1fa8c">&#34;state&#34;</span>: <span style="color:#f1fa8c">&#34;READY&#34;</span><span style="color:#ff79c6">}</span>
+2023-02-23T02:26:56.231Z        info    TracesExporter  <span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;kind&#34;</span>: <span style="color:#f1fa8c">&#34;exporter&#34;</span>, <span style="color:#f1fa8c">&#34;data_type&#34;</span>: <span style="color:#f1fa8c">&#34;traces&#34;</span>, <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;logging&#34;</span>, <span style="color:#f1fa8c">&#34;#spans&#34;</span>: 4<span style="color:#ff79c6">}</span> <span style="color:#6272a4">#可以看到有新的数据</span>
+...
+</code></pre></div><ol start="2">
+<li>通过Jaeger查看</li>
+</ol>
+<p>服务调用链详情</p>
+<p>
+  <figure>
+    <img src="/img/OpenTelemetryOperatorforKubernetes%e5%ae%9e%e8%b7%b5/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. 服务调用链路详情1</figcaption></center>
+  </figure>
+
+</p>
+<p>服务调用链详情</p>
+<p>
+  <figure>
+    <img src="/img/OpenTelemetryOperatorforKubernetes%e5%ae%9e%e8%b7%b5/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. 服务调用链路详情2</figcaption></center>
+  </figure>
+
+</p>
+<p>服务调用拓扑</p>
+<p>
+  <figure>
+    <img src="/img/OpenTelemetryOperatorforKubernetes%e5%ae%9e%e8%b7%b5/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. 调用链路拓扑</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="三-自动检测过程注入原理及注意事项">三. 自动检测过程注入原理及注意事项</h1>
+<h2 id="31-注入原理">3.1 注入原理</h2>
+<p>Opentelemetry Operator实现了一个Mutation Adminssion Webhook, 在Pod更新或创建时触发执行Hook，该Hook会更改Pod资源注入一个init_container，该container目的是将Opentelemetry SDK CP到Pod业务容器中，根据开发语言不同，注入不同开发语言的SDK。</p>
+<h2 id="32-注意事项">3.2 注意事项</h2>
+<p>需要注意的是，Opentelemetry并非对每个开发语言使用的框架都支持，但主流的基本都支持，比如python sdk中，可以看到如django、flask这些都是支持的，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@express-server-8c5bdd7c7-x6grb:/usr/src/app# pip list
+Package                                       Version
+--------------------------------------------- ---------
+asgiref                                       3.6.0
+backoff                                       2.2.1
+certifi                                       2022.12.7
+charset-normalizer                            3.0.1
+click                                         8.1.3
+Deprecated                                    1.2.13
+Flask                                         2.2.3
+googleapis-common-protos                      1.58.0
+idna                                          3.4
+importlib-metadata                            6.0.0
+itsdangerous                                  2.1.2
+Jinja2                                        3.1.2
+MarkupSafe                                    2.1.2
+opentelemetry-api                             1.15.0
+opentelemetry-distro                          0.36b0
+opentelemetry-exporter-otlp-proto-http        1.15.0
+opentelemetry-instrumentation                 0.36b0
+opentelemetry-instrumentation-aio-pika        0.36b0
+opentelemetry-instrumentation-aiohttp-client  0.36b0
+opentelemetry-instrumentation-aiopg           0.36b0
+opentelemetry-instrumentation-asgi            0.36b0
+opentelemetry-instrumentation-asyncpg         0.36b0
+opentelemetry-instrumentation-boto            0.36b0
+opentelemetry-instrumentation-boto3sqs        0.36b0
+opentelemetry-instrumentation-botocore        0.36b0
+opentelemetry-instrumentation-celery          0.36b0
+opentelemetry-instrumentation-confluent-kafka 0.36b0
+opentelemetry-instrumentation-dbapi           0.36b0
+opentelemetry-instrumentation-django          0.36b0
+opentelemetry-instrumentation-elasticsearch   0.36b0
+opentelemetry-instrumentation-falcon          0.36b0
+opentelemetry-instrumentation-fastapi         0.36b0
+opentelemetry-instrumentation-flask           0.36b0
+opentelemetry-instrumentation-grpc            0.36b0
+opentelemetry-instrumentation-httpx           0.36b0
+opentelemetry-instrumentation-jinja2          0.36b0
+opentelemetry-instrumentation-kafka-python    0.36b0
+opentelemetry-instrumentation-logging         0.36b0
+opentelemetry-instrumentation-mysql           0.36b0
+opentelemetry-instrumentation-pika            0.36b0
+opentelemetry-instrumentation-psycopg2        0.36b0
+opentelemetry-instrumentation-pymemcache      0.36b0
+opentelemetry-instrumentation-pymongo         0.36b0
+opentelemetry-instrumentation-pymysql         0.36b0
+opentelemetry-instrumentation-pyramid         0.36b0
+opentelemetry-instrumentation-redis           0.36b0
+opentelemetry-instrumentation-requests        0.36b0
+opentelemetry-instrumentation-sklearn         0.36b0
+opentelemetry-instrumentation-sqlalchemy      0.36b0
+opentelemetry-instrumentation-sqlite3         0.36b0
+opentelemetry-instrumentation-starlette       0.36b0
+opentelemetry-instrumentation-tornado         0.36b0
+opentelemetry-instrumentation-tortoiseorm     0.36b0
+opentelemetry-instrumentation-urllib          0.36b0
+opentelemetry-instrumentation-urllib3         0.36b0
+opentelemetry-instrumentation-wsgi            0.36b0
+opentelemetry-propagator-aws-xray             1.0.1
+opentelemetry-propagator-b3                   1.15.0
+opentelemetry-propagator-jaeger               1.15.0
+opentelemetry-propagator-ot-trace             0.36b0
+opentelemetry-proto                           1.15.0
+opentelemetry-sdk                             1.15.0
+opentelemetry-semantic-conventions            0.36b0
+opentelemetry-util-http                       0.36b0
+packaging                                     23.0
+pip                                           22.0.4
+protobuf                                      4.21.12
+requests                                      2.28.2
+setuptools                                    67.0.0
+typing_extensions                             4.4.0
+urllib3                                       1.26.14
+Werkzeug                                      2.2.3
+wheel                                         0.38.4
+wrapt                                         1.14.1
+zipp                                          3.14.0
+</code></pre></div><p>此外使用自动注入机制需要重启应用，目前无法动态加载检测机制</p>
+<h1 id="四-参考文献">四. 参考文献</h1>
+<p><a href="https://github.com/open-telemetry/opentelemetry-operator/blob/main/README.md">https://github.com/open-telemetry/opentelemetry-operator/blob/main/README.md</a></p>
+<p><a href="https://cert-manager.io/docs/installation/supported-releases/">https://cert-manager.io/docs/installation/supported-releases/</a></p>
+<p><a href="https://cert-manager.io/docs/installation/">https://cert-manager.io/docs/installation/</a></p>
+<p><a href="https://cert-manager.io/docs/installation/kubectl/">https://cert-manager.io/docs/installation/kubectl/</a></p>
+<p><a href="https://cert-manager.io/docs/installation/verify/">https://cert-manager.io/docs/installation/verify/</a></p>
+<p><a href="https://medium.com/opentelemetry/using-opentelemetry-auto-instrumentation-agents-in-kubernetes-869ec0f42377">https://medium.com/opentelemetry/using-opentelemetry-auto-instrumentation-agents-in-kubernetes-869ec0f42377</a></p>
+<p><a href="https://www.aspecto.io/blog/opentelemetry-operator/#Auto-Instrumentation-with-OpenTelemetry-Operator">https://www.aspecto.io/blog/opentelemetry-operator/#Auto-Instrumentation-with-OpenTelemetry-Operator</a></p>
+<p><a href="https://github.com/open-telemetry/opentelemetry-operator/tree/main/autoinstrumentation/python">https://github.com/open-telemetry/opentelemetry-operator/tree/main/autoinstrumentation/python</a></p>
+<p><a href="https://ithelp.ithome.com.tw/articles/10291371">https://ithelp.ithome.com.tw/articles/10291371</a></p>
+<p><a href="https://isitobservable.io/open-telemetry/how-to-observe-your-kubernetes-cluster-with-opentelemetry">https://isitobservable.io/open-telemetry/how-to-observe-your-kubernetes-cluster-with-opentelemetry</a></p>
+<p>insturmentation crd api config: <a href="https://github.com/open-telemetry/opentelemetry-operator/blob/main/docs/api.md#instrumentationspec">https://github.com/open-telemetry/opentelemetry-operator/blob/main/docs/api.md#instrumentationspec</a></p>
+<p>k8s属性配置 <a href="https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/k8s/">https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/k8s/</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-02-23-%E5%88%A9%E7%94%A8serverless%E5%87%BD%E6%95%B0%E9%80%A0%E6%88%90%E7%9A%84dos%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/" data-toggle="tooltip" data-placement="top" title="利用Serverless函数造成的DoS攻击分析">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2023-03-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/" data-toggle="tooltip" data-placement="top" title="云原生API安全：背景、态势与风险防护">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
