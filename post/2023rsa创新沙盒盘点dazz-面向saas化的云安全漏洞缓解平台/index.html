@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/bg.jpg">
+    <meta property="twitter:image" content="https://puming.zone/img/bg.jpg" />
+    
+
+    
+    <meta name="title" content="RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台" />
+    <meta property="og:title" content="RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台" />
+    <meta property="twitter:title" content="RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台" />
+    
+
+    
+    <meta name="description" content="全方位解读云原生API安全：安全态势、具体风险和防护思路大揭秘">
+    <meta property="og:description" content="全方位解读云原生API安全：安全态势、具体风险和防护思路大揭秘" />
+    <meta property="twitter:description" content="全方位解读云原生API安全：安全态势、具体风险和防护思路大揭秘" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2023rsa%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92%E7%9B%98%E7%82%B9dazz-%E9%9D%A2%E5%90%91saas%E5%8C%96%E7%9A%84%E4%BA%91%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E7%BC%93%E8%A7%A3%E5%B9%B3%E5%8F%B0/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/Dazz.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/rsa" title="RSA">
+                            RSA
+                        </a>
+                        
+                        <a class="tag" href="/tags/devsecops" title="DevSecOps">
+                            DevSecOps
+                        </a>
+                        
+                        <a class="tag" href="/tags/saas" title="SaaS">
+                            SaaS
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E9%A3%8E%E9%99%A9%E7%BC%93%E8%A7%A3" title="云风险缓解">
+                            云风险缓解
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%85%AC%E6%9C%89%E4%BA%91" title="公有云">
+                            公有云
+                        </a>
+                        
+                    </div>
+                    <h1>RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Tuesday, April 11, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技公众号 <a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYyMTM4MA==&amp;mid=2650438231&amp;idx=3&amp;sn=bc4f148b76178b3ebbea5f4467fdf37a&amp;chksm=bec923fc89beaaeaa25daf280683e57940477311a4fae8c9d755116e47cabafcbe5cb5958362&amp;mpshare=1&amp;scene=1&amp;srcid=0528Z0pO8bk1JTUHBdN7HrVg&amp;sharer_sharetime=1685260778929&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.3.70185&amp;platform=mac#rd">《RSA创新沙盒盘点Dazz — 面向SaaS化的云安全漏洞缓解平台》</a></p>
+<h1 id="一-背景介绍">一. 背景介绍</h1>
+<p>Dazz成立于2021年12月，总部位于美国加州，该公司专注于云安全领域，其Dazz Remediation Cloud SaaS化平台主要为企业开发团队及安全团队提供漏洞修复和风险预估能力。值得注意的是，其官方网站的Slogen为”Fix at the root, Go fast”，即强调其是从“根因“上”快速“分析系统DevSecOps环节涉及的漏洞，以更快、更有效的方式修复现有问题，改善MTTR(Mean Time to Repair) 。
+目前Dazz团队约11-50人左右，联合创始人共三名主要成员，如图1[7]所示：</p>
+<p>
+  <img src="/img/Dazz/1.png" alt="image">
+
+
+  <img src="/img/Dazz/2.png" alt="image">
+
+
+  <figure>
+    <img src="/img/Dazz/3.png" alt="image">
+    <center><figcaption>图1 Dazz联合创始人(左为Merav Bahat，中为Tomer Schwartz，右为Yuval Ofir)</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>Merav Bahat</strong></p>
+<p>Merav Bahat 是 Dazz 的 CEO 和联合创始人。她在微软担任过多个高级职位，包括云安全全球业务总经理和微软以色列研发部的副首席执行官，负责管理超过2000名员工。在此之前，曾担任微软云计算和人工智能安全业务部门的产品战略组主任。 Merav Bahat拥有以色列理工学院工业管理工程专业学士学位以及以色列本古里安大学工商管理硕士学位。曾在哈佛大学商学院-肯尼迪政府学院的联合研究项目中担任研究员。</p>
+<p><strong>Tomer Schwartz</strong></p>
+<p>Tomer是Dazz的首席技术官和联合创始人。在创立Dazz之前，Tomer在以色列创立了微软安全响应中心并担任主任一职。在此之前，Tomer联合其他人共同创办了一家物联网安全公司Armis ，此公司于2019年以超过10亿美金的价格被收购。更早之前，Tomer主要在CASB公司Adallom任职研究总监。</p>
+<p><strong>Yuval Ofir</strong></p>
+<p>Yuval 是Dazz的研发副总裁和联合创始人。在创立Dazz之前，Yuva是OT行业领导者Claroty公司的研发副总裁。他曾在KayHut和Gita任职，帮助建立公司研发体系，并向全球政府和军事客户提供安全情报收集产品。这段经历为他在 Dazz 的工作带来了丰富的研究经验。在辞职前，Yuval在以色列国防军的精英网络部队中担任了10多年的职务，并领导了多个项目，这些项目绝大多数赢得了以色列国防奖。</p>
+<p>2021年5月，Dazz筹集了1000万美金的第一轮融资，同年12月Dazz进行了第二轮融资，金额5000万美元，投资者包括Index Ventures、Insight Partners、Greylock、Cerca Partners、Cyberstarts五家公司，两轮融资金额共6000万美金[8]。</p>
+<p>Dazz自成立以来先后入围业内多个重大奖项并最终获取了不错的成绩，包括2022 Status Awards for Cloud Computing冠军、2022 Tomorrow’s Top Growth Companies提名、2022 SINET16 Innovator提名、2023 Big Innovation Awards冠军、2022 Black Unicorn Awards提名、2023 Most Promising Cyber Startup提名、2023 Cybersecurity Startup Achievement of the Year – Security Cloud银牌得主、2023 RSAC Innovation Sandbox Top 10企业提名[2]。</p>
+<h1 id="二-产品介绍">二. 产品介绍</h1>
+<p>Dazz的主打产品为Dazz Remediation Cloud，其是一款SaaS化云风险缓解平台，根据Dazz的官方网站及现网材料里笔者并未发现详细的产品或是解决方案方面的介绍，甚至官方主页上都没有Dazz Remediation Cloud产品的相关信息，笔者仅从官方视频[6]以及官方最佳实践案例介绍中了解Dazz Remediation Cloud的相关能力，整体看来，Dazz Remediation Cloud主要做了三件事：</p>
+<ul>
+<li>
+<p>首先，Dazz Remediation Cloud 是一款基于SaaS的云安全漏洞环境平台，能够连接企业自身的 DevSecOps 环境中的各种安全工具，例如代码仓库、代码审计、镜像扫描、SCA、SBOM 等等。通过 read-only API 接口，Dazz Remediation Cloud可以获取各类告警以及CI/CD管道的上下文信息,从而实现CI/CD管道可视化；</p>
+</li>
+<li>
+<p>其次，Dazz Remediation Cloud 采用了一种专有技术，可以对大量告警信息进行降噪处理，并按照资产类型进行划分。通过这种方式，用户可以高度精确地理解每个问题的根因，形成统一视图，从而降低漏洞和修复运维成本；</p>
+</li>
+<li>
+<p>最后，Dazz Remediation Cloud 提供了一系列的自动化修复功能，例如自动生成修复程序，并自动路由至漏洞代码属主。这种方式可以实现发现、识别、检测、响应、恢复整个闭环，从而提高安全运维效率。</p>
+</li>
+</ul>
+<p>Dazz官方给出了一个案例有助于我们理解该产品主要解决的问题，如下图所示[5]：</p>
+<p>
+  <figure>
+    <img src="/img/Dazz/4.png" alt="image">
+    <center><figcaption>图2 Dazz案例</figcaption></center>
+  </figure>
+
+</p>
+<p>图中企业在AWS上有17431个容器受到攻击，其中有673个镜像受到影响，通过部署SaaS化应用Dazz Remediation Cloud, 可快速发现受攻击的容器镜像，并准确识别攻击源，定位到142个待修复的Dockerfile，最后定位到Dockerfile代码所有者，并自动化修复及部署。</p>
+<p>Dazz Remediation Cloud的能力可划分为Discover、Reduce、Fix三个阶段。</p>
+<h2 id="21-discover">2.1 Discover</h2>
+<p>
+  <figure>
+    <img src="/img/Dazz/5.png" alt="image">
+    <center><figcaption>图3 Discover阶段</figcaption></center>
+  </figure>
+
+</p>
+<p>Discover阶段即表示发现企业用户侧代码以及将代码映射至云端的过程, 这里Dazz Remediation Cloud通过read-only API集成至用户现有的CI/CD环境，笔者了解到Dazz使用了ETL技术（一种数据管理技术，用于从各种数据源中获取数据，对其进行转换处理，然后将其加载到数据存储区域中）收集来自于企业CI/CD环境中涉及的各类安全工具的漏洞（如DevSecOps中的Sec阶段，通过镜像扫描工具扫出的漏洞）或错误配置等信息，并且Dazz采用了流式传输技术，从而可以在传输实时性、资源消耗、扩展性以及容错性上带来一定优势，但针对流式传输技术，笔者认为也存在一定不足，比如数据处理过程较为复杂，需要有较好的算法即软件架构设计支持，对计算资源要求也较高，此外，传输过程是否进行了加密，传输过程中如遇到网络中断，如何做灾备处置，这都是Dazz需要考虑得问题，但这些容错方案笔者在官网上并未看到相应信息。</p>
+<h2 id="22-reduce">2.2 Reduce</h2>
+<p>
+  <figure>
+    <img src="/img/Dazz/6.png" alt="image">
+    <center><figcaption>图4 Reduce阶段</figcaption></center>
+  </figure>
+
+</p>
+<p>Reduce即表示降噪的意思，这里笔者理解应当是对上一阶段获取的企业系统漏洞产生的告警信息进行降噪处理，由于整个CI/CD过程中产生的告警信息量很庞大，且有许多重复告警，进行降噪是必要的。Dazz Remediation Cloud提供两个主要能力，分别是：</p>
+<ul>
+<li>自动化提升告警质量和处理漏洞优先级；</li>
+<li>通过自有专利（目前网络上没看到相应内容）实现从根因处获取上下文信息，此处的”根因”，笔者理解为针对产生告警，能够从以下几方面考虑从而降低漏洞和修复运维成本;</li>
+<li>定位到什么原因导致告警，是代码问题，IaC, 还是配置文件；</li>
+<li>定位到具体为哪个工具，责任人，哪一个commit记录触发了告警，具体是什么安全问题；</li>
+</ul>
+<h2 id="23-fix">2.3 Fix</h2>
+<p>
+  <figure>
+    <img src="/img/Dazz/7.png" alt="image">
+    <center><figcaption>图5 Fix阶段</figcaption></center>
+  </figure>
+
+</p>
+<p>Dazz Remediation Cloud 的修复方式有两种:</p>
+<ul>
+<li>
+<p>如果应用程序存在漏洞，Dazz Remediation Cloud 可以在源头自动生成代码修复程序，并将修复程序自动路由至开发人员。开发人员可以选择批准或拒绝修复程序，如果批准，修复程序将自动运行并触发部署流程，从而在最短时间内修复安全隐患。官方给出了一个示例，如图 5 所示，开发人员编写的 Dockerfile 中引入了不安全的镜像源，Dazz Remediation Cloud 可以清晰地为用户展示问题所在行，并提供是否需要缓解的操作，如是则自动进行修复。</p>
+</li>
+<li>
+<p>如果应用程序存在脆弱性配置，如配置文件中暴露了敏感数据、硬编码信息等，Dazz Remediation Cloud 会在代码仓库中给出清晰的缓解步骤，以帮助开发人员快速修复问题。</p>
+</li>
+</ul>
+<h1 id="三-技术浅析">三. 技术浅析</h1>
+<p>由于Dazz技术相关材料较少，很遗憾笔者并未看到其产品核心能力的具体实现机制，笔者仅从Dazz公司对外的一些演讲视频中[10,6]了解到其产品是如何与用户的DevSecOps环境工具集成的，以下是一些相关技术浅析：</p>
+<p>
+  <img src="/img/Dazz/8.png" alt="image">
+
+</p>
+<p>
+  <figure>
+    <img src="/img/Dazz/9.png" alt="image">
+    <center><figcaption>图6 Airbyte的CDK及Dazz目前集成的多个连接器[4]</figcaption></center>
+  </figure>
+
+</p>
+<p>Dazz 的集成技术主要借鉴了 Airbyte 开发的 CDK，CDK是一种连接器开发套件。目前，Dazz 已经集成了约 50 个连接器，可以与各种工具进行集成，如 CI/CD、IaC、云服务商、代码扫描、代码仓库等。Dazz 在连接器框架中提供了一些核心组件，如 integration SDK、integration API等，用于帮助开发者快速构建和部署连接器。同时，Dazz 还提供了一些工具和框架，如 integration testing、reverse integration testing、API surface testing 等，以帮助开发者测试和优化连接器的性能和安全。下图展示了 Dazz 的集成方案框架:[1]</p>
+<p>
+  <figure>
+    <img src="/img/Dazz/10.png" alt="image">
+    <center><figcaption>图7 Dazz集成框架</figcaption></center>
+  </figure>
+
+</p>
+<p>上图我们可以看出，集成分为两个阶段：</p>
+<ul>
+<li>第一阶段是获取一个stream流，它维护数据的增量获取，状态和分页，之后将数据进行保存。</li>
+<li>第二阶段是数据解析。Dazz将原始数据转换为 Dazz 域对象，然后将其发送到后端分析处理并返回最终结果。</li>
+</ul>
+<p>那么作为开发者应当如何使用Dazz提供的SDK，下图是Dazz集成synk工具的实例介绍：</p>
+<p>
+  <figure>
+    <img src="/img/Dazz/11.png" alt="image">
+    <center><figcaption>图8 Sync集成Dazz示例</figcaption></center>
+  </figure>
+
+</p>
+<p>根据图示，开发者需要创建一个 integration.py 文件，并在其中创建一个从 Dazz SDK 继承的 AbstractIntegration 类的实例。这个实例将提供特定集成 (如 synk) 的数据流获取和解析方法。此外，该实例还将使用 Dazz 的 read-only API 将安全数据传输到 Dazz 产品中进行分析。</p>
+<p>创建一个连接器并不复杂，Dazz 宣称只需要两周时间。在这个过程中，开发者需要理解 Dazz 产品的功能和 API，并使用其提供的工具和框架来构建和测试连接器。</p>
+<p>需要注意的是，Dazz 提供的连接器不是通用的，而是针对特定的应用场景和数据类型进行设计的。因此，开发者需要根据具体需求进行定制和扩展，以满足业务需求和数据安全要求。同时，开发者还需要考虑如何将连接器与 Dazz 产品进行集成，以实现数据流的获取、解析和分析。</p>
+<p>Dazz 降噪技术的具体实现原理并未公开披露，因此无法对其实现方式进行详细介绍。不过，根据其对外宣称的能力和特点，可以推测 Dazz可能采用了一些特征选择技术和基于机器学习或深度学习的降噪技术，以达到降噪的效果。无论使用什么技术降噪的关键在于算法的可解释性以及稳定性。同时，需要注意是否存在过拟合的问题，以确保算法的可靠性和真实效果。在实际使用中，降噪技术的效果还是需要根据具体应用场景和数据特点进行测试和评估。</p>
+<h1 id="四-总结">四. 总结</h1>
+<p>针对云的攻击，造成大面积感染也许只需要几分钟，但修复过程往往需要数周甚至数月，在企业系统的CI/CD过程中，开发者以及安全团队往往面对许多问题，例如，安全团队会面对太多的告警，难以评估漏洞优先级，CI/CD管道不具备可见性等，而开发团队则难以对漏洞进行追踪溯源、手动修复和手动部署，从而导致效率低下。具备自动化修复能力必然是未来的趋势，MTTR（Mean Time To Repair）是关键。笔者认为Dazz Remediation Cloud一定程度上解决了上述问题，具备行业领先的技术优势和用户价值，但也具备一些挑战以及来自竞品的压力，笔者将其总结为以下几部分：</p>
+<h2 id="41-技术优势和用户价值">4.1 技术优势和用户价值</h2>
+<p>笔者认为Dazz有以下技术优势：</p>
+<ul>
+<li>快速集成能力</li>
+</ul>
+<p>Dazz Remediation Cloud 可以通过其宣称的CDK快速集成到企业的 CI/CD 环境中，从而帮助开发者和安全团队更快地发现和修复漏洞。</p>
+<ul>
+<li>信息获取能力</li>
+</ul>
+<p>从多个来源获取系统信息，如操作系统版本、库版本、配置文件、Git提交记录、CI/CD Job详细信息等，从而帮助开发者和安全团队更好地了解系统状况，更准确地定位漏洞。</p>
+<ul>
+<li>降噪能力</li>
+</ul>
+<p>采用了先进的降噪技术（专利），可以去除大量的误报和无关信息，从而帮助安全团队更准确地评估漏洞优先级。</p>
+<ul>
+<li>自动修复能力</li>
+</ul>
+<p>可将漏洞关联到具体开发者，并自行修复漏洞，从而减轻开发团队的负担，提高修复效率。</p>
+<p>同时，笔者认为Dazz也带来了一些用户价值：</p>
+<ul>
+<li>提高效率，减少人工操作，缩短故障排查、修复和上线时间</li>
+</ul>
+<p>主要体现在帮助用户删除重复告警数据、确定告警优先级、利用一定技术进行降噪处理以及提升了用户对CI/CD流程的可见性。</p>
+<ul>
+<li>缩短风险窗口时间，尽早发现和解决问题，降低风险</li>
+</ul>
+<p>主要体现在Dazz可以帮助客户从“根因”上找到漏洞问题所在，自动化修复程序加快漏洞修复时间（MTTR）及在生产环境之前发现问题。</p>
+<h2 id="42-挑战">4.2 挑战</h2>
+<ul>
+<li>信息获取是否对用户有侵入性</li>
+</ul>
+<p>笔者认为要实现从“根因”处定位问题，Dazz Remediation Cloud 必然需要深入用户业务，这可能需要具备特殊权限和对用户业务的侵入性。然而，一些企业客户可能对这种侵入性操作感到担忧。此外，由于具备特殊权限，如果 Dazz Remediation Cloud 自身存在安全问题，那么攻击者可能会利用该漏洞对业务造成严重影响。</p>
+<ul>
+<li>降噪是否会产生大量误报，如何避免</li>
+</ul>
+<p>Dazz使用的降噪技术可能会产生误报问题，如何避免或减少误报，如何针对千变万化的日志内容进行算法及模型的及时调整和优化是Dazz面临的挑战。</p>
+<ul>
+<li>集成过程中传输数据的安全性</li>
+</ul>
+<p>Dazz 使用 CDK 将企业用户的代码及产生的告警信息传递至 SaaS 化平台。在这个过程中，Dazz 使用了 read-only API 的方式进行传输。虽然这种方式可以提供访问控制机制，确保授权用户才能访问，但是 Dazz 也面临着挑战。</p>
+<p>例如，如果 read-only API 的访问控制不够严格，恶意用户仍然可以通过各种手段绕过访问控制，从而获取敏感数据。因此，在选择 read-only API 时，需要权衡其安全性和访问控制的灵活性。这些也是 Dazz 需要面对的挑战。</p>
+<ul>
+<li>现代AI变革带来的冲击</li>
+</ul>
+<p>最近，我们看到了一些非常有趣的技术，这些技术可以帮助在不同领域中的人或企业进行高效的协作和管理。例如，OpenAI发布的Security Copilot可以帮助安全团队更好地管理其安全实践，而Chatgpt也通过使用大语言模型和相应机器学习算法处理海量告警的降噪问题。考虑到Dazz所做的事情与Security Copilot相似，我们可以推测Dazz可能使用了类似的技术，包括使用Chatgpt等大语言模型解决降噪问题。现在，Chatgpt3.5已经开放了接口，这使得更多人能够使用它来解决各种复杂的问题。无论是在安全领域还是其他领域，使用这些高效的技术，将有助于提高团队的效率和响应速度，减少疲于应对日益复杂的问题所带来的负担。这些都将给Dazz带来挑战</p>
+<h2 id="43-竞品比对">4.3 竞品比对</h2>
+<p>Orca Security 是一家成立于 2019 年，总部位于美国波特兰的云安全公司。该公司已完成 C 轮融资，融资金额为 6320 万美金，主要提供负载级别的安全防护服务，服务对象涵盖 AWS、Microsoft Azure、Google Cloud 等公有云平台[9]。</p>
+<p>Orca 的官方网站Slogen为“Quickly discover, identify and remediate cloud risks to keep your business secure”,即快速发现、识别、减缓云风险，保障业务安全。这与 Dazz 的使命相同，不过 Orca 比 Dazz 进入市场更早，理论上拥有更多的市场经验。</p>
+<p>与 Dazz 不同的是，Orca 的 SDK 无需安装，用户可以直接使用。此外，在修复漏洞的流程上，Orca 采用人工指定，而 Dazz 则采用自动化修复。总体而言，Orca 和 Dazz 都有自己的特色。</p>
+<p>笔者认为 Dazz 今年主打能力全部围绕“自动化“, 这是一个非常好的点，也许会获得评委的认可。祝愿 Dazz 能在今年 RSAC 创新沙盒中脱颖而出，获得好的成绩。</p>
+<h1 id="五-参考文献">五. 参考文献</h1>
+<p>[1]. <a href="https://www.Dazz.io/post/no-more-sassy-saas-integrations">https://www.Dazz.io/post/no-more-sassy-saas-integrations</a></p>
+<p>[2]. <a href="https://www.dazz.io/press-releases/rsa-conference-2023-innovation-sandbox-finalist">https://www.Dazz.io/press-releases/rsa-conference-2023-innovation-sandbox-finalist</a></p>
+<p>[3]. <a href="https://twitter.com/Dazz_io">https://twitter.com/Dazz_io</a></p>
+<p>[4]. <a href="https://www.dazz.io/white-paper/remediation-cloud">https://www.Dazz.io/white-paper/remediation-cloud</a></p>
+<p>[5]. <a href="https://www.dazz.io/case-studies/financial-services">https://www.Dazz.io/case-studies/financial-services</a></p>
+<p>[6]. <a href="https://www.dazz.io/demo">https://www.Dazz.io/demo</a></p>
+<p>[7]. <a href="https://dazz-curious.webflow.io/about-us">https://Dazz-curious.webflow.io/about-us</a></p>
+<p>[8]. <a href="https://www.crunchbase.com/organization/dazz-5dab">https://www.crunchbase.com/organization/Dazz-5dab</a></p>
+<p>[9]. <a href="https://orca.security/">https://orca.security/</a></p>
+<p>[10].https://www.youtube.com/watch?v=C1kNdcHh11c&amp;t=671s</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-3-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/" data-toggle="tooltip" data-placement="top" title="云原生API安全：背景、态势与风险防护">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
