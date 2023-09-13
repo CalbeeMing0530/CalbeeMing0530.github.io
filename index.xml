@@ -6,10 +6,19 @@
     <description>Recent content on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 May 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Service Mesh未来发展趋势浅析</title>
+      <link>https://puming.zone/post/2023-08-31-servicemesh%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E6%B5%85%E6%9E%90/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2023-08-31-servicemesh%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E6%B5%85%E6%9E%90/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《Service Mesh未来发展趋势浅析》 专题：【云原生安全】 往期回顾： Istio系列一：Istio的认证授权</description>
+    </item>
     
     <item>
       <title>云攻防课程系列：云计算基础与整体安全</title>
@@ -386,8 +395,10 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/top/about/</guid>
-      <description> 博主目前就职于绿盟科技星云实验室资深安全研究员岗位，base西安，在云原生应用安全及安全创新领域有丰富的实战经验，长期从事Kubernetes、微服务、服务网格安全、无服务器安全的研究。在绿盟科技任职期间，参与过安全应用商店、安全编排与自动化响应(SOAR)平台、容器安全平台、安全产品(如WAF)云原生化的架构设计和研发工作。作为核心作者参与2018年《绿盟科技容器安全技术报告》、2021年《绿盟科技云原生安全技术报告》、2021年《CSA CSTR 云原生安全标准》等编写，联合著有《云原生安全：攻防实践与体系构建》一书。
- 个人专利  《一种编排微场景剧本的方法、服务器、介质及计算机设备》 《一种服务网格场景下的入侵检测方法与装置》 《一种安全服务提供方法与装置》 《一种微服务应用场景下的安全防护方法与装置》    </description>
+      <description> 博主目前就职于绿盟科技星云实验室高级安全研究员岗位，base西安，在云原生应用安全及安全创新领域有丰富的实战经验，长期从事Kubernetes、微服务、服务网格安全、无服务器安全的研究。在绿盟科技任职期间，参与过安全应用商店、安全编排与自动化响应(SOAR)平台、容器安全平台、安全产品(如WAF)云原生化的架构设计和研发工作。作为核心作者参与2018年《绿盟科技容器安全技术报告》、2021年《绿盟科技云原生安全技术报告》、2021年《CSA CSTR 云原生安全标准》等编写，联合著有《云原生安全：攻防实践与体系构建》一书。
+  个人专利
+ 《一种编排微场景剧本的方法、服务器、介质及计算机设备》已公开 CN111835768A 《一种微服务应用场景下的安全防护方法与装置》已公开 202111259722.5 《一种云原生应用安全场景下的全流量劫持方法、装置和介质》官方提交 2023110749701 《一种服务网格场景下的入侵检测方法与装置》申请公开 CN112153049A    参与专利
+ 《一种用于处理安全事件的方法、装置、介质》 已公开 CN111835768A 《一种安全应用交付方法、装置以及存储介质》已公开 CN109710270A 《一种延时任务处理方法及装置》 已公开 CN202010236020 《一种竞态条件漏洞利用的检测方法及装置》已公开 CN202010806212 《一种容器环境异常检测的方法、装置、介质及计算机设备》申请公开 CN111813497A    </description>
     </item>
     
     <item>
@@ -396,7 +407,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/top/books/</guid>
-      <description>参考书籍  《云原生安全：攻防实践与体系构建》 《云原生安全技术报告》 《容器安全技术报告》 《绿盟科技云安全解决方案》  </description>
+      <description>出版书籍&amp;amp;参编行业报告&amp;amp;参编标准  《云原生安全：攻防实践与体系构建》 《2021年绿盟科技云原生安全技术报告》 《2018年绿盟科技容器安全技术报告》 《2022CSA云安全联盟标准 —— 云原生安全技术规范》 《2022中国联通云原生安全实践白皮书》  </description>
     </item>
     
   </channel>

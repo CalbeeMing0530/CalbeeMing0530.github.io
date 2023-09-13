@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 May 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,16 +14,25 @@
     <item>
       <title>Cloud Native</title>
       <link>https://puming.zone/tags/cloud-native/</link>
-      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/cloud-native/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Service Mesh</title>
+      <link>https://puming.zone/tags/service-mesh/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/service-mesh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>云原生安全</title>
       <link>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</guid>
       <description></description>
@@ -32,7 +41,7 @@
     <item>
       <title>云安全</title>
       <link>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</guid>
       <description></description>
@@ -41,9 +50,18 @@
     <item>
       <title>云计算</title>
       <link>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</link>
-      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>服务网格</title>
+      <link>https://puming.zone/tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</guid>
       <description></description>
     </item>
     
@@ -386,15 +404,6 @@
       <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/istio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Service Mesh</title>
-      <link>https://puming.zone/tags/service-mesh/</link>
-      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/service-mesh/</guid>
       <description></description>
     </item>
     

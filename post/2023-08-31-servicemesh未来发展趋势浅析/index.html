@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="Service Mesh未来发展趋势浅析" />
+    <meta property="og:title" content="Service Mesh未来发展趋势浅析" />
+    <meta property="twitter:title" content="Service Mesh未来发展趋势浅析" />
+    
+
+    
+    <meta name="description" content="一文了解Service Mesh在未来的重要性和发展方向">
+    <meta property="og:description" content="一文了解Service Mesh在未来的重要性和发展方向" />
+    <meta property="twitter:description" content="一文了解Service Mesh在未来的重要性和发展方向" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Service Mesh未来发展趋势浅析-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2023-08-31-servicemesh%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E6%B5%85%E6%9E%90/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC" title="服务网格">
+                            服务网格
+                        </a>
+                        
+                        <a class="tag" href="/tags/service-mesh" title="Service Mesh">
+                            Service Mesh
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/cloud-native" title="Cloud Native">
+                            Cloud Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                    </div>
+                    <h1>Service Mesh未来发展趋势浅析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, August 31, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>本文转自绿盟科技研究通讯公众号 <a href="https://mp.weixin.qq.com/s/Lfy2AoTmiyNIWA-6rZnuOg">《Service Mesh未来发展趋势浅析》</a></p>
+<h2 id="专题云原生安全">专题：【云原生安全】</h2>
+<h2 id="往期回顾">往期回顾：</h2>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247485972&amp;idx=1&amp;sn=022448f50cb6d1617b609a4d2c23e1b3&amp;chksm=e84faccbdf3825ddf14dd3ccb7c346a68a7885f7ea2a46a0102dcd268b0efc949a1eb7c0b893&amp;mpshare=1&amp;scene=1&amp;srcid=0721CRuBaSETxxMf54AI2EIR&amp;sharer_sharetime=1689910419116&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.6.70203&amp;platform=mac#rd">Istio系列一：Istio的认证授权机制分析</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247486128&amp;idx=1&amp;sn=35ba57c44d26d4b67e9a809d33841225&amp;chksm=e84fac6fdf382579ba55f6ef702c512acd083aea9f2a5b43cbdf27d3901e2e708af63eb6bf68&amp;scene=21#wechat_redirect">Istio系列二：Envoy组件分析</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247486196&amp;idx=1&amp;sn=e86ad6be334f6cc24df69e75824f8648&amp;chksm=e84fac2bdf38253dd9f3facbcb75fffc7d9aa77d003f6a26ebd6e9088471f4addefc17a0e917&amp;mpshare=1&amp;scene=1&amp;srcid=0721jeLHhkCGUlgJxDa2UbH5&amp;sharer_sharetime=1689910444643&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.6.70203&amp;platform=mac#rd">Istio系列三：Mixer、Pilot组件分析实践</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247486196&amp;idx=1&amp;sn=e86ad6be334f6cc24df69e75824f8648&amp;chksm=e84fac2bdf38253dd9f3facbcb75fffc7d9aa77d003f6a26ebd6e9088471f4addefc17a0e917&amp;mpshare=1&amp;scene=1&amp;srcid=0721jeLHhkCGUlgJxDa2UbH5&amp;sharer_sharetime=1689910444643&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;version=4.1.6.70203&amp;platform=mac#rd">Istio系列三：Mixer、Pilot组件分析实践</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIyODYzNTU2OA==&amp;mid=2247487481&amp;idx=1&amp;sn=02a38db691331634fe41a413beb58694&amp;chksm=e84fa926df382030ac57be9c1ee9cb8836ec37fc79e3a2cef68acb6945a51f0ed94882e39611&amp;mpshare=1&amp;scene=1&amp;srcid=081892KXGeWF6m6lJvwY4vmP&amp;sharer_sharetime=1692340791080&amp;sharer_shareid=b8285a2733485f465226a2ef912c4f28&amp;from=industrynews&amp;version=4.1.9.6010&amp;platform=win#rd">云原生攻防研究 — Istio访问授权再曝高危漏洞</a></p>
+<h1 id="一--service-mesh背景及定义">一.  Service Mesh背景及定义</h1>
+<p>2017 年底，Service Mesh依托其非侵入式特性在微服务技术中崭露头角， Service Mesh 又译作“服务网格”，作为微服务间通信的基础设施层，Service Mesh主要用来治理微服务，Buoyant 公司的 CEO William Morgan在文章《WHAT’S A SERVICE MESH? AND WHY DO I NEED ONE? 》[2] 中解释了什么是 Service Mesh，为什么云原生应用需要使用 Service Mesh。Service Mesh通常通过一组轻量级网络代理实现，这些代理与应用程序一起部署，而无需感知应用程序本身， 图1为Service Mesh的架构图：</p>
+<p>
+  <figure>
+    <img src="/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90/%e5%9b%be1.png" alt="image">
+    <center><figcaption>图1. Service Mesh架构图</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出Service Mesh的数据平面作为 Sidecar 运行在服务旁，对应用来说是透明的，所有通过应用的流量均会经过 Sidecar，因此 Sidecar 实现了流量控制功能，包括服务发现、负载均衡、智能路由、故障注入、熔断器、 TLS 终止等。此外，Service Mesh还提供了可观测性以及安全的能力。Service Mesh的出现将微服务治理从应用自身中抽离出来，通过 Sidecar 的形式极大降低了代码耦合度，使得微服务管理不再复杂。</p>
+<p>Service Mesh的典型代表为Istio，Istio起始于2016年，最初由Google、IBM、Lyft联合开发的开源项目，2017年5月发布第一个release 0.1.0，它是一个完全开源的服务网格，其中，数据平面可以透明的注入至现有的分布式应用中，Istio也是一个平台，包括允许它集成到任何日志记录平台，遥测或策略系统的API。自2017年第一个版本发布以来，Istio已经经历了两次技术架构的变更。最初的控制平面微服务架构被转换为单体架构，以降低系统自身的复杂性。然后，引入了全新的“Ambient mesh”数据平面模式，以提供更广泛的兼容性并降低基础设施的成本。这表明Istio社区在持续创新，在不断解决实际问题的道路上从未停止前进。2022年4月25日，Istio社区宣布正在申请项目捐赠给CNCF,。同年9月28日，CNCF正式宣布将Istio作为CNCF孵化项目。2023年7月12日，Istio项目正式从CNCF毕业，成为最快毕业的CNCF项目。</p>
+<p>Gartner将Service Mesh定义为一种分布式计算中间件，主要部署在如Kubernetes等容器编排管理系统中，该中间件可实现、保护和优化微服务间的通信过程。同时提供动态服务发现、请求路由、可观测、可追溯性和通信安全性等能力。</p>
+<h1 id="二service-mesh趋势分析">二．Service Mesh趋势分析</h1>
+<p>Gartner预测，截至2026年，将会有少于25%使用Kubernetes的组织会使用Service Mesh[1]，以上预测我们可以看出，Gartner认为Service Mesh将不会在未来3年内被大规模应用，那么限制其大规模应用的主要因素有哪些？笔者认为应当从Service Mesh的市场导向、架构设计、交付模式、使用用户等多方面因素去分析。</p>
+<h2 id="21-市场导向">2.1 市场导向</h2>
+<p>2016年Service Mesh概念诞生至今已过7年半载，单谈论热度，Service Mesh在市场上早已过了早期的炒作期，Service Mesh市场实际上并未取得预期收入上的增长或是商业上的成功[1]。虽然容器和容器编排工具近些年在企业得到了广泛地应用，但Service Mesh解决方案却未能渗入市场太多，早期的炒作主要与将微服务作为应用程序的首选架构选项有关。但这也同时导致了针对微服务的可观测性及管理的需求量激增。然而，实施和运营Service Mesh的复杂性以及容器编排平台提供的网络和服务治理功能的重叠导致商业市场受到了不利影响。如Kubernetes可对微服务进行治理（弹性扩缩容、负载均衡等），尽管治理粒度不如Service Mesh细，但对于用户而言，由于Service Mesh自身需要一定运维成本，因而在缺乏成熟的DevOps实践的情况下，运营负担会增加。随着容器和服务数量的指数级增长，这些挑战会变得更加严峻，特别是在多云环境中。</p>
+<p>相比开源Service Mesh，商业Service Mesh凭借易用性、操作简便性以及一些附加高级功能有望取得更长远的发展，比如Google的Anthos Service Mesh[5]，一款基于Istio的全托管Service Mesh，也得到了市场的需求；此外，满足特定复杂需求的解决方案也可能会有更长远的发展，如支持处理毫秒级请求，跨多个Service Mesh进行管理等。</p>
+<p>根据Gartner报告分析得出[1]，目前Service Mesh市场规模相对较小，共约40家供应商。这些供应商主要提供了不同类型的Service Mesh，如Sidecar、Node Proxy或多集群Proxy的解决方案。虽然Service Mesh技术架构创新在缓慢且稳步地发展中，但获取商业上成功并非易事，笔者认为未来短期内不太可能吸引更多新的供应商进入这一市场中。</p>
+<h2 id="22-架构设计">2.2 架构设计</h2>
+<p>如各位读者所知，Service Mesh解决方案提供多种架构设计模式，包括边车模式（Sidecar Proxy-Based）、网络中心模式（Network-Centric-Based）、主机代理（Host Proxy-Based）模式、联邦集群模式（Multimesh-Based），下面笔者将对这四种模式进行简要分析。</p>
+<h3 id="221-边车模式">2.2.1 边车模式</h3>
+<p>Istio早期的部署模式一直在推广Sidecar模式，即下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90/%e5%9b%be2.png" alt="image">
+    <center><figcaption>图2. Sidecar模式</figcaption></center>
+  </figure>
+
+</p>
+<p>图2我们即能看出Sidecar的生命周期是随业务Pod地变化而变化的, 边车模式让服务治理能贴近每个业务Pod从而可达到精细化管控的目的，但这种模式无疑也带来了性能上的瓶颈，笔者认为主要体现在两方面：</p>
+<ul>
+<li>
+<p>由于Sidecar和业务容器位于同一Pod，Sidecar自身会截获进出Pod的流量并处理，最后再将流量返回至业务容器，每个请求的通信链路共会经历两跳，这在简单的业务系统中并无不妥，但云原生环境下，微服务数量呈指数增长，频繁的东西向流量交互成为常态，延迟必然会升高，导致性能瓶颈；</p>
+</li>
+<li>
+<p>由于Sidecar和业务容器一比一的配置，因而当业务Pod数量增多时，Sidecar自身占用的CPU及内存也会呈指数增长，从而影响业务，带来了额外的资源开销，导致性能瓶颈。</p>
+</li>
+</ul>
+<h3 id="222-网络中心模式">2.2.2 网络中心模式</h3>
+<p>我们知道，Service Mesh的许多功能都围绕着微服务流量管理（L3/L4/L7层）而设计。网络中心模式的Service Mesh聚焦于网络层（L3/L4层）。这种模式常通过底层基础设施提供的内核级功能实现，从而可以消除对Sidecar模式的依赖。目前，市场上已有多种实现此模式的方案供选择，如Antrea[6]可通过扩展容器网络接口（CNI）来提供微服务网络连接及安全性。Cilium[7]利用eBPF技术在内核层实现微服务可观测性，并结合Envoy代理在用户空间实现7层流量管理。与传统Sidecar模式相比，网络中心模式的Service Mesh可实现更低的延迟和更少的CPU、内存占用率。但目前市场上，网络中心模式的Service Mesh方案提供的整体功能并不成熟，易用性也较低，仍有待时间的考验[1]。</p>
+<h3 id="223-主机代理模式">2.2.3 主机代理模式</h3>
+<p>主机代理模式通常指在节点级别共享代理，而非Sidecar在Pod级别共享代理，这种模式无疑带来了许多优势。如可以大幅减少Sidecar数量，解决CPU、内存资源利用不足的问题；再如可不侵入业务Pod，自身升级或重启时不会影响主线业务；目前Istio Ambient mesh[8] 提供了一种新的无Sidecar数据平面的模式，即主机代理模型。笔者了解到，Ambient mesh将Istio分成了上下两层，底层主要处理L4层流量及零信任安全，通常以Kubernetes 的Daemonset资源部署在每个节点上，上层处理L7层流量，通常以Deployment部署，可动态伸缩。需要注意的是，上下层对应的能力是独立的，如果用户无需L7层流量管理那么只部署底层能力即可，此外两层均无需对业务Pod进行修改。</p>
+<p>
+  <figure>
+    <img src="/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90/%e5%9b%be3.png" alt="image">
+    <center><figcaption>图3. Ambient mesh逻辑分层</figcaption></center>
+  </figure>
+
+</p>
+<p>虽然主机代理模式很大程度上解决了资源使用率的问题，但由于在市场上相对较新，供应商支持有限，仍有待验证。</p>
+<h3 id="224-联邦集群模式">2.2.4 联邦集群模式</h3>
+<p>联邦集群模式是具有多个Service Mesh管理的解决方案，用户业务可能部署分散在不同的Service Mesh环境下，联邦集群模式的出现是为了实现不同集群网格间出入口流量控制、安全、身份和访问管理、微隔离和API管理。如Greymatter企业应用网络管理平台[3]提供针对多个Service Mesh支持以此来简化微服务的治理工作。Kong Mesh也同时实现了基于Kuma的企业Service Mesh，用于多Kubernetes集群[4]。据笔者了解，联邦集群模式目前在国内应用并不广泛，应该是受限于Service Mesh本身市场规模不大及现有应用落地案例较少的缘故。</p>
+<h2 id="23-交付模式">2.3 交付模式</h2>
+<p>根据交付模式不同，企业或组织在选取Service Mesh的类型上也有不同，据Gartner统计，主要包括开源、商业、自主管理、供应商、云服务商这几种模式。</p>
+<h3 id="231-开源解决方案">2.3.1 开源解决方案</h3>
+<p>自从Service Mesh问世以来，开源社区一直非常活跃。除了以Istio为代表的Service Mesh，还有HashiCorp Consul[9]、Kumap[10]、Linkerd[11]等解决方案，这些开源解决方案在业内得到广泛应用。其中一个主要原因是它们与Kubernetes和容器管理生态系统密切相关，并且在一定程度上增强了服务治理功能。大多数开源Service Mesh解决方案都与Kubernetes发行版相互集成，通常以组件形式打包，并可以通过Helm进行安装。尽管开源Service Mesh在基础功能方面具有较高的一致性，但在高级功能方面存在明显差异，例如出入口流量控制、分布式支持、金丝雀部署、数据丢失防护等。开源Service Mesh为大多数希望采用Service Mesh的企业提供了可行的选择，是一个很好的入门教材。</p>
+<h3 id="232-商业解决方案">2.3.2 商业解决方案</h3>
+<p>尽管开源解决方案在推动企业了解Service Mesh方面做出了诸多贡献，但对于企业而言，未来战略规划中的Service Mesh最终需要实际落地。熟悉Service Mesh的读者应该清楚，它的内部架构相对复杂。除了需要具备基础的专业知识外，还需要丰富的运维经验。然而，目前大多数中小型企业并没有掌握开源解决方案的运维专业知识。</p>
+<p>商业Service Mesh可以很好地解决上述问题。它们具有更强大的产品功能、稳定的托管支持和专业的服务，能够为持续集成/交付部署（CI/CD）和运营支持提供更好的产品功能。然而，商业解决方案也会增加IT预算和运营成本。</p>
+<p>根据Gartner的预测，在未来几年内，商业Service Mesh方案可能比开源解决方案更受广大企业采用[1]。</p>
+<h3 id="233-自主管理方案">2.3.3 自主管理方案</h3>
+<p>自主管理方案是指用户个体可以自行管理的Service Mesh方案。用户可以选择使用开源方案作为基础架构，然后根据自己的需求进行定制开发，并将其部署在公有云或私有云环境中。自主管理方案的优势在于灵活度较高，但也面临一些挑战，特别是在Service Mesh的部署和运维方面。</p>
+<h3 id="234-供应商解决方案">2.3.4 供应商解决方案</h3>
+<p>供应商解决方案是指一些供应商为Service Mesh提供专有的服务，以帮助客户更简单地拥有和运行Service Mesh。通常，这些服务以软件即服务（SaaS）的形式提供。在供应商解决方案中，供应商负责管理Service Mesh的控制平面的安装、配置和运行，并维护数据平面中的代理。</p>
+<p>具体而言，供应商可以自动升级数据平面代理，同步数据平面策略等。对于企业而言，只需定期向供应商支付费用，便可以享受这些服务。另外，还有一些供应商接管控制平面，而用户负责管理数据平面。</p>
+<h3 id="235-云服务商托管解决方案">2.3.5 云服务商托管解决方案</h3>
+<p>目前，全球主流云服务提供商都提供包含Service Mesh在内的云服务产品，例如AWS App Mesh[12]、Microsoft Open Service Mesh[13]和Google的Anthos Service Mesh等。这些云服务商提供的Service Mesh通常基于开源解决方案，并且以托管方式提供，这有助于企业节省管理基础设施资源的成本。然而，企业在使用云服务商提供的Service Mesh时，会持续增加云运营成本，并且在云环境之外部署和运行Service Mesh会面临一些挑战。</p>
+<p>在这种情况下，采用混合云部署方式是一个较好的选择。混合云意味着将Service Mesh部署在既有的云环境中，同时也在企业自己的私有云或本地数据中心中部署Service Mesh。这种方式可以在保持灵活性和控制权的同时，减少企业的云运营成本。</p>
+<h2 id="24-使用用户">2.4 使用用户</h2>
+<p>据Gartner报告指出，限制Service Mesh大规模应用的主要原因之一是&quot;人的因素&rdquo;。笔者将其总结为两个主要方面：</p>
+<p>首先，企业领导往往难以确定或有效传达Service Mesh的真正价值，明确所有权和投入成本，从而无法证明商业采购的合理性。这主要是因为对Service Mesh的认知有限，进而限制了Service Mesh的市场潜力。</p>
+<p>其次，部署和运维Service Mesh需要大量的人才投资。运营负担可能超过Service Mesh自身的管理和运维。这意味着企业需要投入大量的人力资源来支持Service Mesh的正常运行，这可能会成为限制Service Mesh应用规模的障碍。</p>
+<p>为了克服这些限制，企业需要加强对Service Mesh的了解，并能够清楚地传达其价值和成本效益。此外，他们还需要合理规划和管理Service Mesh的运维人力资源，以确保其可持续发展和成功应用。</p>
+<h1 id="三service-mesh代表厂商">三．Service Mesh代表厂商</h1>
+<p>上文笔者对Service Mesh的趋势进行了分析，从架构设计以及交付模式上看市场上Service Mesh类型很多，如表1所示[1]：</p>
+<table>
+<thead>
+<tr>
+<th>供应商</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Web Services(AWS)</td>
+<td>AWS App Mesh</td>
+</tr>
+<tr>
+<td>Antrea</td>
+<td>Antrea</td>
+</tr>
+<tr>
+<td>Apache Software Founddation</td>
+<td>Apache Service Comb Mesher</td>
+</tr>
+<tr>
+<td>Buoyant</td>
+<td>Buoyant Cloud、Linkerd</td>
+</tr>
+<tr>
+<td>Cisco</td>
+<td>Calisti Service Mesh 、Manager  Cisco Service Mesh Manager</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Aspen Service Mesh 、NGINX  Service Mesh</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>Anthos Service Mesh</td>
+</tr>
+<tr>
+<td>greymatter.io</td>
+<td>Enterprise Application Networking  Platform</td>
+</tr>
+<tr>
+<td>HashiCorp</td>
+<td>Consul</td>
+</tr>
+<tr>
+<td>Huawei</td>
+<td>Application Service Mesh</td>
+</tr>
+<tr>
+<td>Isovalent</td>
+<td>Cilium Enterprice</td>
+</tr>
+<tr>
+<td>Istio</td>
+<td>Istio Service Mesh</td>
+</tr>
+<tr>
+<td>Kong</td>
+<td>Kong Mesh、Kuma</td>
+</tr>
+<tr>
+<td>Microsoft</td>
+<td>Open Service Mesh</td>
+</tr>
+<tr>
+<td>Network Service Mesh</td>
+<td>Network Service Mesh</td>
+</tr>
+<tr>
+<td>Oracle</td>
+<td>Oracle Cloud Infrastructure (OCI)  Service Mesh</td>
+</tr>
+<tr>
+<td>Red Hat</td>
+<td>OpenShift Service Mesh</td>
+</tr>
+<tr>
+<td>Solo.io</td>
+<td>Gloo Mesh</td>
+</tr>
+<tr>
+<td>Tencent</td>
+<td>Tencent Cloud Mesh</td>
+</tr>
+<tr>
+<td>Tetrate</td>
+<td>Tetrate Service Bridge</td>
+</tr>
+<tr>
+<td>Tigera</td>
+<td>Calico</td>
+</tr>
+<tr>
+<td>Tarefik Labs</td>
+<td>Traefik Mesh</td>
+</tr>
+<tr>
+<td>VMware</td>
+<td>Tanzu Service Mesh</td>
+</tr>
+</tbody>
+</table>
+<p>在最终选取具体Service Mesh方案前，笔者建议企业应当首先从以下几方面去考虑：</p>
+<ul>
+<li>企业是否大规模构建部署了微服务；</li>
+<li>企业是否部署了容器编排平台，如Kubernetes、Openshift等；</li>
+<li>企业是否需要管理微服务间依赖关系，是否有可观测性的需求；</li>
+<li>企业是否针对微服务有周期性发布的计划；</li>
+<li>企业部署的微服务是否存在大量东西向流量交互；</li>
+<li>企业是否具备DevSecOps流水线；</li>
+<li>企业是否具备相对规范及成熟的大规模运维团队；。</li>
+</ul>
+<h1 id="四service-mesh安全实践">四．Service Mesh安全实践</h1>
+<p>绿盟科技星云实验室在2018年便开始接触Service Mesh，研究如何将安全能力与Service Mesh结合，早期提出了安全能力容器化、安全能力集成Service Mesh Sidecar、安全能力Sidecar化等思路（更多内容见绿盟科技研究通讯<a href="https://mp.weixin.qq.com/s/9nDJ8RbAjUvGAboMnOtTxw">《云原生API安全：背景、态势与风险防护》</a>），并于近年来先后孵化了基于Service Mesh和Kubernetes Ingress场景的云原生API安全解决方案，支持边车代理、主机代理等部署模式。如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90/%e5%9b%be4.png" alt="image">
+    <center><figcaption>图4. 方案部署逻辑视</figcaption></center>
+  </figure>
+
+</p>
+<p>Service Mesh场景中，安全容器以主机代理（Host Proxy-Based）模式部署，采用eBPF进行引流，适配全向流量防护场景，可与Service Mesh Istio无缝集成，支持多集群部署。</p>
+<p>
+  <figure>
+    <img src="/img/ServiceMesh%e6%9c%aa%e6%9d%a5%e5%8f%91%e5%b1%95%e8%b6%8b%e5%8a%bf%e6%b5%85%e6%9e%90/%e5%9b%be5.png" alt="image">
+    <center><figcaption>图5. Service Mesh部署逻辑视图</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="五总结">五．总结</h1>
+<p>本文从市场导向、架构设计、交付模式和用户使用四个方面对Service Mesh的市场发展趋势进行了分析。可以看出，Service Mesh市场受到开源技术的影响很大，同时商业解决方案也越来越受到重视。然而，需要注意的是，Service Mesh社区也在持续发展，企业需要紧跟商业和开源领域的发展，以确定新的趋势，做好战略布局。此外，Service Mesh的最终目标是提高服务之间的运行效率、可见性和安全性，因此企业在选择Service Mesh时应首先考虑方案的实用性、控制平面和数据平面的有效性以及方案自身的成熟度。</p>
+<h1 id="六参考文献">六．参考文献</h1>
+<ol>
+<li>Gartner Market Guide for Service Mesh 2023</li>
+<li><a href="https://buoyant.io/2020/10/12/what-is-a-service-mesh/">https://buoyant.io/2020/10/12/what-is-a-service-mesh/</a></li>
+<li><a href="https://www.greymatter.io/solutions/">https://www.greymatter.io/solutions/</a></li>
+<li><a href="https://konghq.com/products/kong-mesh">https://konghq.com/products/kong-mesh</a></li>
+<li><a href="https://cloud.google.com/anthos/service-mesh?hl=zh-cn">https://cloud.google.com/anthos/service-mesh?hl=zh-cn</a></li>
+<li><a href="https://antrea.io/">https://antrea.io/</a></li>
+<li><a href="https://cilium.io/">https://cilium.io/</a></li>
+<li><a href="https://istio.io/latest/docs/ops/ambient/architecture/">https://istio.io/latest/docs/ops/ambient/architecture/</a></li>
+<li><a href="https://www.consul.io/">https://www.consul.io/</a></li>
+<li><a href="https://kuma.io/">https://kuma.io/</a></li>
+<li><a href="https://linkerd.io/">https://linkerd.io/</a></li>
+<li><a href="https://aws.amazon.com/cn/app-mesh/">https://aws.amazon.com/cn/app-mesh/</a></li>
+<li><a href="https://openservicemesh.io/">https://openservicemesh.io/</a></li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-05-04-%E4%BA%91%E6%94%BB%E9%98%B2%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B4%E4%BD%93%E5%AE%89%E5%85%A8/" data-toggle="tooltip" data-placement="top" title="云攻防课程系列：云计算基础与整体安全">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
