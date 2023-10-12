@@ -4,21 +4,41 @@
   
   <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/cloud-native/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
+    <loc>https://puming.zone/categories/life/</loc>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/life/</loc>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/post/</loc>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2023-10-12-%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2023-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/cloud-native/</loc>
     <lastmod>2023-08-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -33,7 +53,7 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/</loc>
+    <loc>https://puming.zone/post/2023-10-12-%E9%9A%8F%E6%89%8B%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2023-08-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -149,16 +169,6 @@
   
   <url>
     <loc>https://puming.zone/post/2022-12-31-goodbye-2022-what-up-2023/</loc>
-    <lastmod>2022-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/life/</loc>
-    <lastmod>2022-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/life/</loc>
     <lastmod>2022-12-31T00:00:00+00:00</lastmod>
   </url>
   

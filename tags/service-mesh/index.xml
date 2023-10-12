@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Service Mesh未来发展趋势浅析</title>
+      <link>https://puming.zone/post/2023-10-12-%E9%9A%8F%E6%89%8B%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2023-10-12-%E9%9A%8F%E6%89%8B%E7%AC%94%E8%AE%B0/</guid>
+      <description>本文转自绿盟科技研究通讯公众号 《Service Mesh未来发展趋势浅析》 专题：【云原生安全】 往期回顾： Istio系列一：Istio的认证授权</description>
+    </item>
+    
+    <item>
       <title>【云原生攻防研究】Istio访问授权再曝高危漏洞</title>
       <link>https://puming.zone/post/2020-3-15-istio%E8%AE%BF%E9%97%AE%E6%8E%88%E6%9D%83%E5%86%8D%E6%9B%9D%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/</link>
       <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>

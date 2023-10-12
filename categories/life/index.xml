@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>life on Ming Blog</title>
+    <title>Life on Ming Blog</title>
     <link>https://puming.zone/categories/life/</link>
-    <description>Recent content in life on Ming Blog</description>
+    <description>Recent content in Life on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Dec 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Oct 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/categories/life/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>日常记录</title>
+      <link>https://puming.zone/post/2023-10-12-%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2023-10-12-%E8%AE%B0%E5%BD%95/</guid>
+      <description>从读者的视角来看，对于那些真正懂专业，懂行业，懂科学，懂逻辑的人而言，正因为你在顶风发言，不怕承担骂名，他们才会更加认可你的专业度，更加珍惜</description>
+    </item>
     
     <item>
       <title>Goodbye 2022, what up 2023</title>
