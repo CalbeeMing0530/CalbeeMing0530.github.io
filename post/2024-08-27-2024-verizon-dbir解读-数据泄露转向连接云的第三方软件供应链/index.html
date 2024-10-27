@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链" />
+    <meta property="og:title" content="2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链" />
+    <meta property="twitter:title" content="2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链" />
+    
+
+    
+    <meta name="description" content="一文掌握Verizon DBIR报告关键信息">
+    <meta property="og:description" content="一文掌握Verizon DBIR报告关键信息" />
+    <meta property="twitter:description" content="一文掌握Verizon DBIR报告关键信息" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F" title="数据泄漏">
+                            数据泄漏
+                        </a>
+                        
+                        <a class="tag" href="/tags/verizon" title="Verizon">
+                            Verizon
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6" title="安全事件">
+                            安全事件
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA" title="威胁行为">
+                            威胁行为
+                        </a>
+                        
+                    </div>
+                    <h1>2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Tuesday, August 27, 2024
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一概述">一．概述</h1>
+<p>数据泄露已成为当今数字时代企业和个人面临的重大威胁之一，不仅会导致经济损失，还可能损害企业声誉和用户信任。因而了解数据泄露的趋势和成因至关重要。</p>
+<p>2024年5月，国际知名咨询机构Verizon发布了《2024年数据泄露调查报告》（2024 Data Breach Investigations Report）[1]。该报告综合分析了自2022年11月1日至2023年10月31日间，94个国家和地区发生的超过3万起安全事件以及1万多起确认的数据泄露事件。</p>
+<p>本文将对2024 Verizon DBIR报告进行全面解读，主要从三个方面进行分析。首先介绍本篇报告的一些核心结论；其次，从Verizon定义的VERIS框架出发，从威胁参与者、威胁行为、威胁资产和威胁属性四个维度对数据泄漏事件进行详细分析；最后，从安全事件的角度，对事件成因的分类、行业分布及区域分布进行再探讨。希望能够通过本文增强大家对数据泄露问题的重视，并为制定更有效的数据安全防护方案提供一些思路。</p>
+<h1 id="二2024-verizon-dbir报告主要结论">二．2024 Verizon DBIR报告主要结论</h1>
+<p>2024 Verizon DBIR全文主要围绕漏洞利用、软件供应链安全、勒索软件、社工以及人的因素几个领域展开描述并输出了许多结论，笔者将部分结论进行了归纳，如下所示：</p>
+<h2 id="结论1-2023年利用漏洞窃取数据的攻击行为大幅增加相比去年增加三倍">结论1 2023年利用漏洞窃取数据的攻击行为大幅增加，相比去年增加三倍</h2>
+<p>造成这一结果的部分原因是<strong>勒索软件利用未打补丁的软件和设备进行的攻击数量激增，这也表明数据资产的经济价值越来越高，已经成为恶意攻击者的首要目标，及时发现和弥补各类安全漏洞，尤其是应用系统漏洞依然是安全的重中之重</strong>。[2]</p>
+<h2 id="结论2-由软件供应链导致的数据泄漏事件占安全事件总量的15较去年增长68供应链安全成为数据安全的一道重要防线">结论2 由软件供应链导致的数据泄漏事件占安全事件总量的15%，较去年增长68%，供应链安全成为数据安全的一道重要防线</h2>
+<p>﻿    近年敏捷开发模式流行，但开发者安全意识缺失，造成大量供应链组件服务暴露在互联网上，不同程度带有 N Day 漏洞。<strong>这些漏洞可能来自于组件本身，或来自扩展组件功能的第三方插件，其客观上增加了软件供应链安全的风险，特别是数据泄露的风险。</strong></p>
+<h2 id="结论3-报告数据表明勒索软件是所有行业目前面临的最大威胁">结论3 报告数据表明，勒索软件是所有行业目前面临的最大威胁</h2>
+<p>勒索软件作为导致数据泄漏的一种攻击行为，往往通过钓鱼邮件、恶意软件或利用零日漏洞的方式进行入侵，在获取到受害者数据时，通常包含以下几种可能的攻击行为：</p>
+<p><strong>1.</strong>    <strong>数据加密</strong>：<strong>攻击者获取到受害者数据后对其进行加密，并通过支付赎金的方式解锁这些数据；</strong></p>
+<p><strong>2.</strong>    <strong>数据窃取和公开</strong>：<strong>攻击者对受害者数据进行窃取，再将受害者数据公开或出售，从而增加勒索成功的可能性</strong></p>
+<p>据Verizon DBIR数据，过去三年中，勒索软件和话术欺诈几乎占据了导致数据泄露的主要攻击的三分之二，比例波动在59%到66%之间[1]，如图1所示。</p>
+<p>
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be1.png" alt="img">
+    <center><figcaption>图1. 以金融为动机的威胁行为占比[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="结论4-人们在钓鱼邮件的整体安全意识上有所提升">结论4 人们在钓鱼邮件的整体安全意识上有所提升</h2>
+<p>由图2所示，对比近7年来钓鱼邮件的点击率，人们的安全意识在逐步上升</p>
+<p>
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be2.png" alt="img">
+    <center><figcaption>图2. 钓鱼邮件点击率统计[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="结论5--68的数据泄露事件涉及人的错误如配置错误社工话术欺诈等人依然是安全链条上的重要一环">结论5  68%的数据泄露事件涉及人的错误，如配置错误、社工、话术欺诈等，人依然是安全链条上的重要一环</h2>
+<p>Verizon在之前的年度分析报告中将人为因素定义为配置错误、社交工程、话术欺诈和内部恶意人员行为等几个部分。然而，<strong>近年来，由于内部恶意人员导致的数据泄露事件急剧增加，因此Verizon在最新的年度报告中决定将内部恶意人员的行为从人为因素中剔除，并将其归类到权限滥用模式中</strong>。这一调整使得人为因素的比例从76%降至68%。这也同时凸显了针对内部人员导致的数据泄露事件防范的重要性。</p>
+<h1 id="三威胁要点分析">三．威胁要点分析</h1>
+<p>Verizon DBIR报告提供了一套指标VERIS（The Vocabulary for Event Recording and Incident Sharing） — 事件记录和事件共享词汇，旨在提供一种结构化和可重复的方式来描述安全事件的通用语言。</p>
+<p>在下文开始前，笔者将首先对这些结构化的名词进行解释以方便读者进行后续阅读。</p>
+<p><strong>威胁参与者（Threat actor）</strong>：泛指安全事件参与者，如发起网络钓鱼活动的参与者</p>
+<p><strong>威胁行为（Threat action）</strong>：数据泄漏事件背后的攻击行为</p>
+<p><strong>威胁资产（Threat action）</strong>：受数据泄漏事件影响的主要资产</p>
+<p><strong>威胁属性（Threat Variety）</strong>：相对威胁行为更细化的分类，如威胁行为Web应用攻击，威胁属性则为SQL注入或暴力破解等。</p>
+<p><strong>数据泄露事件（Breach）</strong>：泛指导致数据泄露的安全事件（Incident）</p>
+<p><strong>安全事件（Incident）</strong>：泛指会影响信息资产的完整性、机密性或可用性的事件，如DDoS攻击通常被视为安全事件而非数据泄露事件（因为DDoS攻击不一定导致数据被窃取）</p>
+<p><strong>外部参与者(External)</strong> ：外部参与者泛指犯罪团伙、黑客等。</p>
+<p><strong>内部参与者(Internal)</strong>：内部参与者指来自组织内部的人员，包括公司员工、独立承包商、实习生和其他员工。</p>
+<p><strong>合作伙伴(Partner)</strong>：合作伙伴主要包括供应商、托管服务提供商和外包IT支持人员等。</p>
+<p>有了以上专业名词的解释，笔者首先将重点介绍报告在威胁参与者、威胁行为、威胁资产、威胁属性维度中提到的一些关键数据，之后笔者再进行一些分析与总结，以便读者更全面地理解报告内容。</p>
+<h2 id="31-威胁参与者维度分析">3.1 威胁参与者维度分析</h2>
+<p>根据Verizon报告的数据，如图3所示，2018年至2024年，外部参与者仍然是威胁行为的主要催化剂，所占比例高达65%。相对而言，内部参与者的比例为35%，这一数字较去年Verizon DBIR报告中提到的20%有显著增长[8]。与此同时，合作伙伴几乎未对威胁事件的发生产生影响。</p>
+<p>
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be3.png" alt="img">
+    <center><figcaption>图3. 近年导致数据泄漏事件的威胁者类别占比[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="32-威胁行为维度分析">3.2 威胁行为维度分析</h2>
+<p>Verizon针对威胁行为进行了分类，主要包括以下几种类型：云凭证窃取、勒索软件、错误投递（Misdelivery）、后门和C2攻击、话术欺诈、钓鱼以及漏洞利用等。如图4所示，横轴表示各类威胁行为导致的数据泄漏事件占比，纵轴则列出了不同的威胁行为类型：
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be4.png" alt="img">
+    <center><figcaption>图4. 主要涵盖的威胁行为类别[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="33-威胁资产维度分析">3.3 威胁资产维度分析</h2>
+<p>如图5所示， Verizon从安全事件维度展示了受到数据泄漏影响的主要资产类型，图6可以看出导致数据泄漏事件的主要资产类别为服务器（云端和on-premise）、人员(Person)、用户开发环境（User Dev）,媒体(Media)和网络(Network)，值得注意的是，近年来随着勒索行为的持续增长，人员（Person）作为一种威胁资产变得更多[1]。
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be5.png" alt="img">
+    <center><figcaption>图5. 威胁资产分类[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="34-威胁属性维度分析">3.4 威胁属性维度分析</h2>
+<p>Verizon从安全三要素的角度，即机密性（Confidentiality）、完整性（Integrity）和可用性（Availability），分析了2022年至2024年间各要素受到威胁的频率变化，如图6所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be6.png" alt="img">
+    <center><figcaption>图6. 信息安全三要素角度受到威胁的频率变化[1]</figcaption></center>
+  </figure>
+
+</p>
+<p>图6中还可以看出，自2022年以来，可用性问题导致的威胁频率呈现线性增长；而完整性问题的比例则从40%降低至20%；机密性问题的比例则从20%上升至30%。</p>
+<p>其次，从机密性角度来看，泄露事件中最重要的机密数据类别以“个人数据”持续占据榜首，如图7所示：
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be7.png" alt="img">
+    <center><figcaption>图7. 机密数据类别[1]</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="35-分析总结">3.5 分析总结</h2>
+<p>从威胁参与者维度来看，笔者此前阅读了IBM Security《2023年数据泄露成本报告》[9]（该报告对553家受数据泄露影响的企业进行了深入调研），报告指出，<strong>40%的数据泄露是由安全厂商或外部人员发现的，而33%的数据泄露是由内部团队和工具发现的。超过四分之一（27%）的数据泄露是由攻击者在勒索软件攻击中公开的</strong>，如图8所示。 由于IBM Security将外部人员与使用勒索软件的攻击者进行了区分，因此与Verizon报告威胁参与者数据的直接对比可能不太明显。然而，如果将这两类参与者合并考虑，可发现67%和33%的比例与Verizon的65%和35%几乎一致。这表明，外部参与者始终是数据泄露事件的主要原因。究其背后的原因，笔者认为主要有以下几个原因：</p>
+<p><strong>技术手段和工具</strong>：外部参与者如黑客通常拥有更先进的技术手段和工具，使他们能够绕过企业的安全防护，获得未授权的访问权限。</p>
+<p><strong>商业利益驱动</strong>：外部参与者背后通常是商业利益驱动的组织团体。相比于大多数内部人员使用特权获取隐私数据，外部参与者在数据窃取方面更为专业，涉及攻击范围更广，且攻击频率更高。</p>
+<p>
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be8.png" alt="img">
+    <center><figcaption>图8. 识别数据泄露方式占比[9]</figcaption></center>
+  </figure>
+
+</p>
+<p>从威胁行为维度来看,笔者将部分结论进行了归纳，如下所示：</p>
+<p><strong>结论1</strong> <strong>云凭证窃取仍然是导致数据泄露的主要原因，但2023年其比例有所下降，占比为24%。与之接近的是勒索软件，其占比为23%。以上数据表明，尽管云凭证窃取依旧是最常见的攻击方式，勒索软件仍然保持着重要性</strong>。</p>
+<p>云凭证可能包括数据库连接方式、公有云资源访问凭证（如AK/SK）以及系统登录密钥等。近年来，由于凭证窃取导致的数据泄漏事件频繁发生，<strong>笔者认为其主要原因可归结于人为因素。例如，开发者可能将凭证硬编码在代码仓库中，而这些仓库被设置为公开，从而任何人均可访问并获取凭证。此外，公有云为租户提供的临时凭证（STS）需要设置相关资源的访问权限，如果权限配置过于宽松，一旦STS泄露，攻击者便能利用这些脆弱的权限访问敏感信息。</strong></p>
+<p>勒索软件方面，以2023年5月27日为例，俄罗斯勒索软件组织CL0P利用MOVEit Transfer和MOVEit Cloud中的零日漏洞（CVE-2023-34362）对全球众多企业发起了大规模的软件供应链攻击。此次攻击影响了壳牌公司、德意志银行、普华永道、索尼、西门子、BBC、英国航空公司及美国能源部和农业部等知名企业，涉及超过900家私营和公共部门组织，并波及超2000万人，其中80%的受害者位于美国，金融、医疗和教育行业受到的影响最为严重[3]。</p>
+<p>CVE-2023-34362是造成此事件的“始作俑者”，该漏洞允许未经身份验证的攻击者通过SQL注入（SQLi）访问并操控数据库，进而导致重大数据泄露、敏感信息丢失及服务中断的风险。具体而言，攻击者可以通过构造Webshell（通常命名为human2.aspx），并上传至MOVEit Transfer的安装路径下（例如C:\MOVEitTransfer\wwwroot目录）。该Webshell包含一个可连接的SQL数据库账号。通过对human2.aspx发起HTTP请求并结合恶意Webshell，攻击者能够连接到SQL数据库，从而获得MOVEit Transfer中所有文件的列表、文件所有者、文件大小及内容等关键信息。这种方法具有持久性和隐秘性，为提前的信息收集和后续的数据窃取提供了便利条件[5]。</p>
+<p>绿盟科技创新研究院在2024年初发布了《2023年公有云安全风险分析报告》[10]。报告中对云凭证泄漏风险进行了详细描述，感兴趣的读者可以参考该报告以获取更多信息。</p>
+<p><strong>结论2</strong> <strong>由话术（Pretexting）欺诈导致的安全事件数量超越网络钓鱼（Phishing），成为更可能的社工手段</strong></p>
+<p>据Verizon的数据泄漏报告显示，<strong>2023年商业邮件欺诈(BEC)攻击占社工攻击的一半以上，攻击者在伪造和仿冒邮件上变得更加自动化，这得益于AI的发展，攻击者借助AIGC可编写极具说服力的钓鱼电子邮件(话术)，而且还能逃避传统电子邮件安全工具的检测，大规模地提高攻击的覆盖范围和复杂性</strong>。</p>
+<p>常见的电子邮件安全防御措施包括反欺骗技术（如DMARC和SPF）、行为分析、其他威胁检测、以及多因素身份验证（MFA）和强大的身份与访问管理等。为了建立有效的纵深防御，企业侧需要分层实施威胁情报，并采用以人员为导向的业务和技术政策，以最大限度地降低风险[6]。</p>
+<p><strong>结论3</strong> <strong>通过对漏洞修复生命周期进行分析，漏洞修复速率在发布补丁可用30天后才开始加快，需要大约55天才能修复50%的关键漏洞，到一年结束时，仍有8%的漏洞处于未修补状态。</strong></p>
+<p>据相关数据显示，<strong>企业补丁管理周期通常稳定在30到60天，针对关键漏洞的补丁目标则可能设定为15天。但这一进度仍然无法跟上攻击者扫描和利用漏洞的速度（通常为5天）</strong>。具体如图9所示：
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be9.png" alt="img">
+    <center><figcaption>图9. Cybersecurity and Infrastructure[1]</figcaption></center>
+  </figure>
+
+
+Security Agency（CISA)机构关于漏洞修复生命周期的调研结果</p>
+<ul>
+<li>由于DevOps各阶段涉及大量资产（包括设计、开发、测试和运维等），当漏洞在整个网络中大规模爆发时，面向云服务的第三方软件供应链资产将受到重大影响。因此，如何针对性地提升漏洞修复的生命周期成为亟待解决的问题。</li>
+</ul>
+<p>从威胁资产维度来看，Verizon报告指出，“由软件供应链导致的数据泄露事件占安全事件总量的15%，较去年增长68%”。这一观点进一步表明，由于软件供应链涉及大量云端资产，而这些资产大多部署在云服务器上，笔者认为，从威胁资产的角度来看，这一趋势在未来将会愈加明显。</p>
+<p>值得注意的是，绿盟科技创新研究院在《2023年公有云安全风险分析报告》中针对连接云的第三方供应链安全风险进行了详细分析，具体地，我们对在互联网暴露的约21万个DevOps组件服务的暴露面和攻击面进行了统计分析，如图10所示，发现约45%的组件存在N Day漏洞，如图11所示。这些漏洞使互联网暴露的DevOps组件服务存在严重安全风险。
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be10.png" alt="img">
+    <center><figcaption>图10. CVE漏洞组件分布</figcaption></center>
+  </figure>
+
+
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be11.png" alt="img">
+    <center><figcaption>图11. 漏洞数量及占比情况</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="四安全事件分析">四．安全事件分析</h1>
+<p>我们可根据安全事件和数据泄露事件两种类型进行分析，整体可从事件分类（事件成因），行业分布，区域分布三方面展开。</p>
+<h2 id="41-事件分类分析">4.1 事件分类分析</h2>
+<p>Verizon将事件分类为八种模式，即基础Web应用类攻击（Basic Web Application Attacks），拒绝服务攻击（Denial of Service），丢失和被窃取的凭证（Lost and Stolen Assets），杂项类错误（Miscellaneous Errors 泛指人的因素，无意行为导致安全事件的发生，但丢失设备并不包含在此类中，而属于盗窃类别）[<a href="#_ftn1">1]</a>，权限滥用（Privilege Misuse），社工（Social Engineering）, 系统入侵（System Intrusion）, 其他（Everything Else）。图12，13从安全事件和数据泄露事件两个维度展示了近年来事件成因随时间推移的变化：
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be12.png" alt="img">
+    <center><figcaption>图12. 安全事件成因变化[1]</figcaption></center>
+  </figure>
+
+
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be13.png" alt="img">
+    <center><figcaption>图13.数据泄露事件成因变化[1]</figcaption></center>
+  </figure>
+
+
+首先，从安全事件维度来看，自2018年以来，拒绝服务攻击持续成为导致事件发生的主要原因。尤其自2022年以来，拒绝服务类攻击的频率显著上升，其次是系统入侵和基础Web应用类攻击。</p>
+<p>其次，在数据泄露事件维度方面，从2017年起，系统入侵、社工攻击和基础Web应用类攻击分别成为数据泄露的主要原因。尤其自2023年以来，社工攻击和杂项错误模式均显著增加。其中，社工攻击主要以话术欺诈为主，而杂项错误多与配置错误和误投递（Misdelivery）相关。</p>
+<p><strong>笔者分析，随着企业业务逐渐向云端迁移，云资产不断增加，不安全的配置，连接云服务的第三方供应链DevOps资产数量暴增可能导致数据泄露事件的增多。此外，基础Web应用类攻击自2023年开始大幅下滑。</strong></p>
+<h2 id="42-事件行业分布">4.2 事件行业分布</h2>
+<p>Verizon分析了全球发生的30458个安全事件，其中有10626个被确认为数据泄露事件，按受害者行业和组织规模划分的安全事件和数据泄露数量如图14所示：
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be14.png" alt="img">
+    <center><figcaption>图14. 按受害者行业和组织规模划分的安全事件和数据泄露数量汇总[1]</figcaption></center>
+  </figure>
+
+</p>
+<p>从数据泄漏事件数量来看，主要受到影响较大的行业为：</p>
+<ul>
+<li>
+<p><strong>医疗</strong>: 事件模式分类上以杂项类错误, 权限滥用和系统入侵为主，约占比医疗行业数据泄漏事件的 83%</p>
+</li>
+<li>
+<p><strong>教育:</strong> 事件模式分类上以系统入侵,社工，杂项类错误为主，约占比教育行业数据泄漏事件的90%</p>
+</li>
+<li>
+<p><strong>金融:</strong> 事件模式分类上以系统入侵, 社工，杂项类错误为主，约占比金融行业数据泄漏事件的78%</p>
+</li>
+<li>
+<p><strong>制造业:</strong> 事件模式分类上以系统入侵, 社工，杂项类错误为主，约占比制造行业数据泄漏事件的83%</p>
+</li>
+<li>
+<p><strong>信息行业:</strong> 事件模式分类上以系统入侵, 基础Web应用类攻击，社工为主，约占比信息行业数据泄漏事件的79%</p>
+</li>
+<li>
+<p><strong>行政单位:</strong> 事件模式分类上以系统入侵, 社工，杂项类错误为主，约占比行政单位数据泄漏事件的78%</p>
+</li>
+<li>
+<p><strong>服务或专业知识</strong>（会计、广告和营销以及法律服务):  事件模式分类上以系统入侵, 社工，杂项类错误为主，约占比服务业数据泄漏事件的85%</p>
+</li>
+</ul>
+<p><strong>从事件分类模式上来看，绝大多数事件成因以系统入侵、社工、杂项类错误为主</strong>。</p>
+<p>与此相比，国内发布的数据泄漏报告，如《全球数据泄漏态势报告》[11]（由数事咨询与零零信安联合发布）和《2024上半年数据泄漏风险态势报告》[12]（由威胁猎人发布）描述了数据泄漏事件在不同行业的分布情况。其中《全球数据泄漏态势报告》指出，信息和互联网行业、金融行业、党政军与社会、文体娱乐业和批发零售业等行业的泄漏事件较为频繁。《2024上半年数据泄漏风险态势报告》指出数据泄露事件数量 Top5行业分别为银行、电商、消费金融、保险、快递。可以看出与国外相比，国内医疗和教育行业的安全事件相对较少，这也进一步反映出一些问题，笔者认为主要归结为以下两方面：</p>
+<p>攻击者兴趣：国内相较于互联网、金融等行业，医疗和教育行业由于金钱驱动力较弱，攻击者的兴趣可能较低，因此这些行业成为攻击目标的概率也较低。</p>
+<p>报告数据差异化：不同国家和地区在数据泄漏事件的发生频率和行业分布上存在差异，这可能反映了各地行业安全状况、数据安全法和防护水平的不同。</p>
+<h2 id="43-事件区域分布">4.3 事件区域分布</h2>
+<p>根据联合国 M4997 标准，Verizon 对全球各个地区进行了详细的划分和考察，主要包括以下三个区域：</p>
+<ul>
+<li>亚太地区：涵盖南亚、东南亚、中亚、东亚和大洋洲；</li>
+<li>欧洲、中东和非洲：包含北非、欧洲、东欧以及西亚；</li>
+<li>北美：包括美国和加拿大</li>
+</ul>
+<p>图15展示了亚太地区、 欧洲、中东和非洲和北美三个地区的事件数量分布情况。数据显示，北美地区的事件数量最多，共计16619起，而亚太地区地区的事件数量最少，仅为2130起。
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be15.png" alt="img">
+    <center><figcaption>图15. 时间区域分布[1]</figcaption></center>
+  </figure>
+
+
+从事件成因方面来看，系统入侵和社工攻击为主要因素，其中70%的系统入侵事件是由勒索软件攻击引发的。</p>
+<p>从威胁者的角度来看，外部攻击者成为主要威胁，这一点并不令人意外，因为绝大多数的攻击都是由外部因素造成的。在行为动机方面，金融驱动一直是攻击者的主要动机之一。</p>
+<p>从威胁资产的类型来看，各地区表现出不同的特征：亚太地区主要以凭证丢失为主；EMEA(欧洲、中东和非洲)地区则以个人数据丢失为主，其余情况涉及内部数据和凭证的丢失；而北美地区同样以个人数据丢失为主，其次是凭证和内部数据的丢失。</p>
+<h1 id="五总结">五．总结</h1>
+<p>本文对2024年Verizon DBIR报告进行解读，提炼出报告的主要结论。可以看出，数据泄漏事件的严重性在近几年持续上升。安全同行应对事件背后的成因进行全面分析，梳理出当前数据泄漏攻击路径的整体情况。唯此才能有针对性地预防数据泄漏的发生。</p>
+<p>绿盟科技创新研究院在云上风险发现和数据泄漏领域已经开展了多年的研究。借助Fusion数据泄露侦察平台，我们已监测到数万个云端暴露资产存在未授权访问的情况，包括但不限于自建仓库、公有云对象存储、云盘、OLAP/OLTP数据库，以及各类存储中间件等，具体可参考《2023公有云安全风险分析报告》[7]。</p>
+<p>Fusion是由绿盟科技创新研究院研发的一款面向数据泄露测绘的创新产品。如图16所示，Fusion集探测、识别、泄露数据侦察于一体，针对互联网中暴露的泛云组件进行测绘，识别组件关联的组织机构和组件风险的影响面，实现自动化的资产探测、风险发现、泄露数据分析、责任主体识别、数据泄露侦察全生命周期流程。
+
+  <figure>
+    <img src="/img/%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e8%bd%ac%e5%90%91%e8%bf%9e%e6%8e%a5%e4%ba%91%e7%9a%84%e7%ac%ac%e4%b8%89%e6%96%b9%e8%bd%af%e4%bb%b6%e4%be%9b%e5%ba%94%e9%93%be/%e5%9b%be16.png" alt="img">
+    <center><figcaption>图16 Fusion能力全景图</figcaption></center>
+  </figure>
+
+</p>
+<p>Fusion的云上风险事件发现组件具有如下主要特色能力：</p>
+<ul>
+<li><strong>资产扫描探测</strong>：通过多个分布式节点对目标网段/资产进行分布式扫描探测，同时获取外部平台相关资产进行融合，利用本地指纹知识库标记，实现目标区域云上资产探测与指纹标记；</li>
+<li><strong>资产风险发现</strong>：通过分布式任务管理机制对目标资产进行静态版本匹配和动态PoC验证的方式，实现快速获取目标资产的脆弱性暴露情况；</li>
+<li><strong>风险资产组织定位</strong>：利用网络资产信息定位其所属地区、行业以及责任主体，进而挖掘主体间存在的隐藏供应链关系及相关风险。</li>
+<li><strong>资产泄露数据分析</strong>：针对不同组件资产的泄露文件，结合大模型相关技术对泄露数据进行分析与挖掘，实现目标资产的敏感信息获取；</li>
+</ul>
+<h1 id="六参考文献">六．参考文献</h1>
+<p>[1] <a href="https://www.verizon.com/business/resources/reports/dbir/">https://www.verizon.com/business/resources/reports/dbir/</a></p>
+<p>[2] <a href="https://www.leadsec.com.cn/News_detail/66.html">https://www.leadsec.com.cn/News_detail/66.html</a></p>
+<p>[3] ﻿https://www.secrss.com/articles/56932</p>
+<p>[4] <a href="https://gist.github.com/JohnHammond/44ce8556f798b7f6a7574148b679c643">https://gist.github.com/JohnHammond/44ce8556f798b7f6a7574148b679c643</a></p>
+<p>[5] <a href="https://www.huntress.com/blog/moveit-transfer-critical-vulnerability-rapid-response">https://www.huntress.com/blog/moveit-transfer-critical-vulnerability-rapid-response</a></p>
+<p>[6] <a href="https://www.secrss.com/articles/63573">https://www.secrss.com/articles/63573</a></p>
+<p>[7] <a href="https://www.nsfocus.com.cn/html/2024/92_0313/212.html">https://www.nsfocus.com.cn/html/2024/92_0313/212.html</a></p>
+<p>[8] <a href="https://www.verizon.com/business/resources/reports/dbir/2023/summary-of-findings/">https://www.verizon.com/business/resources/reports/dbir/2023/summary-of-findings/</a></p>
+<p>[9] <a href="https://www.ibm.com/cn-zh/reports/data-breach">https://www.ibm.com/cn-zh/reports/data-breach</a></p>
+<p>[10] <a href="https://mp.weixin.qq.com/s/VQmh_jU5mF-iV1hWFDiBzw">https://mp.weixin.qq.com/s/VQmh_jU5mF-iV1hWFDiBzw</a></p>
+<p>[11] <a href="https://www.dwcon.cn/post/3587">https://www.dwcon.cn/post/3587</a></p>
+<p>[12] <a href="https://www.threathunter.cn/blog/2024">https://www.threathunter.cn/blog/2024</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/" data-toggle="tooltip" data-placement="top" title="洞见RSA2024 | Kubernetes攻击与防御技术综述">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

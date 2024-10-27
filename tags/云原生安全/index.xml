@@ -6,10 +6,19 @@
     <description>Recent content in 云原生安全 on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 May 2024 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>洞见RSA2024 | Kubernetes攻击与防御技术综述</title>
+      <link>https://puming.zone/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/</guid>
+      <description>一. 概述 2024年RSA大会上，来自Google的安全工程师Lenin Alevski和Semgrep[1]安全研究员Max vonBlanke</description>
+    </item>
     
     <item>
       <title>Service Mesh未来发展趋势浅析</title>

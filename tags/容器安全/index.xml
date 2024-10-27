@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>容器安全 on Ming Blog</title>
+    <link>https://puming.zone/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8/</link>
+    <description>Recent content in 容器安全 on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 May 2024 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>洞见RSA2024 | Kubernetes攻击与防御技术综述</title>
+      <link>https://puming.zone/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/</guid>
+      <description>一. 概述 2024年RSA大会上，来自Google的安全工程师Lenin Alevski和Semgrep[1]安全研究员Max vonBlanke</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -3,8 +3,103 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://puming.zone/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://puming.zone/categories/</loc>
-    <lastmod>2024-04-20T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/categories/tech/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/verizon/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</loc>
+    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/attck/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/kubernetes/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/rsa/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/</loc>
+    <lastmod>2024-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/aws/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/iam/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2024-05-06-rsac-2024%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92aembit%E9%9D%A2%E5%90%91iam%E7%9A%84%E4%BA%91%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%B9%B3%E5%8F%B0/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -18,23 +113,23 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/</loc>
-    <lastmod>2024-04-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/post/</loc>
-    <lastmod>2024-04-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/</loc>
-    <lastmod>2024-04-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2024-04-20-%E9%82%A3%E4%BA%9B%E5%B9%B4%E9%99%AA%E8%87%AA%E5%B7%B1%E8%B5%B0%E8%BF%87%E7%9A%84%E6%AD%8C%E5%A3%B0/</loc>
     <lastmod>2024-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2024-03-28-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%96%87%E4%BB%B6%E7%9B%B4%E4%BC%A0%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%9A%84%E4%BE%BF%E6%8D%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E6%80%A7%E6%8E%A2%E7%A9%B6/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -63,26 +158,6 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/categories/tech/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</loc>
-    <lastmod>2023-08-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</loc>
     <lastmod>2023-08-31T00:00:00+00:00</lastmod>
   </url>
@@ -94,11 +169,6 @@
   
   <url>
     <loc>https://puming.zone/tags/devsecops/</loc>
-    <lastmod>2023-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/rsa/</loc>
     <lastmod>2023-04-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -135,11 +205,6 @@
   <url>
     <loc>https://puming.zone/post/2023-03-24-%E4%BA%91%E5%8E%9F%E7%94%9Fapi%E5%AE%89%E5%85%A8%E8%83%8C%E6%99%AF%E6%80%81%E5%8A%BF%E4%B8%8E%E9%A3%8E%E9%99%A9%E9%98%B2%E6%8A%A4/</loc>
     <lastmod>2023-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/kubernetes/</loc>
-    <lastmod>2023-02-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>

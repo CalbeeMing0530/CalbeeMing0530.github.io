@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="洞见RSA2024 | Kubernetes攻击与防御技术综述" />
+    <meta property="og:title" content="洞见RSA2024 | Kubernetes攻击与防御技术综述" />
+    <meta property="twitter:title" content="洞见RSA2024 | Kubernetes攻击与防御技术综述" />
+    
+
+    
+    <meta name="description" content="本文从Kubernetes威胁矩阵（ATT&amp;CK）角度出发，阐述了针对Kubernetes的主要攻击与防御技术，并同时对Kubernetes的未来演进趋势进行了介绍">
+    <meta property="og:description" content="本文从Kubernetes威胁矩阵（ATT&amp;CK）角度出发，阐述了针对Kubernetes的主要攻击与防御技术，并同时对Kubernetes的未来演进趋势进行了介绍" />
+    <meta property="twitter:description" content="本文从Kubernetes威胁矩阵（ATT&amp;CK）角度出发，阐述了针对Kubernetes的主要攻击与防御技术，并同时对Kubernetes的未来演进趋势进行了介绍" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>洞见RSA2024 | Kubernetes攻击与防御技术综述-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/kubernetes" title="Kubernetes">
+                            Kubernetes
+                        </a>
+                        
+                        <a class="tag" href="/tags/rsa" title="RSA">
+                            RSA
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8" title="容器安全">
+                            容器安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/attck" title="ATT&amp;CK">
+                            ATT&amp;CK
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                    </div>
+                    <h1>洞见RSA2024 | Kubernetes攻击与防御技术综述</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Thursday, May 23, 2024
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-概述">一. 概述</h1>
+<p>2024年RSA大会上，来自Google的安全工程师Lenin Alevski和Semgrep[1]安全研究员Max vonBlankenburg的议题《Kubernetes Security Attacking And Defending Modern Infrastructure》[3]从Kubernetes安全矩阵的各个阶段出发，向观众介绍了容器和容器编排工具的基本概念和组件功能，并详细介绍了Kubernetes的威胁模型，以及由OWASP提出的OWASP Kubernetes Risks Top 10[2]风险清单。Max vonBlankenburg和Lenin Alevski在此次演讲中重点分享了一些常见的Kubernetes安全攻击手法，并提出了相应的防御措施以及对Kubernetes未来趋势进行了分析。</p>
+<h1 id="二-背景">二. 背景</h1>
+<p>云原生可称为云计算的下半场，近年兴起的容器和编排技术凭借其弹性敏捷的特性和活跃强大的社区支持，成为了云原生生态的重要支撑技术。容器化部署形态也在改变云端应用的设计、开发、部署和运行，从而重构云上业务模式。</p>
+<p>容器和容器编排系统的安全风险将直接影响整个云原生系统的安全性。从IT基础设施的视角看，云原生系统底层是容器，其基于操作系统虚拟化技术，跟其他的虚拟化云计算平台一样，存在逃逸和云内横向移动的风险；上层是以微服务为中心的容器编排、服务网格、无服务器计算（Serverless Computing）等系统，其API、业务存在被攻击的风险。</p>
+<p>此外，从DevOps的视角看，云原生系统所包含的软件供应链（如第三方软件库、容器镜像等、第三方厂商非授权发布软件仓库等）也存在被投毒或恶意攻击的风险；整个开发环节，如CI/CD，也存在被攻击的风险</p>
+<h1 id="三--kubernetes威胁模型">三.  Kubernetes威胁模型</h1>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be1.png" alt="img">
+    <center><figcaption>图1. Kubernetes威胁模型示意图</figcaption></center>
+  </figure>
+
+</p>
+<p>Max vonBlankenburg和Lenin Alevski提出了关于微软发布的Kubernetes的威胁模型，着重从攻击者的角度出发，分析了控制平面（Control Plane）和工作节点（Worker Nodes)两个攻击源的可能性。</p>
+<p>如果攻击者控制了控制平面，他们可以对整个集群的主节点、工作节点以及其中运行的Pod和容器进行任意的访问、修改和破坏。</p>
+<p>而如果攻击者控制了工作节点，则有以下几种可能的攻击手段：</p>
+<ol>
+<li>
+<p>利用Kubelet组件控制运行的业务容器，对其进行增删改查。</p>
+</li>
+<li>
+<p>利用容器中应用程序的已知漏洞或目录挂载进行利用从而达到容器逃逸至宿主机的目的，容器逃逸比较知名的CVE有2016年曝出的脏牛漏洞（CVE-2016-5195）及2019年曝出的runC漏洞（CVE-2019-5736），关于容器逃逸漏洞，绿盟科技研究通讯曾发布过相关文章<a href="https://mp.weixin.qq.com/s/_GwGS0cVRmuWEetwMesauQ">《云原生攻防研究 — 容器逃逸技术概览》</a>，<a href="https://mp.weixin.qq.com/s/UZ7VdGSUGSvoo-6GVl53qg">《容器逃逸成真：从CTF解题到CVE-2019-5736漏洞挖掘分析》</a>，感兴趣的读者可以阅读。</p>
+</li>
+</ol>
+<h1 id="四-kubernetes威胁矩阵">四. Kubernetes威胁矩阵</h1>
+<p>在他们的演讲中，安全研究人员首先介绍了微软在2020年提出的Kubernetes威胁矩阵，然后对最近一次微软在2021年提出的新版本进行了比较，使得观众能够更清楚地了解Kubernetes安全领域的发展和演变。
+
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be2.png" alt="img">
+    <center><figcaption>图2. 微软在2021年的提出的Kubernetes威胁矩阵</figcaption></center>
+  </figure>
+
+</p>
+<p>可以看出相比于旧版本,  新版本有以下变化：</p>
+<ol>
+<li>初始访问矩阵</li>
+</ol>
+<p>废弃了“暴露的Kubernetes Dashboard”攻击面。实际上，从Kubernetes Dashboard的历史版本迭代中可以看出，在v1.10.1之前，无需配置登录即可访问，仅需在Web登录界面点击“跳过”按钮。但在v1.10.1版本后，开发团队增加了显式配置功能，需要在相应部署的yaml文件中指定&ndash;enable-skip-login参数才能开启未授权访问。而当前的Kubernetes Dashboard已经延伸至v7.4.0版本，旧版本的使用率已经大幅降低。</p>
+<p>另外，新增了“暴露的敏感信息接口”这一攻击面。例如，许多私有化部署的容器编排平台，如Openshift、Rancher、VMware Tanzu等，都提供了敏感信息接口。攻击者可以利用这些接口的不安全配置对平台进行未授权访问。</p>
+<ol start="2">
+<li>执行矩阵</li>
+</ol>
+<p>新增了“边车容器注入”的攻击面。最初，边车容器实际上是作为辅助容器与主业务容器在同一Pod中运行，以此来增强或扩展主应用容器的功能，而无需直接修改主应用代码。然而，近年来随着服务网格的流行（例如Envoy Sidecar模式），边车容器也常被作为一种攻击技术。主要目的是提升攻击资产的隐蔽性，使得攻击更加难以检测和防御。</p>
+<ol start="3">
+<li>获取凭证矩阵</li>
+</ol>
+<p>新增了“恶意准入控制器”和“访问管理身份凭证”攻击面。特别需要注意的是“恶意准入控制器”，它实际上是一段代码，在用户请求通过认证授权之后，Kubernetes资源对象持久化之前进行拦截。集群管理员可以通过在kube-apiserver配置文件中指定“&ndash;enable-admission-plugins”参数项的值来启用准入控制器。Kubernetes包含许多准入控制器，其中常见的有MutatingAdmissionWebhook和ValidatingAdmissionWebhook准入控制器。它们分别用于拦截并修改Kubernetes API Server请求的对象以及对其对象格式进行校验。近年来，利用准入控制器修改YAML以向业务Pod中添加恶意容器的攻击面变得尤为突出。</p>
+<ol start="4">
+<li>横向移动矩阵</li>
+</ol>
+<p>废弃了“Kubernetes Dashboard的访问”和“访问Tiller端点”的攻击面。访问Tiller端点的攻击面与前文提及的Kubernetes Dashboard类似，都是因为Kubernetes社区和相关厂商对Tiller的安全性问题进行了持续改进，可以通过更新和加固Tiller组件来消除这些攻击面。</p>
+<p>新增了“CoreDNS投毒”和“ARP投毒”攻击面。CoreDNS是Kubernetes中使用的主要DNS服务。攻击者可以通过修改位于kube-system命名空间的ConfigMap中的corefile文件来更改集群DNS的行为，从而对其进行投毒，并获取其他服务的网络身份。</p>
+<ol start="5">
+<li>收集矩阵</li>
+</ol>
+<p>新增了“获取私有镜像”攻击面，公有云托管的Kubernetes集群服务中，如果攻击者可以访问集群，某些情况下则可能对相应容器镜像仓库进行访问，从而对镜像进行投毒操作。</p>
+<p>接下来，笔者将介绍本次议题的重点 —— 常见的Kubernetes攻击技术</p>
+<h2 id="41-初始访问矩阵">4.1 初始访问矩阵</h2>
+<p>常见的攻击技术包括利用云凭证、暴露的 Kubeconfig、受攻击的镜像仓库/镜像、利用已知漏洞、暴露的敏感接口等。</p>
+<ul>
+<li>利用云凭证可以访问公有云提供的 Kubernetes 服务。目前，由于安全意识不足，开发者常将云凭证硬编码到系统业务源码中，导致这些敏感信息在公网泄漏。攻击者可以利用泄漏的云凭证访问 Kubernetes 资产，并进行篡改、删除等恶意操作。</li>
+<li>kubeconfig 与暴露的云凭证类似，只是攻击者可以通过 kubeconfig 在网络可达的情况下获取 Kubernetes 控制面的权限，从而对集群资源进行恶意操作。
+
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be3.png" alt="img">
+    <center><figcaption>图3. 泄漏的kubeconfig信息 </figcaption></center>
+  </figure>
+
+</li>
+<li>利用受攻击的镜像仓库，上传恶意镜像并进行投毒，引发供应链攻击。</li>
+<li>暴露的敏感接口以及已知漏洞利用同样会导致未经授权的访问和容器逃逸，从而增加横向移动的风险。</li>
+</ul>
+<h2 id="42-执行矩阵">4.2 执行矩阵</h2>
+<p>本次议题中，Max vonBlankenburg和Lenin Alevski安全研究员介绍了执行矩阵的一些攻击技术，主要分为三个场景：</p>
+<p><strong>场景一：利用用户凭证、kubeconfig、应用RCE漏洞进行资产探测</strong></p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be4.png" alt="img">
+    <center><figcaption>图4. 执行矩阵-攻击场景1</figcaption></center>
+  </figure>
+
+</p>
+<p>如上图所示，攻击者主要通过用户凭证、kubeconfig等信息获取到Kubernetes主节点的控制权，并通过kubectl访问业务Pod执行资产探测操作，或是通过业务Pod的已知RCE漏洞在Pod内部进行命令执行操作。</p>
+<p><strong>场景二：利用用户凭证、kubeconfig创建恶意容器进行挖矿</strong></p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be5.png" alt="img">
+    <center><figcaption>图5. 执行矩阵-攻击场景2 </figcaption></center>
+  </figure>
+
+</p>
+<p>如上图所示，攻击者主要通过用户凭证、kubeconfig等信息获取到Kubernetes主节点的控制权，并通过kubectl创建crypto miner Pod执行恶意挖矿操作。</p>
+<p><strong>场景三：利用用户凭证、kubeconfig在现有业务Pod上注入边车容器进行恶意操作</strong></p>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be6.png" alt="img">
+    <center><figcaption>图6. 执行矩阵-攻击场景3 </figcaption></center>
+  </figure>
+
+</p>
+<p>如上图所示，攻击者主要通过用户凭证、kubeconfig等信息获取到Kubernetes主节点的控制权，并通过kubectl patch在现有Pod基础上注入Sidecar容器执行恶意操作。</p>
+<h2 id="43-持久化矩阵">4.3 持久化矩阵</h2>
+<p>Max vonBlankenburg和Lenin Alevski安全研究员在持久化矩阵介绍了两种攻击场景</p>
+<p><strong>场景一：利用用户凭证、kubeconfig、应用RCE漏洞在现有业务Pod中挂载Hostpath写入操作</strong>
+
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be7.png" alt="img">
+    <center><figcaption>图7. 持久化矩阵-攻击场景1 </figcaption></center>
+  </figure>
+
+
+如上图所示，攻击者主要通过用户凭证、kubeconfig等信息获取到Kubernetes主节点的控制权，并通过kubectl修改业务Pod的yaml配置文件，将容器内的可写目录以Hostpath形式挂载至宿主机，从而进行持久化操作。</p>
+<p><strong>场景二： 通过Malicious准入控制器在现有业务Pod中注入恶意边车容器</strong>
+
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be8.png" alt="img">
+    <center><figcaption>图8. 持久化矩阵-攻击场景2 </figcaption></center>
+  </figure>
+
+
+如上图所示，攻击者可通过前述的凭证和kubeconfig配置文件获取到Kubernetes主节点控制权，并通过创建Admission Controller拦截正常用户部署的工作负载请求，并在请求所属业务yaml配置文件中注入边车容器配置，从而进行持久化操作。</p>
+<h2 id="44-权限提升矩阵">4.4 权限提升矩阵</h2>
+<p><strong>场景一：部署特权容器导致权限提升</strong></p>
+<p>如我们所知，一旦Pod部署时指定Privleged配置为True, 则该Pod与宿主机共享PID、Network等命名空间，攻击者进而可通过共享命名空间的方式提权达到效果</p>
+<p><strong>场景二：绑定集群角色权限导致权限提升</strong></p>
+<p>若Pod所属服务账户（Service Account）绑定了Kubernetes的ClusterRole权限，同时该Pod存在RCE漏洞，则攻击者可以通过服务账户的Token操作集群资源，进而达到权限提升的效果。</p>
+<h2 id="45-防御绕过矩阵">4.5 防御绕过矩阵</h2>
+<ol>
+<li>
+<p>清理容器日志、删除Kubernetes事件：避免日志审计进行溯源</p>
+</li>
+<li>
+<p>利用Pod/容器名的相似性：提升攻击资产的隐秘性</p>
+</li>
+<li>
+<p>使用代理服务连接集群：避免对访问纪录进行溯源</p>
+</li>
+</ol>
+<h2 id="46-获取凭证矩阵">4.6 获取凭证矩阵</h2>
+<ol>
+<li>
+<p>通过kubectl列出Kubernetes的Secrets资源信息</p>
+</li>
+<li>
+<p>通过kubectl访问Pod服务账户（Service Account）</p>
+</li>
+<li>
+<p>通过部署恶意准入控制器获取凭证信息</p>
+</li>
+</ol>
+<h2 id="47-发现矩阵">4.7 发现矩阵</h2>
+<p>Kubernetes的核心组件API Server和Kubelet可用于发现集群中的元数据信息，如Deployment、Pod、Service等业务资源，同时也可以通过Kubernetes Dashboard或Instance Metadata API发现更多的集群资源信息。</p>
+<h2 id="48-横向移动矩阵">4.8 横向移动矩阵</h2>
+<ol>
+<li>
+<p>利用应用漏洞进行容器逃逸并访问集群中的其他资源，达到横向移动的效果</p>
+</li>
+<li>
+<p>利用服务账户进行横向移动</p>
+</li>
+<li>
+<p>利用集群内部的网络进行横向移动</p>
+</li>
+<li>
+<p>利用集群业务应用中的凭证信息进行横向移动</p>
+</li>
+<li>
+<p>利用CoreDNS投毒进行横向移动</p>
+</li>
+</ol>
+<h2 id="49-收集矩阵">4.9 收集矩阵</h2>
+<p>演讲者主要提到通过访问私有镜像仓库，进行镜像下载、并通过镜像投毒的方式引发供应链攻击，上文已有说明，此处不再赘述。</p>
+<h2 id="410-危害矩阵">4.10 危害矩阵</h2>
+<ol>
+<li>
+<p>攻击者可能删除PV（持久卷）、日志、事件等资源</p>
+</li>
+<li>
+<p>攻击者可能进行Kubernetes资源劫持</p>
+</li>
+<li>
+<p>攻击者可能利用上述的边车注入或创建容器的方式部署加密货币挖矿程序，进行种子下载等恶意操作</p>
+</li>
+<li>
+<p>攻击者在控制Kubernetes管理平面后可对Pod进行恶意操作，并部署新的恶意服务。</p>
+</li>
+</ol>
+<h1 id="五-kubernetes内部安全机制">五. Kubernetes内部安全机制</h1>
+<h2 id="51-api-server认证授权">5.1 API Server认证授权</h2>
+<p>API Server实现了Kubernetes资源增删改查的接口，因而在用户对资源进行操作之前，需要对用户进行相应地认证操作，Kubernetes支持多种认证类型，例如静态令牌文件、X.509 客户端证书、服务账号令牌、基于OAuth 2.0的OpenID Connect （OIDC）令牌、Webhook令牌身份等</p>
+<h2 id="52-api-server授权authorization">5.2 API Server授权（Authorization）</h2>
+<p>Kubernetes包含四类授权模式，分别为节点（Node）授权、基于属性的访问控制（Attribute-based access control ABAC ）、基于角色的访问控制（ Role-based access control RBAC）、基于钩子（Webhook）方式的授权，目前业界使用RBAC机制较多。</p>
+<h2 id="53-准入控制器admission-controller">5.3 准入控制器（Admission Controller）</h2>
+<p>Kubernetes包含许多准入控制器，其中有两个特殊的准入控制器：</p>
+<ol>
+<li>MutatingAdmissionWebhook</li>
+</ol>
+<p>变更准入控制器，可以拦截并修改Kubernetes API Server请求的对象</p>
+<ol start="2">
+<li>ValidatingAdmissionWebhook</li>
+</ol>
+<p>验证准入控制器，可以对Kubernetes API Server请求对象的格式进行校验，但无法修改对象</p>
+<p>集群管理员可通过修改kube-apiserver配置文件启动以上两个准入控制器:</p>
+<p>&ndash;enable-admission-plugins=NodeRestriction， MutatingAdmissionWebhook,ValidatingAdmissionWebhook</p>
+<p>准入控制过程主要分为两个阶段，第一阶段运行变更准入控制器，第二阶段运行验证准入控制器，需要注意的是，Kubernetes的某些准入控制器既是变更准入控制器也是验证准入控制器。如果第一阶段的任何准入控制器拒绝了请求，则整个请求被拒绝，并同时会向终端用户返回一个错误。</p>
+<h2 id="54-secret">5.4 Secret</h2>
+<p>Kubernetes使用Secret对象来保存敏感信息，例如密码、令牌和SSH密钥。相比于将敏感信息放入Pod定义的yaml文件或容器镜像中，使用Secret方式更为安全灵活，该方式也是目前开发者常使用的密钥管理方式。在传递至容器的过程中，主要有将Secret构建至容器镜像中，通过Kubernetes环境变量，挂载宿主机文件系统三种方式。</p>
+<h2 id="55-网络策略network-policy">5.5 网络策略（Network Policy）</h2>
+<p>随着应用在云原生环境中的逐步落地，应用上云后带来了诸多网络层面的问题，例如应用间的网络调用需求大规模增长，应用间的流量控制变得尤其复杂，面对这些问题，Kubernetes在1.3版本引入了网络策略，其主要用于在网络三、四层提供流量控制能力，网络策略以应用为中心，允许用户设置Pod与网络中各类实体间的通信。</p>
+<p>网络策略需要通过网络插件来实现，由于某些网络插件不支持网络策略，例如Flannel，因此策略即使下发成功也不会生效。支持网络策略的网络插件包括但不限于Calico、Cillum、Weave等。</p>
+<p>默认情况下，Pod间是非隔离的，接受任何来源的流量。当为某一命名空间下的Pod下发网络策略时，该Pod会拒绝该网络策略所不允许的连接，其它命名空间的Pod继续接收流量。此外，网络策略通常不会冲突，是累加的并且最终取并集，不会影响策略结果。</p>
+<h1 id="六-kubernetes未来演进趋势">六. Kubernetes未来演进趋势</h1>
+<p>
+  <figure>
+    <img src="/img/Kubernetes%e6%94%bb%e5%87%bb%e4%b8%8e%e9%98%b2%e5%be%a1%e6%8a%80%e6%9c%af%e7%bb%bc%e8%bf%b0/%e5%9b%be9.png" alt="img">
+    <center><figcaption>图9. Kubernetes未来严谨趋势示意图 </figcaption></center>
+  </figure>
+
+
+在本次RSA演讲中，Max vonBlankenburg和Lenin Alevski谈到Kubernetes的演进趋势，认为Kubernetes将会以更多的形态（K3s、Minikube、Kubeedge）部署在边缘云和混合云场景中, 笔者也对此表示认同，未来的云原生技术将赋能于各类新型基础设施，如5G、边缘计算、工业互联网等，云原生安全将根据不同场景的特点、需求和约束条件，演化出多种技术发展路线，最终形成相应的新基建安全防护方案。此外，随着企业上云、SDWAN兴起，安全访问服务边缘（Secure Access Service Edge，SASE）技术将会把各类安全技术与网络、云基础设施融合，提供融合私有云、公有云、多云、混合云和传统IT环境等复杂场景下统一的端到端安全连接，这种环境变化，将催生新形态的安全能力和安全交付模式。</p>
+<h1 id="七-总结">七. 总结</h1>
+<p>从今年的RSA议题和创新沙盒入围的安全初创公司可以看出，云安全仍然是不可或缺的热门话题之一。自从云原生概念最初提出以来，已经有些年头了，企业业务云原生化改造在国内外各行业都已得到大规模实施，安全伴随业务，随之而来的便是云原生安全，特别是容器安全和 Kubernetes 安全。Gartner近年也提出了CNAPP的概念，这预示着云原生防护体系将会不断完善。本次议题中Max vonBlankenburg和Lenin Alevski 全面阐述了Kubernetes 的常见攻击手法，并提出了相应的安全建议，为企业在云原生安全实际落地过程中提供了有价值的参考。</p>
+<h1 id="八-参考文献">八. 参考文献</h1>
+<p>[1] <a href="https://semgrep.dev/about">https://semgrep.dev/about</a></p>
+<p>[2] <a href="https://owasp.org/www-project-kubernetes-top-ten/">https://owasp.org/www-project-kubernetes-top-ten/</a></p>
+<p>[3] RSAC 2024 Kubernetes Security Attacking and Defending Modern Infrastructure.pdf</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-05-06-rsac-2024%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92aembit%E9%9D%A2%E5%90%91iam%E7%9A%84%E4%BA%91%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%B9%B3%E5%8F%B0/" data-toggle="tooltip" data-placement="top" title="RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/" data-toggle="tooltip" data-placement="top" title="2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台" />
+    <meta property="og:title" content="RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台" />
+    <meta property="twitter:title" content="RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台" />
+    
+
+    
+    <meta name="description" content="Aembit：面向IAM的云工作负载访问控制平台">
+    <meta property="og:description" content="Aembit：面向IAM的云工作负载访问控制平台" />
+    <meta property="twitter:description" content="Aembit：面向IAM的云工作负载访问控制平台" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2024-05-06-rsac-2024%E5%88%9B%E6%96%B0%E6%B2%99%E7%9B%92aembit%E9%9D%A2%E5%90%91iam%E7%9A%84%E4%BA%91%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%B9%B3%E5%8F%B0/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/rsa" title="RSA">
+                            RSA
+                        </a>
+                        
+                        <a class="tag" href="/tags/iam" title="IAM">
+                            IAM
+                        </a>
+                        
+                        <a class="tag" href="/tags/aws" title="AWS">
+                            AWS
+                        </a>
+                        
+                    </div>
+                    <h1>RSAC 2024创新沙盒｜Aembit：面向IAM的云工作负载访问控制平台</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Monday, May 6, 2024
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-公司介绍">一. <strong>公司介绍</strong></h1>
+<p>Aembit成立于2021年，总部位于美国华盛顿，该公司致力于云工作负载IAM（身份识别和访问管理）领域，旨在实现云工作负载和云服务间的访问自动化、安全可控，以降低人力管理成本。目前，Aembit团队规模约为10-50人，两位联合创始人分别是David Goldschlag（CEO）和Kevin Sapp（CTO）。</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be1.png" alt="img">
+    <center><figcaption>图1 Aembit联合创始人</figcaption></center>
+  </figure>
+
+</p>
+<p>David Goldschlag曾在美国国家安全局任职，期间发明了onion routing（洋葱路由）技术，该技术是一种加密通道技术，最初用作美国情报工具，如今已发展成为普通大众使用的在线匿名浏览器，用于保护个人隐私。David Goldschlag和Kevin Sapp曾共同就职于New Edge Labs公司，他们在那里共同开创了ZTNA （Zero Trust Network Access 零信任网络访问），并因此声名鹊起。随后，New Edge Labs公司被Netskope收购，Kevin Sapp在Netskope担任产品管理高级总监，David Goldschlag担任VP。2021年他们将注意力转向云工作负载IAM安全领域，并共同创立了Aembit。</p>
+<p>值得注意的是，Aembit的创立源自David Goldschlag和Kevin Sapp与客户的一次交流。交流中谈到传统的工作负载间通信常通过密钥连接的方式实现，这种方式一旦工作负载增多，会导致密钥管理变得极其复杂。并且随着业务向云端迁移，用户的云工作负载跨本地、公有云、混合云通信的场景将变得常见，这更促使了业界对面向IAM的云工作负载需求的提升。</p>
+<p>融资方面，截至去年11月，Aembit已经完成了4轮融资，最近一轮融资于2023年10月31日进行了种子轮融资。共筹得1800万美元，Aembit的主要投资者包括CrowdStrike Falcon Fund、Ten Eleven Ventures、Balllistic Ventures和Okta Ventures。</p>
+<h1 id="二-背景">二. <strong>背景</strong></h1>
+<h2 id="21-传统的云工作负载间的访问方式存在管控风险">2.1 <strong>传统的云工作负载间的访问方式存在管控风险</strong></h2>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be2.png" alt="img">
+    <center><figcaption>图2 传统云工作负载间的访问方式</figcaption></center>
+  </figure>
+
+</p>
+<p>传统的云服务间通信通常通过在云服务内部植入公私钥对或密码的方式实现。但随着云服务种类的多样化，如CI/CD系统、Kafka中间件、SaaS化应用和云原生服务等，若用户部署的服务类型较多，则可能会导致管控风险增加。典型问题包括：</p>
+<p>开发者可能会将密钥和密码信息硬编码在代码文件中，随着服务数量增多，密钥信息管理变得困难，泄露密钥信息可能导致滥用风险。</p>
+<p>云服务种类较多，如Serverless服务、SaaS化服务、API和微服务等，不同的云服务间的访问方式各有不同，这无疑会增加云服务的攻击面。</p>
+<p>现有解决方案多为使用密钥管理器Vaults、Cloud IAM、SPIFFE等进行管理，但存在一定缺陷：</p>
+<p>1）Cloud IAM仅适用于单一云环境，无法解决多环境下工作负载身份挑战的问题。</p>
+<p>2）密钥信息无法与身份关联，可能存在凭证丢失和身份欺骗等风险。</p>
+<p>3）密钥管理更加复杂、自动化程度低，工作负载间访问的安全风险变高。</p>
+<p>例如A服务与B服务部署在AWS上，通过AWS的IAM实现认证授权，但如果与部署在Azure上的C服务进行通信，则需要用户自行解决由于IAM机制不同而导致的断层问题。面对传统方式带来的管控风险，业界迫切需要一种统一管理云服务间访问控制并维持策略一致性的解决方案。</p>
+<h2 id="22-面向iam的云工作负载间的访问应运而生">2.2 <strong>面向IAM的云工作负载间的访问应运而生</strong></h2>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be3.png" alt="img">
+    <center><figcaption>图3 Aembit面向IAM的访问方式</figcaption></center>
+  </figure>
+
+</p>
+<p>如果我们将每个云工作负载视为一个身份来访问另一个身份的工作负载，就可以将底层复杂的认证授权机制向上抽象，形成一致的IAM层进行管理，从而大大降低人工投入成本。实际上Aembit就是这么做的，Aembit支持配置以连接大量的云服务（无论是自建还是公有云自带服务）。云工作负载间通信时，请求会首先被代理至Aembit，根据预先配置的策略，如密钥生成方式、身份认证等方式，Aembit实现了服务间的安全通信。经笔者调研，Aembit具备以下优势：</p>
+<p>通过跨多云环境的策略管理，统一对各类云服务间的认证授权进行管理。</p>
+<p>避免在云服务内部实现认证授权等代码逻辑，将业务与安全有效解耦。</p>
+<p>提供更深的IAM可见性，主要通过Aembit的日志审计功能将IAM进行可视化呈现。</p>
+<h1 id="三-产品介绍">三. <strong>产品介绍</strong></h1>
+<h2 id="31-架构分析">3.1 <strong>架构分析</strong></h2>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be4.png" alt="img">
+    <center><figcaption>图4 Aembit架构</figcaption></center>
+  </figure>
+
+</p>
+<p>Aembit的架构借鉴了SDN的理念，简单地分为Edge（数据平面）和Cloud（控制平面）两个核心组件。Edge负责接入用户的云工作负载，生成工作负载身份（Service Account），并代理云服务间的请求流量至Cloud侧处理。Edge提供了两种接入方式：Sidecar和SDK。数据平面可能会有多个Edge节点。Cloud是控制平面，主要负责访问策略配置、访问凭证生成（短生命周期证书，以避免长生命周期带来的安全和管理问题）、客户端身份验证、事件日志等多方面的功能。此外，Cloud还接收来自Edge的一类请求，包括工作负载状态、访问事件日志等并对Edge节点进行管理。为了更清晰地理解其架构，可以参考官方提供的工作流程图，如下所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be5.png" alt="img">
+    <center><figcaption>图5 Aembit工作流程图</figcaption></center>
+  </figure>
+
+</p>
+<p>以上是Aembit的工作流程，案例场景为图5中的Workload A访问Service B:</p>
+<ul>
+<li>客户端工作负载请求访问Service B</li>
+<li>Aembit的Egde组件通过代理拦截客户端请求</li>
+<li>Edge生成Service Account的Token信息（自实现，Token代表Workload的身份）</li>
+<li>Egde代表客户端工作负载请求访问Service B的凭证信息</li>
+<li>Cloud使用attestation验证来自4中客户端的认证请求</li>
+<li>Cloud通过预先设置的授权策略和条件访问需求进行相应检测</li>
+<li>Cloud请求来自第三方凭证Provider的访问密钥信息（这一步Cloud已拿到Workload A访问Service B的访问凭证）</li>
+<li>客户端工作负载继续请求访问Service B</li>
+<li>Edge将7中获取的访问凭证嵌入客户端请求中并转发至Service B</li>
+<li>Edge同时将此次的访问事件日志发送至Cloud</li>
+</ul>
+<h2 id="32-功能分析">3.2 <strong>功能分析</strong></h2>
+<p>Aembit的产品全称为Workload Identity &amp; Access Management。经笔者的调研，发现其主要功能可以简要分为三个部分：访问策略配置、访问日志审计和Edge组件接入。在产品的Web界面上，用户可以轻松进行这三个方面的操作和管理，如图6所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be6.png" alt="img">
+    <center><figcaption>图6 Aembit产品界面图</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>1）访问策略配置</strong></p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be7.png" alt="img">
+    <center><figcaption>图7 Aembit防控策略配置界面</figcaption></center>
+  </figure>
+
+</p>
+<p>Aembit的核心功能之一是访问策略配置，从图7中可以看出，配置一个策略需要涉及五个部分：客户端工作负载（Client Workloads）、客户端身份验证提供商（Trust Providers）、访问条件（Access Conditions）、凭证提供商（Credential Providers）、服务端工作负载（Server Workloads）。通过前述产品的流程介绍部分，读者应该对这几个部分有了一定的了解。在这里，笔者想进一步说明访问条件（Access Conditions）的重要性。实际上，访问条件允许用户对云工作负载的访问行为进行一定条件的限制。例如，我们可以将一条访问记录中包含的信息传递给第三方应用程序进行处理，并设置一定的条件。在Aembit集成Wiz的案例中[2]，可以看到其访问策略如图8所示。</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be8.png" alt="img">
+    <center><figcaption>图8 Aembit集成Wiz访问策略配置界面</figcaption></center>
+  </figure>
+
+</p>
+<p>如图9所示的访问条件中，可以看到两个关键要素：</p>
+<p>Cluster限制条件</p>
+<p>只有当开启的容器集群与Wiz连接后，客户端工作负载才能继续进行访问。</p>
+<p>TIME限制条件</p>
+<p>将最近一次访问时间设定为1小时（因为每当访问策略满足时，系统都会生成一条访问事件日志。如果我们将访问时间设置过长，将会导致访问事件日志的数量激增，因此可根据用户需求进行动态调整。）</p>
+<p>笔者认为，“访问条件”不仅保证了访问的安全性和可追踪性，同时也兼顾了系统性能和用户体验。</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be9.png" alt="img">
+    <center><figcaption>图9 Wiz访问条件界面</figcaption></center>
+  </figure>
+
+</p>
+<p>笔者认为，访问策略配置还是具备一定创新性的，Aembit着重考虑了用户对访问策略的自由度需求，体现了其产品的易用性和灵活性。笔者认为Aembit或许应该再进一步，有更多的思路，例如通过向用户提供对外SDK或API，以增强产品的扩展性。有些类似于云原生领域中的透明代理Envoy，其主打特性即扩展性强。通过这种方式，用户可以根据自身需求定制访问条件，使产品更具适用性和可扩展性。</p>
+<p><strong>2）访问日志审计</strong></p>
+<p>Aembit提供较为详细的访问日志审计功能，从其提供的用户界面来看，包括工作负载事件（Workload Events）、审计日志（Audit Logs）两部分内容。Workload Events中可查看客户端、服务端、事件访问类型如具体云服务的请求还是响应等信息，如图10所示，Audit Logs则根据访问策略记录了云工作负载间的访问行为，如图11所示。</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be10.png" alt="img">
+    <center><figcaption>图10 Aembit报告Web界面</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be11.png" alt="img">
+    <center><figcaption>图11 Aembit审计日志Web界面</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>3）Edge组件接入</strong></p>
+<p>Aembit Edge目前已经集成了100+的各类云应用[1]，部署上提供Sidecar和SDK两种方式，Aembit声称Edge通过 helm进行安装，无须侵入应用代码，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be12.png" alt="img">
+    <center><figcaption>图12 Aembit Edge部署脚本</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be13.png" alt="img">
+    <center><figcaption>图13 Aembit Sidecar注入yaml配置</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e9%9d%a2%e5%90%91IAM%e7%9a%84%e4%ba%91%e5%b7%a5%e4%bd%9c%e8%b4%9f%e8%bd%bd%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e5%b9%b3%e5%8f%b0/%e5%9b%be14.png" alt="img">
+    <center><figcaption>图14 Aembit Edge接入</figcaption></center>
+  </figure>
+
+</p>
+<p>Aembit声称他们的Edge接入采用了“No-code auth technology(proxy design)”的方式，结合官方视频的介绍，笔者认为Aembit很可能借鉴了Envoy代理的实现方式。Envoy支持主流的L3/L4层协议以及私有协议，具有强大的扩展性，并且对开发者相对友好。考虑到云工作负载间的通信协议可能在不同场景下各不相同相似，因而这种借鉴是合理的。</p>
+<p>从技术角度来看，笔者认为“侵入性”存在于不同程度上，而“无侵入性”则是不存在的。即使使用Sidecar来截获请求流量，也需要在Pod YAML中配置一定的权限。因此，无论是多少侵入性，都会在一定程度上影响系统的配置和部署。</p>
+<h1 id="四-竞品分析">四. <strong>竞品分析</strong></h1>
+<p>今年RSAC创新沙盒十强中还有一家从事IAM安全的公司，名为P0 Security。他们提供的是一款云访问治理平台，主要确保组织内所有身份（包括人和机器）的云访问安全，同时不会影响开发人员的工作流程。除此之外，P0 Security还能对所有的IAM身份进行清单管理，评估其风险状况，并管理其访问生命周期。</p>
+<p>与Aembit相比，P0 Security在IAM安全方面的切入点不同。P0 Security更像是一个云服务IAM授权接入器，通过采用公有云厂商的最佳实践来配置IAM以满足合规要求。而Aembit的IAM安全更为广泛，涵盖了不仅仅是公有云应用场景，还包括混合云、本地云等多种场景结合。从创新性的角度来看，Aembit提供的“访问策略”能够很好地满足用户需求。相比之下，P0 Security似乎只是利用现有的IAM策略来进行风险合规，而Aembit则显得更具有扩展性。</p>
+<h1 id="五-总结">五. <strong>总结</strong></h1>
+<p>今年的RSAC Sandbox竞争在云安全领域尤为激烈，共有四家厂商参与。其中，Aembit和P0 Security专注于IAM解决方案；RAD Security涉及云原生安全领域；Mitaga则持续专注于SaaS安全。本文着重介绍了Aembit公司的架构、功能和技术方面。综合来看，在做IAM安全的两家厂商中，Aembit在创新性方面较P0 Security更为突出。期待Aembit在最终的竞争中取得好的成绩。</p>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] <a href="https://aembit.io/">https://aembit.io/</a></p>
+<p>[2] <a href="https://aembit.io/wiz/">https://aembit.io/wiz/</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-04-20-%E9%82%A3%E4%BA%9B%E5%B9%B4%E9%99%AA%E8%87%AA%E5%B7%B1%E8%B5%B0%E8%BF%87%E7%9A%84%E6%AD%8C%E5%A3%B0/" data-toggle="tooltip" data-placement="top" title="那些年陪自己走过的歌声">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2024-05-24-%E6%B4%9E%E8%A7%81rsa2024-kubernetes%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0/" data-toggle="tooltip" data-placement="top" title="洞见RSA2024 | Kubernetes攻击与防御技术综述">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

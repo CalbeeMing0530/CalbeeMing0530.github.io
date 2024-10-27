@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据泄漏 on Ming Blog</title>
+    <link>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</link>
+    <description>Recent content in 数据泄漏 on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链</title>
+      <link>https://puming.zone/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/</link>
+      <pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/</guid>
+      <description>一．概述 数据泄露已成为当今数字时代企业和个人面临的重大威胁之一，不仅会导致经济损失，还可能损害企业声誉和用户信任。因而了解数据泄露的趋势和成</description>
+    </item>
+    
+  </channel>
+</rss>

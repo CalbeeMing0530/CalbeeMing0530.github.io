@@ -6,10 +6,118 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Verizon</title>
+      <link>https://puming.zone/tags/verizon/</link>
+      <pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/verizon/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>威胁行为</title>
+      <link>https://puming.zone/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA/</link>
+      <pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>安全事件</title>
+      <link>https://puming.zone/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据泄漏</title>
+      <link>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</link>
+      <pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ATT&amp;CK</title>
+      <link>https://puming.zone/tags/attck/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/attck/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://puming.zone/tags/kubernetes/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RSA</title>
+      <link>https://puming.zone/tags/rsa/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/rsa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云原生安全</title>
+      <link>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>容器安全</title>
+      <link>https://puming.zone/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AWS</title>
+      <link>https://puming.zone/tags/aws/</link>
+      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IAM</title>
+      <link>https://puming.zone/tags/iam/</link>
+      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/iam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云安全</title>
+      <link>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>life</title>
@@ -17,6 +125,24 @@
       <pubDate>Sat, 20 Apr 2024 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云计算</title>
+      <link>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>对象存储</title>
+      <link>https://puming.zone/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</guid>
       <description></description>
     </item>
     
@@ -39,33 +165,6 @@
     </item>
     
     <item>
-      <title>云原生安全</title>
-      <link>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>云安全</title>
-      <link>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>云计算</title>
-      <link>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</link>
-      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>服务网格</title>
       <link>https://puming.zone/tags/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</link>
       <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
@@ -80,15 +179,6 @@
       <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/devsecops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RSA</title>
-      <link>https://puming.zone/tags/rsa/</link>
-      <pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/rsa/</guid>
       <description></description>
     </item>
     
@@ -134,15 +224,6 @@
       <pubDate>Thu, 23 Mar 2023 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/api%E5%AE%89%E5%85%A8/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://puming.zone/tags/kubernetes/</link>
-      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/kubernetes/</guid>
       <description></description>
     </item>
     
