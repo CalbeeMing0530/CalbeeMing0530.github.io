@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="从数据库沦陷到供应链投毒：大模型安全危机背后的“隐形战场" />
+    <meta property="og:title" content="从数据库沦陷到供应链投毒：大模型安全危机背后的“隐形战场" />
+    <meta property="twitter:title" content="从数据库沦陷到供应链投毒：大模型安全危机背后的“隐形战场" />
+    
+
+    
+    <meta name="description" content="2025年初大模型数据泄露集中爆发，安全威胁直击核心数据与用户隐私，本文深度剖析五大事件，敲响AI安全警钟">
+    <meta property="og:description" content="2025年初大模型数据泄露集中爆发，安全威胁直击核心数据与用户隐私，本文深度剖析五大事件，敲响AI安全警钟" />
+    <meta property="twitter:description" content="2025年初大模型数据泄露集中爆发，安全威胁直击核心数据与用户隐私，本文深度剖析五大事件，敲响AI安全警钟" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>从数据库沦陷到供应链投毒：大模型安全危机背后的“隐形战场-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2025-03-25-2025-%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B2%A6%E9%99%B7%E5%88%B0%E4%BE%9B%E5%BA%94%E9%93%BE%E6%8A%95%E6%AF%92%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8%E5%8D%B1%E6%9C%BA%E8%83%8C%E5%90%8E%E7%9A%84%E9%9A%90%E5%BD%A2%E6%88%98%E5%9C%BA/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F" title="数据泄漏">
+                            数据泄漏
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8" title="大模型安全">
+                            大模型安全
+                        </a>
+                        
+                    </div>
+                    <h1>从数据库沦陷到供应链投毒：大模型安全危机背后的“隐形战场</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Tuesday, March 25, 2025
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一概述">一．概述</h1>
+<p>近年来，随着DeepSeek、Ollama等开源大模型的广泛应用，全球企业正加速推进大模型的私有化部署。Gartner预测，到2027年，中国80%的企业将采用多模型生成式AI策略，以满足多样化业务需求、本地化部署要求以及成本优化目标[7]。然而，这一技术浪潮在提升企业效率的同时，也增加了数据安全泄露风险。据绿盟科技星云实验室统计，仅在2025年1月至2月期间，全球范围内就集中爆发了五起与大模型相关的重大数据泄露事件，导致大量敏感数据外泄，包括模型聊天历史记录、API Key、凭证等信息。这些事件不仅暴露了企业在AI技术应用中的安全盲区，也敲响了“AI驱动型风险”的警钟。本文将聚焦于这五起事件，通过时间线回溯、泄露规模统计、攻击手法拆解及MITRE ATT&amp;CK框架映射，揭示AI技术应用中的安全盲区。</p>
+<h1 id="二大模型数据泄露事件分析">二．大模型数据泄露事件分析</h1>
+<h2 id="事件一--deepseek公司使用的-clickhouse数据库存在配置错误导致出现严重聊天数据泄露">事件一.  Deepseek公司使用的 Clickhouse数据库存在配置错误导致出现严重聊天数据泄露</h2>
+<p><strong>事件时间：</strong> 2025年1月29日</p>
+<p><strong>泄露规模：</strong> 百万行的日志流，包含聊天历史记录，密钥等敏感信息</p>
+<p><strong>事件回顾：</strong>
+2025年1月29日，Wiz安全研究团队发现了互联网中一个暴露的Clickhouse服务，并确定该服务属于我国AI初创公司深度探索（DeepSeek）。Clickhouse能够对底层的数据库中的数据进行访问，利用该Clickhouse服务，Wiz安全研究员发现了约一百万行DeepSeek的日志流，包含历史聊天记录，密钥等其他敏感信息。
+发现问题后，Wiz安全研究团队立即向DeepSeek通报了这一问题，DeepSeek立即对其暴露的Clickhouse服务进行了安全处置。</p>
+<p><strong>事件分析：</strong>
+ClickHouse是一个开源的列式数据库管理系统（DBMS），专为在线分析处理（OLAP）设计。它能够高效处理大规模数据，支持实时查询和分析，适用于日志分析、用户行为分析等场景。ClickHouse存在未授权访问漏洞，对于一个未添加任何访问控制机制的ClickHouse服务，任意用户可以通过该服务暴露的API接口执行类SQL命令。</p>
+<p>本次事件中，Wiz安全研究团队通过技术手段探测了约30个DeepSeek面向互联网的子域名的80和443端口。这些暴露服务大多是托管聊天机器人界面、状态页面和 API 文档等资源，也都没有相关安全风险。为了进一步探寻DeepSeek的暴露风险，Wiz安全研究团队将探测范围扩大到了除80、443端口之外的非常规端口，如8123、9000端口等。最终，他们发现了非常规端口的多个子域名下均有暴露服务，如：</p>
+<ul>
+<li><a href="http://dev.deepseek.com">http://dev.deepseek.com</a>:8123</li>
+<li><a href="http://oauth2callback.deepseek.com">http://oauth2callback.deepseek.com</a>:9000</li>
+<li><a href="http://dev.deepseek.com">http://dev.deepseek.com</a>:9000</li>
+<li><a href="http://oauth2callback.deepseek.com">http://oauth2callback.deepseek.com</a>:8123</li>
+</ul>
+<p>在确定这几个暴露的服务为Clickhouse后，Wiz安全研究团队通过ClickHouse服务的API对底层的数据库进行查询测试，包含查询数据库、查询数据库中的表，如下图所示：</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be1.png" alt="img">
+    <center><figcaption>图1. 疑似Clickhouse泄露数据1</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be2.png" alt="img">
+    <center><figcaption>图2. 疑似Clickhouse泄露数据2</figcaption></center>
+  </figure>
+
+</p>
+<p>从2025年1月6日起， 存在泄露风险的日志信息包含对各种内部 DeepSeek API 端点的调用日志、纯文本日志，包括聊天历史记录、API 密钥、后端详细信息和操作元数据等。</p>
+<p><strong>VERIZON事件分类：</strong> Miscellaneous Errors（杂项错误）</p>
+<p><strong>所用MITRE ATT&amp;CK技术</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><strong>技术</strong></th>
+<th><strong>子技术</strong></th>
+<th><strong>利用方式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1590 收集受害者网络信息</td>
+<td>.002 域名解析</td>
+<td>攻击者可能利用主域名对目标进行子域名爆破。</td>
+</tr>
+<tr>
+<td>T1046 网络服务发现</td>
+<td>N/A</td>
+<td>攻击者确定目标域名开放的端口和服务。</td>
+</tr>
+<tr>
+<td>T1106 原生接口</td>
+<td>N/A</td>
+<td>攻击者可能利用Clickhouse API与数据库交互。</td>
+</tr>
+<tr>
+<td>T1567 通过Web服务外泄</td>
+<td>N/A</td>
+<td>攻击者可能利用Clickhouse API进行数据窃取。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考链接：</strong> <a href="https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak">https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak </a></p>
+<h2 id="事件二-攻击者通过非法上传deepseek恶意依赖包引发供应链攻击大量用户凭据遭至泄露">事件二. 攻击者通过非法上传DeepSeek恶意依赖包引发供应链攻击，大量用户凭据遭至泄露</h2>
+<p><strong>事件时间：</strong> 2025年2月3日</p>
+<p><strong>泄露规模：</strong> 部分用户凭据及环境变量</p>
+<p><strong>事件回顾：</strong></p>
+<p>2025年1月19日，恶意用户bvk首次上传两个恶意python包(deepseek和deepseekai)至PyPI</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be3.png" alt="img">
+    <center><figcaption>图3. PyPI中上传的恶意软件包目录</figcaption></center>
+  </figure>
+
+</p>
+<p>同日，Positive Technologies Expert Security Center (PT ESC)威胁情报团队通过系统捕获到异常活动</p>
+<p>同日，Positive Technologies Expert Security Center (PT ESC)技术团队分析验证并通知PyPI管理员</p>
+<p>同日，PyPI管理员删除了以上两个恶意python包并通知了PT ESC</p>
+<p>经统计，在恶意python包被上传后，全球多达17个国家，通过各种下载渠道共下载恶意软件高达200多次，目前两个恶意软件包已被隔离</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be4.png" alt="img">
+    <center><figcaption>图4. 被隔离的软件包</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>事件分析：</strong></p>
+<p>据 PT ESC技术团队反馈，恶意用户上传的软件包中主要涉及信息收集和环境变量窃取等功能，窃取数据包括数据库凭据、API、S3对象存储访问凭证等。当用户在命令行中运行Deepseek或Deepseekai时，将执行恶意载荷。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be5.png" alt="img">
+    <center><figcaption>图5. Deepseekai console命令在同名包中注册</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be6.png" alt="img">
+    <center><figcaption>图6. 恶意软件包中的载荷</figcaption></center>
+  </figure>
+
+</p>
+<p>从以上载荷中不难看出攻击者使用了PipeDream作为被盗数据命令控制服务器，回顾整个事件，我们认为时间成因可汇总为以下几方面：</p>
+<ul>
+<li>依赖混淆攻击：利用企业私有包与公共仓库同名包优先级差异</li>
+<li>软件包命名仿冒策略：模仿知名AI公司Deepseek品牌名称</li>
+<li>PyPI注册机制漏洞：未有效验证开发者身份与包名合法性</li>
+<li>开发者安全意识不足：易误装名称相近的恶意包</li>
+</ul>
+<p><strong>VERIZON事件分类：</strong> Social Engineering（社工）</p>
+<p><strong>所用MITRE ATT&amp;CK技术：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>技术</strong></th>
+<th><strong>子技术</strong></th>
+<th><strong>利用方式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1593</td>
+<td>.003</td>
+<td>搜索公开可用的python依赖仓库，找到PyPI</td>
+</tr>
+<tr>
+<td>T1195</td>
+<td>.002</td>
+<td>利用恶意软件包装为Python依赖，上传至PyPI仓库,  引发供应链攻击</td>
+</tr>
+<tr>
+<td>T1059</td>
+<td>.006</td>
+<td>攻击者在恶意包中植入了恶意代码，用户执行后便会泄露环境变量、凭证等信息，并通过攻击者搭建的PipeDream进行敏感数据外泄</td>
+</tr>
+<tr>
+<td>T1041</td>
+<td>N/A</td>
+<td>通过C2通道外泄用户环境变量、凭证的敏感信息</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考链接</strong>：https://global.ptsecurity.com/analytics/pt-esc-threat-intelligence/malicious-packages-deepseeek-and-deepseekai-published-in-python-package-index</p>
+<h2 id="事件三--大量用户凭证失窃llm劫持攻击目标转向deepseek">事件三.  大量用户凭证失窃，LLM劫持攻击目标转向DeepSeek</h2>
+<p><strong>事件时间：</strong> 2025年2月7日</p>
+<p><strong>泄露规模：</strong> 约20亿大模型Token遭到非法利用</p>
+<p><strong>事件回顾：</strong></p>
+<p>2024年5月，Sysdig威胁研究团队发现一种针对大模型的新型网络攻击方式——LLM jacking，又称LLM劫持攻击。</p>
+<p>2024年9月，Sysdig威胁研究团队表示，LLM劫持攻击攻击的频率和普及正在增加。DeepSeek也逐渐成为被攻击对象。</p>
+<p>2024年12月26日，DeepSeek发布了高级模型DeepSeek-V3 。几天后，Sysdig威胁研究团队发现DeepSeek-V3已在Hugging Face上托管的OpenAI反向代理（ ORP ）项目中所实现。</p>
+<p>2025年1月20日，DeepSeek发布了一种称为DeepSeek-R1的推理模型。次日，支持DeepSeek-R1的ORP项目已经出现，多个ORP已填充了DeepSeek API密钥，并且已有攻击者开始利用这些密钥。</p>
+<p>在Sysdig威胁研究团队的研究工作中，发现ORP非法利用的大模型Token总数已超过20亿。</p>
+<p><strong>事件分析：</strong></p>
+<p>LLM劫持攻击指攻击者利用窃取的云凭证，针对云托管的LLM服务发起的劫持攻击。攻击者利用OAI反向代理和窃取到的云凭证，将受害者订阅的云托管LLM服务的访问权限进行出售。该攻击可能导致受害者承受巨额的云服务成本。</p>
+<p>OAI反向代理指LLM服务的反向代理，OAI反向代理可以帮助攻击者集中管理对多个LLM账户的访问，而不暴露底层的凭据和凭据池。利用OAI反向代理，攻击者能够在没有支付相应费用的情况下运行高成本的LLM（如DeepSeek）。攻击者通过反向代理访问这些LLM，实际执行任务和消耗计算资源，从而绕过了合法的服务收费。反向代理机制充当了中介角色，重定向请求并隐藏了攻击者的身份，使其能够在不被察觉的情况下滥用云计算资源。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be7.png" alt="img">
+    <center><figcaption>图7. 事件攻击路径</figcaption></center>
+  </figure>
+
+</p>
+<p>OAI反向代理是实现LLM劫持攻击的必要条件，而实现LLM劫持攻击的关键是如何窃取到正常用户所购买的各类LLM服务的凭证、密钥等。攻击者对凭证的窃取往往是通过传统的Web服务漏洞、配置错误等方式（如Laravel框架的CVE-2021-3129漏洞等）。一旦获得这些凭证，攻击者便可以访问云环境中的LLM服务，例如Amazon Bedrock、Google Cloud Vertex AI等。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be8.png" alt="img">
+    <center><figcaption>图8. Laravel漏洞利用流程</figcaption></center>
+  </figure>
+
+</p>
+<p>Sysdig威胁研究团队研究表明，攻击者可以在短短几小时内使受害者的消费成本飙升至数万美元，甚至在某些情况下，日消费成本可高达$100,000。这种攻击不仅仅是为了获取数据，更多的是为了通过出售访问权来获取经济利益。</p>
+<p><strong>VERIZON事件分类：</strong> Basic Web Application Attacks （基础Web应用类攻击）</p>
+<p><strong>所用MITRE ATT&amp;CK技术：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>技术</strong></th>
+<th><strong>子技术</strong></th>
+<th><strong>利用方式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1593 搜索开放网站/域</td>
+<td>.002 搜索引擎</td>
+<td>攻击者利用OSINT方法在互联网中收集暴露服务信息。</td>
+</tr>
+<tr>
+<td>T1133 外部远程服务</td>
+<td>N/A</td>
+<td>攻击者识别暴露服务中存在漏洞。</td>
+</tr>
+<tr>
+<td>T1586 泄露账户</td>
+<td>.003 云账户</td>
+<td>攻击者利用漏洞窃取LLM服务或云服务凭证。</td>
+</tr>
+<tr>
+<td>T1588 获取能力</td>
+<td>.002 工具</td>
+<td>攻击者部署开源OAI反向代理工具。</td>
+</tr>
+<tr>
+<td>T1090 代理</td>
+<td>.002 外部代理</td>
+<td>攻击者利用OAI反向代理软件集中管理多个LLM账户的访问。</td>
+</tr>
+<tr>
+<td>T1496 资源劫持</td>
+<td>N/A</td>
+<td>攻击者利用访问LLM注入攻击进行LLM资源劫持。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考链接：</strong> <a href="https://sysdig.com/blog/llmjacking-targets-deepseek/">https://sysdig.com/blog/llmjacking-targets-deepseek/</a></p>
+<h2 id="事件四--大模型集成工具omnigpt数据泄露超30000用户数据在暗网公开售卖">事件四  大模型集成工具OmniGPT数据泄露：超30000用户数据在暗网公开售卖</h2>
+<p><strong>事件时间</strong>：2025年2月12日</p>
+<p><strong>泄露规模</strong>：超过30000名用户的个人信息，包括电子邮件、电话号码、API密钥、加密密钥、凭证及账单信息等。</p>
+<p><strong>事件回顾</strong>：</p>
+<p>2025年2月12日，SyntheticEmotions在BreachForums发布了一篇文章，如图9所示，攻击者声称自己窃取了OmniGPT平台的敏感数据，并将其出售。</p>
+<p>文章中得知，泄露的数据包括OmniGPT平台上30,000多名用户的邮件、电话号码、API密钥、加密密钥、凭证、账单信息及用户与聊天机器人的所有对话记录（超过3400万行）。此外，上传到平台的文件链接也被泄露，其中一些文件同样包含敏感信息，如凭证和账单资料。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be9.png" alt="img">
+    <center><figcaption>图9 BreachForums上售卖的OmniGPT数据</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>事件分析</strong>：</p>
+<p>尽管此次泄露的具体攻击路径未被明确披露，但从泄露的数据类型和范围来看，攻击者可能通过SQL注入、API滥用或社会工程学攻击等手段获取了后台数据库的访问权限。当然，OmniGPT平台也可能存在配置不当或漏洞，导致攻击者能够绕过认证控制，直接访问包含用户信息的数据库。</p>
+<p>另外，二次泄露的“Messages.txt”文件中包含了API密钥、数据库凭证和支付卡信息等，这些信息可能被用于进一步入侵其他系统或篡改数据。平台用户上传的部分文件中含有涉及企业机密、项目资料等敏感信息，若这些文件被恶意利用，亦可能导致更多业务运营遭受影响。</p>
+<p>此次泄露事件为整个行业敲响了警钟，提醒所有用户应更加注重数据安全和隐私保护，尤其是在使用AI和大数据平台时，应制定严格的数据使用政策，并对敏感数据进行加密、最小化或匿名化处理。否则，一旦发生类似的数据泄露，将可能导致企业面临法律、声誉和经济的多重损失。</p>
+<p><strong>VERIZON事件分类：</strong> Miscellaneous Errors（杂项错误）</p>
+<p><strong>所用MITRE ATT&amp;CK技术：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>技术</strong></th>
+<th><strong>子技术</strong></th>
+<th><strong>利用方式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1071 应用层协议</td>
+<td>.001 HTTP/S</td>
+<td>攻击者可能通过利用OmniGPT的Web接口与被盗数据进行交互，访问泄露的用户信息和敏感数据。</td>
+</tr>
+<tr>
+<td>T1071 应用层协议</td>
+<td>.002 API接口</td>
+<td>泄露的API密钥和数据库凭证使攻击者能够通过平台的API接口进一步访问系统，执行未经授权的操作。</td>
+</tr>
+<tr>
+<td>T1071 应用层协议</td>
+<td>.002 服务执行</td>
+<td>攻击者可能会滥用系统服务或守护程序来执行命令或程序</td>
+</tr>
+<tr>
+<td>T1020 自动泄露</td>
+<td>.003 文件传输</td>
+<td>泄露的文件链接和用户上传的敏感文件可能成为攻击者访问和下载的目标，从中获取更多敏感数据并利用这些数据进行后续攻击。</td>
+</tr>
+<tr>
+<td>T1083   文件和目录访问</td>
+<td>001访问敏感文件</td>
+<td>泄露的文件包含敏感数据（如凭证、数据库信息），攻击者可能通过访问这些文件来进一步获取关键的业务信息和用户数据。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考链接：</strong></p>
+<p><a href="https://cyble.com/blog/omnigpt-leak-risk-ai-data/">https://cyble.com/blog/omnigpt-leak-risk-ai-data/</a>
+<a href="https://www.csoonline.com/article/3822911/hacker-allegedly-puts-massive-omnigpt-breach-data-for-sale-on-the-dark-web.html">https://www.csoonline.com/article/3822911/hacker-allegedly-puts-massive-omnigpt-breach-data-for-sale-on-the-dark-web.html</a></p>
+<h2 id="事件五--爬虫数据库common-crawl中泄露约12000个deepseek相关凭证">事件五.  爬虫数据库Common Crawl中泄露约12000个DeepSeek相关凭证</h2>
+<p><strong>事件时间</strong>：2025年2月28日</p>
+<p><strong>泄露规模</strong>：约11,908个有效的DeepSeek API密钥、凭证和身份验证令牌</p>
+<p><strong>事件回顾</strong>：</p>
+<p>​    Truffle安全团队利用开源工具TruffleHog对爬虫数据库——Common Crawl中2024年12月的400 TB数据（涵盖来自4750万台主机的26.7亿个网页）进行了扫描。扫描结果表明：约11,908个有效的DeepSeek API密钥、凭证和身份验证令牌被硬编码进大量Web页面中。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be10.png" alt="img">
+    <center><figcaption>图10. 疑似硬编码在html中的AWS Key</figcaption></center>
+  </figure>
+
+</p>
+<p>​    在该研究中，Mailchimp API密钥的泄漏也不容忽视。在研究的数据集中，约1,500个Mailchimp API密钥被直接硬编码在JavaScript代码中。Mailchimp API密钥通常会被攻击利用，实施网络钓鱼、数据窃取等网络攻击。</p>
+<p><strong>事件分析</strong>：</p>
+<p>​    Common Crawl是知名的非盈利网络爬虫数据库，定期抓取并公开互联网网页数据。Common Crawl中存储于90,000个WARC（Web ARChive）文件中，完整保存了爬取网站的原始 HTML、JavaScript 代码及服务器响应内容。Common Crawl中的数据集常被用来进行AI模型的训练。因此，Truffle安全团队的研究内容揭示了一个日益严重的问题：使用带有漏洞的语料库进行模型训练会使得模型继承其存在安全漏洞。即使DeepSeek等其他大模型在训练和应用过程中利用了额外的安全措施，但训练语料库中的硬编码漏洞的普遍存在会使大模型认为这种“不安全”的做法是正常的。</p>
+<p>除此之外，硬编码这种不安全的编码风格是一个老生常谈的问题。这种漏洞的成因很简单，也很普遍，但带来的风险确实十分严重的。硬编码漏洞会造成数据泄露、服务中断、供应链攻击等。在大模型技术快速发展的今天，凭证的泄露会带来一种新型攻击——LLM劫持。LLM劫持攻击指攻击者利用窃取的云凭证，针对云托管的LLM服务发起的劫持攻击。攻击者利用OAI反向代理和窃取到的云凭证，将受害者订阅的云托管LLM服务的访问权限进行出售。该攻击可能导致受害者承受巨额的云服务成本。</p>
+<p><strong>VERIZON事件分类：</strong> Miscellaneous Errors（杂项错误）</p>
+<p><strong>所用MITRE ATT&amp;CK技术</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><strong>技术</strong></th>
+<th><strong>子技术</strong></th>
+<th><strong>利用方式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1596 搜索开放技术数据库</td>
+<td>.005 扫描数据库</td>
+<td>攻击者在公开爬虫数据库中进行信息收集。</td>
+</tr>
+<tr>
+<td>T1588 获取能力</td>
+<td>.002 工具</td>
+<td>攻击者部署敏感信息发现工具。</td>
+</tr>
+<tr>
+<td>T1586 泄露账户</td>
+<td>.003 云账户</td>
+<td>攻击者利用敏感信息发现工具发现公开数据库中的敏感凭证类信息。</td>
+</tr>
+<tr>
+<td>T1090 代理</td>
+<td>.002 外部代理</td>
+<td>攻击者利用OAI反向代理软件集中管理多个LLM账户的访问。</td>
+</tr>
+<tr>
+<td>T1496 资源劫持</td>
+<td>N/A</td>
+<td>攻击者利用访问LLM注入攻击进行LLM资源劫持。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考链接：</strong> <a href="https://cybersecuritynews.com/deepseek-data-leak-api-keys-and-passwords/">https://cybersecuritynews.com/deepseek-data-leak-api-keys-and-passwords/</a></p>
+<h1 id="三大模型数据泄露防护建议">三．大模型数据泄露防护建议</h1>
+<p>3.1 供应链安全加固
+针对事件二（恶意依赖包攻击）、事件五（公开数据泄露）可采取：</p>
+<ul>
+<li>依赖包可信验证：
+<ul>
+<li>使用 PyPI/Sonatype Nexus Firewall 等工具拦截未签名或来源可疑的依赖包。</li>
+<li>禁止开发环境直接拉取公共仓库依赖，强制通过企业私有仓库代理（如 Artifactory）。</li>
+</ul>
+</li>
+<li>供应链威胁监控
+<ul>
+<li>集成 Dependabot/Snyk 自动扫描依赖漏洞，阻断高风险组件引入。</li>
+<li>对开源包进行代码签名验证，确保哈希值与官方一致。</li>
+</ul>
+</li>
+<li>数据源清洗
+训练数据采集时，过滤公开数据集（如 Common Crawl）中的敏感信息，使用 正则表达式+AI脱敏工具 双重校验。</li>
+</ul>
+<p>3.2 最小权限与访问控制
+针对事件一（数据库配置错误）、事件四（第三方工具泄露）, 可采取：</p>
+<ul>
+<li>
+<p>数据库（如 Clickhouse）默认启用双向 TLS 认证，禁公网暴露管理端口。</p>
+</li>
+<li>
+<p>使用 Vault/Boundary 动态分发临时凭证，避免长期静态密钥留存。</p>
+</li>
+<li>
+<p>遵循最小权限原则，通过 RBAC（基于角色的访问控制） 限制用户仅访问必要资源。</p>
+</li>
+<li>
+<p>对第三方工具（如 OmniGPT）的 API 调用，实施 IP 白名单+速率限制。</p>
+<p>3.3 敏感数据全生命周期防护
+针对事件三（LLM劫持）可采取：</p>
+</li>
+<li>
+<p>数据脱敏与加密：用户输入输出数据强制字段级加密（如AES-GCM），日志中屏蔽敏感字段。</p>
+</li>
+<li>
+<p>对大模型交互内容启用实时脱敏（如替换信用卡号、手机号为占位符）。</p>
+</li>
+</ul>
+<h1 id="四总结">四．总结</h1>
+<p>本报告分析了2025年1-2月大模型数据泄露相关事件，系统性探讨了事件成因，包括主流云攻击手法和配置错误等人为因素。为了更清晰地描述云上数据泄露的攻击路径，我们引用了MITRE ATT&amp;CK模型中的攻击手法并进行了说明，有助于读者更好地理解这些攻击机制。
+绿盟科技创新研究院在云上风险发现和数据泄露领域已经开展了多年的研究。借助Fusion数据泄露侦察平台，我们已监测到数百万个云端暴露资产存在未授权访问的情况，包括但不限于DevSecOps组件，自建仓库、公有云对象存储、云盘、OLAP/OLTP数据库，以及各类存储中间件等，具体研究内容可参考《2023公有云安全风险分析报告》[1]，《2024上半年全球云数据泄露风险分析报告》[2]，《全球云上数据泄露风险分析简报》第一期至第四期[3,4,5,6]。</p>
+<p>Fusion是由绿盟科技创新研究院研发的一款面向数据泄露测绘的创新产品，集探测、识别、泄露数据侦察于一体，针对互联网中暴露的泛云组件进行测绘，识别组件关联的组织机构和组件风险的影响面，实现自动化的资产探测、风险发现、泄露数据分析、责任主体识别、数据泄露侦察全生命周期流程。</p>
+<p>
+  <figure>
+    <img src="/img/%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b2%a6%e9%99%b7%e5%88%b0%e4%be%9b%e5%ba%94%e9%93%be%e6%8a%95%e6%af%92/%e5%9b%be11.png" alt="img">
+    <center><figcaption>图11 Fusion能力全景图</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="五参考文献">五．参考文献</h1>
+<ul>
+<li>[1] <a href="https://book.yunzhan365.com/tkgd/qdvx/mobile/index.html">https://book.yunzhan365.com/tkgd/qdvx/mobile/index.html</a></li>
+<li>[2] <a href="https://book.yunzhan365.com/tkgd/cltc/mobile/index.html">https://book.yunzhan365.com/tkgd/cltc/mobile/index.html</a></li>
+<li>[3]  <a href="https://book.yunzhan365.com/tkgd/sash/mobile/index.html">https://book.yunzhan365.com/tkgd/sash/mobile/index.html</a></li>
+<li>[4]  <a href="https://book.yunzhan365.com/tkgd/bxgy/mobile/index.html">https://book.yunzhan365.com/tkgd/bxgy/mobile/index.html</a></li>
+<li>[5]  <a href="https://book.yunzhan365.com/tkgd/xyih/mobile/index.html">https://book.yunzhan365.com/tkgd/xyih/mobile/index.html</a></li>
+<li>[6]  <a href="https://book.yunzhan365.com/tkgd/xbin/mobile/index.html">https://book.yunzhan365.com/tkgd/xbin/mobile/index.html</a></li>
+<li>[7]  <a href="https://www.gartner.com/cn/newsroom/press-releases/2025-china-ai-predicts">https://www.gartner.com/cn/newsroom/press-releases/2025-china-ai-predicts</a></li>
+</ul>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-08-27-2024-verizon-dbir%E8%A7%A3%E8%AF%BB-%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E8%BD%AC%E5%90%91%E8%BF%9E%E6%8E%A5%E4%BA%91%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E4%BE%9B%E5%BA%94%E9%93%BE/" data-toggle="tooltip" data-placement="top" title="2024 Verizon DBIR解读 | 数据泄露转向连接云的第三方软件供应链">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2025-03-28-2025-%E7%BD%91%E7%9B%98%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E6%8E%A2%E7%B4%A2%E4%BB%8E%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%AA%81%E7%A0%B4%E5%88%B0%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%8F%91%E7%8E%B0/" data-toggle="tooltip" data-placement="top" title="网盘数据泄露探索：从访问控制突破到敏感信息发现">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8" title="大模型安全">
+                            大模型安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F" title="数据泄漏">
+                            数据泄漏
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

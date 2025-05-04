@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>网盘 on Ming Blog</title>
+    <link>https://puming.zone/tags/%E7%BD%91%E7%9B%98/</link>
+    <description>Recent content in 网盘 on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Mar 2025 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/%E7%BD%91%E7%9B%98/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>网盘数据泄露探索：从访问控制突破到敏感信息发现</title>
+      <link>https://puming.zone/post/2025-03-28-2025-%E7%BD%91%E7%9B%98%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E6%8E%A2%E7%B4%A2%E4%BB%8E%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%AA%81%E7%A0%B4%E5%88%B0%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%8F%91%E7%8E%B0/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2025-03-28-2025-%E7%BD%91%E7%9B%98%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E6%8E%A2%E7%B4%A2%E4%BB%8E%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%AA%81%E7%A0%B4%E5%88%B0%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%8F%91%E7%8E%B0/</guid>
+      <description>一．概述 ​ 数据泄露已成为数字时代企业和个人面临的重大威胁之一，不仅会造成经济损失，还可能损害企业声誉和用户信任。因此，深入分析数据泄露的趋势</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,10 +6,19 @@
     <description>Recent content in 云原生安全 on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 May 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Mar 2025 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>从环境构建到漏洞利用：如何用Metarget和Coogo复现K8s IngressNightmare攻击链</title>
+      <link>https://puming.zone/post/2025-03-29-%E4%BB%8E%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA%E5%88%B0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%A6%82%E4%BD%95%E7%94%A8metarget%E5%92%8Ccoogo%E5%A4%8D%E7%8E%B0k8s-ingressnightmare%E6%94%BB%E5%87%BB%E9%93%BE/</link>
+      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2025-03-29-%E4%BB%8E%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA%E5%88%B0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%A6%82%E4%BD%95%E7%94%A8metarget%E5%92%8Ccoogo%E5%A4%8D%E7%8E%B0k8s-ingressnightmare%E6%94%BB%E5%87%BB%E9%93%BE/</guid>
+      <description>一．概述 Ingress Controller作为K8s集群管理外部访问的核心组件，承担着集群入口网关的关键角色，其通过智能路由机制将外部HTTP/HTTP</description>
+    </item>
     
     <item>
       <title>洞见RSA2024 | Kubernetes攻击与防御技术综述</title>
