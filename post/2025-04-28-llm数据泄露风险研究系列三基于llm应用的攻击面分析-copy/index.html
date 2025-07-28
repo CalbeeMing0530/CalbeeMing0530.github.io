@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="LLM数据泄露风险研究系列（三）：基于LLM应用的攻击面分析" />
+    <meta property="og:title" content="LLM数据泄露风险研究系列（三）：基于LLM应用的攻击面分析" />
+    <meta property="twitter:title" content="LLM数据泄露风险研究系列（三）：基于LLM应用的攻击面分析" />
+    
+
+    
+    <meta name="description" content="基于LLM应用的攻击面分析">
+    <meta property="og:description" content="基于LLM应用的攻击面分析" />
+    <meta property="twitter:description" content="基于LLM应用的攻击面分析" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>LLM数据泄露风险研究系列（三）：基于LLM应用的攻击面分析-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2025-04-28-llm%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9%E7%A0%94%E7%A9%B6%E7%B3%BB%E5%88%97%E4%B8%89%E5%9F%BA%E4%BA%8Ellm%E5%BA%94%E7%94%A8%E7%9A%84%E6%94%BB%E5%87%BB%E9%9D%A2%E5%88%86%E6%9E%90-copy/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2" title="数据泄露">
+                            数据泄露
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8" title="大模型安全">
+                            大模型安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8" title="大模型应用">
+                            大模型应用
+                        </a>
+                        
+                        <a class="tag" href="/tags/llm%E6%94%BB%E5%87%BB%E9%9D%A2%E5%88%86%E6%9E%90" title="LLM攻击面分析">
+                            LLM攻击面分析
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E4%B8%8A%E9%A3%8E%E9%99%A9%E5%8F%91%E7%8E%B0" title="云上风险发现">
+                            云上风险发现
+                        </a>
+                        
+                    </div>
+                    <h1>LLM数据泄露风险研究系列（三）：基于LLM应用的攻击面分析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                     &#34;Pu Ming&#34;
+                             
+                            on 
+                            Monday, April 28, 2025
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="一-概述">一. 概述</h1>
+<p>本系列前两篇文章深入探讨了向量数据库和LLMOps在全球的暴露面及攻击面，本文作为第三篇，将重点关注当前主流大模型应用的安全风险。如今，大模型上云趋势明显，大多数大模型应用都可通过Docker快速一键部署， 这种“一键上云”的便利虽然加速了技术落地，但也同时埋下了不少安全隐患，如未授权API接口调用、形同虚设的访问控制与权限失效、N Day漏洞的再次利用问题等，均可导致用户隐私数据、机密信息大规模泄露。具体而言，攻击者可通过盗取大模型应用系统凭证、模型密钥、拦截聊天记录、污染训练数据等多重手段发起攻击。</p>
+<p>本文我们依然从攻击面角度出发，对大模型应用中可能存在攻击的环节以及造成的实际危害进行分析，并给出缓解措施，希望可以通过具体介绍让大模型使用人员重视大模型生态中的数据安全。引发进一步思考。</p>
+<h1 id="二开源大模型应用介绍">二．开源大模型应用介绍</h1>
+<p>[<a href="#_msocom_1">1]</a> [<a href="#_msocom_2">2]</a> 我们认为大模型应用按类型可粗略分为问答系统（如ChatGPT）、编程开发助手(如Copilot)、搜索引擎与信息检索(如New Bing)、RAG应用（如Langchain、FastGPT）、LLM应用开发框架（Langflow、Dify）、垂直领域应用（如IBM Watson Health）这几类，鉴于本系列文章更聚焦于开源生态，据我们调研开源问答系统、RAG应用、LLM应用开发框架较多，因此这两者将为本文研究的重点。</p>
+<p>我们调研，当前业界较为受欢迎的开源大模型应用如表格1所示：</p>
+<p>表1 - 开源大模型应用基本信息</p>
+<table>
+<thead>
+<tr>
+<th><strong>LLM应用</strong></th>
+<th><strong>应用类型</strong></th>
+<th><strong>Github链接</strong></th>
+<th><strong>Star数</strong></th>
+<th><strong>API</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain</td>
+<td>RAG应用</td>
+<td><a href="https://github.com/langchain-ai/langchain">https://github.com/langchain-ai/langchain</a></td>
+<td>103k</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>AnythingLLM</td>
+<td>RAG应用</td>
+<td><a href="https://github.com/Mintplex-Labs/anything-llm">https://github.com/Mintplex-Labs/anything-llm</a></td>
+<td>40.9k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>FastGPT</td>
+<td>RAG应用</td>
+<td><a href="https://github.com/labring/FastGPT">https://github.com/labring/FastGPT</a></td>
+<td>23.7k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>RAGFlow</td>
+<td>RAG应用</td>
+<td><a href="https://github.com/infiniflow/ragflow">https://github.com/infiniflow/ragflow</a></td>
+<td>44.4k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Vanna</td>
+<td>RAG应用</td>
+<td><a href="https://github.com/vanna-ai/vanna">https://github.com/vanna-ai/vanna</a></td>
+<td>14k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Langflow</td>
+<td>LLM应用开发框架</td>
+<td><a href="https://github.com/langflow-ai/langflow">https://github.com/langflow-ai/langflow</a></td>
+<td>51.3k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Dify</td>
+<td>LLM应用开发框架</td>
+<td><a href="https://github.com/langgenius/dify">https://github.com/langgenius/dify</a></td>
+<td>81.7k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>open-webui</td>
+<td>LLM应用开发框架</td>
+<td><a href="https://github.com/open-webui/open-webui">https://github.com/open-webui/open-webui</a></td>
+<td>82.9k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>NextChat</td>
+<td>问答系统</td>
+<td><a href="https://github.com/ChatGPTNextWeb/NextChat">https://github.com/ChatGPTNextWeb/NextChat</a></td>
+<td>81.9k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Auto-GPT</td>
+<td>问答系统</td>
+<td><a href="https://github.com/Significant-Gravitas/AutoGPT">https://github.com/Significant-Gravitas/AutoGPT</a></td>
+<td>173k</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>ChatGPT Web</td>
+<td>问答系统</td>
+<td><a href="https://github.com/Chanzhaoyu/chatgpt-web">https://github.com/Chanzhaoyu/chatgpt-web</a></td>
+<td>31.9k</td>
+<td>支持[<a href="#_msocom_3">3]</a> [<a href="#_msocom_4">4]</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="三开源大模型应用暴露面分析">三．开源大模型应用暴露面分析</h1>
+<p>我们针对上述小节中常见的大模型应用进行了测绘分析，重点为地区分布情况和所属云厂商两个维度，如下所示：</p>
+<p><strong>AnythingLLM</strong>[<a href="#_msocom_5">5]</a></p>
+<p>AnythingLLM是由Mintplex Labs开源的一个全栈大模型聊天应用，该应用使用了现有商业大模型或开源大模型，再结合向量数据库解决方案以构建一个私有ChatGPT，该应用可以本地运行，也可以远程托管，并能够与用户进行智能聊天。</p>
+<p>Github链接：https://github.com/Mintplex-Labs/anything-llm</p>
+<p>图1展示了AnythingLLM应用的全球区域分布与云厂商分布情况。AnythingLLM应用全球服务数量超6600个，区域分布高度集中。前五大市场依次为中国、美国、德国、中国台湾省和新加坡，合计占比78%。云服务部署呈现多元化特征：AWS以60%占比居首，阿里云（16%）与腾讯云（9%）次之，其余15%由其他云服务商构成。数据表明，尽管头部云厂商占据主要份额，但仍有相当比例的开发者选择非主流云平台进行部署。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be1.png" alt="img">
+    <center><figcaption>图1 AnythingLLM全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>Ragflow</strong></p>
+<p><a href="https://ragflow.io/">RAGFlow</a> [9]是一款基于深度文档理解构建的开源 RAG（Retrieval-Augmented Generation）应用。RAGFlow 可以为各种规模的企业及个人提供一套精简的 RAG 工作流程，结合大语言模型（LLM）针对用户各类不同的复杂格式数据提供可靠的问答以及有理有据的引用。</p>
+<p>Github链接：https://github.com/infiniflow/ragflow</p>
+<p>图2展示了Ragflow应用的全球区域分布与云厂商分布情况。其中，Ragflow应用全球服务数量达4800+个，区域分布呈现显著集中态势。前五大市场以中国（3200+次）、美国、德国、中国香港和南非为主，五地合计占比达87%。云服务部署格局中，阿里云以57%的绝对优势领跑，腾讯云（18%）与AWS（9%）分列二三位，其余16%由其他云平台承接。数据反映出中国市场在该应用中的核心地位，同时云服务生态虽以头部厂商为主，但长尾市场仍存在多元化部署空间。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be2.png" alt="img">
+    <center><figcaption>图2 Ragflow全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>Langflow</strong></p>
+<p>Langflow是一个强大的AI代理和工作流构建工具，提供可视化拖拽界面简化开发流程，内置API服务器可将代理快速部署为可调用端点，并开箱即用地支持主流大模型、向量数据库及丰富AI工具生态，实现无缝集成与快速部署。</p>
+<p>Github链接：https://github.com/langflow-ai/langflow</p>
+<p>图3展示了Langflow应用的全球区域分布与云厂商分布情况。Langflow应用全球服务数量约2500个，区域分布呈现明显区域性特征。前五大市场依次为美国、德国、印尼、英国和巴西，五国合计占比63%，中国用户占比显著偏低，反映其在国内市场渗透度较弱。云服务部署集中度较高：AWS以58%的绝对优势主导，谷歌云（19%）与微软云（16%）构成第二梯队，剩余7%由其他云平台覆盖。数据凸显该应用在欧美及新兴市场的活跃度，同时反映出云服务生态仍由国际头部厂商把控的竞争格局。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be3.png" alt="img">
+    <center><figcaption>图3 Langflow全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>Dify</strong></p>
+<p>Dify 是一个开源的 LLM 应用开发平台。其有较直观的界面并集成了智能AI工作流、RAG管道、智能体能力、模型管理、可观测性等功能，有助于用户快速从原型开发过渡到生产部署。</p>
+<p>Github链接：https://github.com/langgenius/dify</p>
+<p>图4展示了Dify应用的全球区域分布与云厂商分布情况。Dify应用全球服务数量达58000+个，呈现显著规模优势。区域分布高度集中：前五大市场中国（30349次，占比52%）、美国、日本、德国和新加坡合计占比86%，凸显中国市场的主导地位。云服务部署形成&quot;一超多强&quot;格局：阿里云以43%领跑市场，腾讯云（25%）与AWS（17%）构成双巨头支撑，剩余15%由其他云平台覆盖。作为使用量远超同类组件的产品，Dify展现出了中国市场强大的技术采纳能力</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be4.png" alt="img">
+    <center><figcaption>图4 Dify全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>Open WebUI</strong></p>
+<p>Open WebUI 是一款可扩展、功能丰富且用户友好的自托管AI平台，支持完全离线运行。该平台兼容多种LLM运行环境（如Ollama及OpenAI标准API），并内置RAG推理引擎，是强大的AI私有化部署解决方案。</p>
+<p>Github链接：https://github.com/open-webui/open-webui</p>
+<p>图5展示了Open WebUI应用的全球区域分布与云厂商分布情况。Open WebUI应用全球服务部署量达104000+个，展现强劲市场渗透力。区域分布呈现双核驱动格局：中国（30349个，占29%）与美国（20547个，占20%）合计贡献近半数使用量，与德国、英国、中国香港共同构成前五大市场，五地合计占比65%。云服务竞争呈三足鼎立态势：腾讯云（30%）以微弱优势领先阿里云（27%），AWS（19%）稳居第三梯队，剩余24%由多元云服务商分占。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be5.png" alt="img">
+    <center><figcaption>图5 Open WebUI全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<p><strong>NextChat</strong></p>
+<p>ChatGPT-Next-Web 是一款轻量化、可私有化部署的开源ChatGPT网页客户端，支持多模型 API 对接和本地数据存储，提供企业级对话 AI 快速集成方案。</p>
+<p>Github链接：https://github.com/ChatGPTNextWeb/NextChat</p>
+<p>图6展示了NextChat应用的全球区域分布与云厂商分布情况。NextChat应用全球服务部署量达7600+个，区域分布中国（2348个，占29%）与美国（3454个，占20%）合计贡献76%，与中国香港、新加坡、加拿大位居前五大市场。云服务部署呈现头部垄断态势：AWS以1,800+资产（45%）占据主导地位，阿里云（1,100+，28%）与腾讯云（800，20%）形成第二梯队，其余7%由其他云平台覆盖。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be6.png" alt="img">
+    <center><figcaption>图6 NextChat全球区域分布与云厂商分布情况</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="四开源大模型应用数据泄露攻击面分析">四．开源大模型应用数据泄露攻击面分析</h1>
+<p>我们对当前市场主流开源大模型应用架构研究后发现当前市场中的开源大模型应用普遍存在API未授权访问风险，大模型应用在用户交互层与底层模型服务之间普遍采用API通信机制。部分应用存在接口鉴权机制缺失或配置缺陷，导致攻击者可绕过身份验证直接访问核心API接口。此类漏洞将直接暴露模型基础架构信息、应用凭证密钥、用户会话数据等敏感资产。攻击者利用该漏洞可实施模型资产窃取、会话数据爬取等高危操作，甚至通过密钥泄露实现横向渗透，下文我们将围绕以上风险对开源大模型应用的数据泄露攻击面进行分析。</p>
+<h2 id="41-模型基础信息泄露风险">4.1 模型基础信息泄露风险</h2>
+<p>经我们调研发现，部分聊天应用存在未授权API接口默认开放的安全隐患。这些接口可被任意访问并返回模型系统的基础信息，主要包括以下敏感数据：</p>
+<p>1）向量数据库类型及配置参数；</p>
+<p>2）模型版本信息；</p>
+<p>3）API密钥调用状态等核心资产信息。</p>
+<p>这些API接口已显露多重安全风险：首先，攻击者可利用获取的版本信息查询相关CVE漏洞数据库，精准定位已知漏洞进行渗透测试；其次，通过解析向量数据库类型及连接方式，攻击者可尝试构造未授权访问请求，实施数据窃取或注入攻击；更严重的是，API密钥调用状态的泄露可能暴露系统脆弱环节，为攻击者提供横向渗透路径。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be7.png" alt="img">
+    <center><figcaption>图7 通过API未授权访问应用基本信息</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be8.png" alt="img">
+    <center><figcaption>图8 通过暴露的基础信息对向量数据库进行未授权访问</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="42-llm应用凭证泄露风险">4.2 LLM应用凭证泄露风险</h2>
+<p>经我们分析发现，由于可未授权访问的Web聊天应用通常会将API Token等核心应用凭证内嵌在Web网页代码中，且较容易被发现，因此攻击者可借此发起以下两种类型攻击：</p>
+<ol>
+<li>
+<p>模型资源滥用攻击
+通过提取Web界面中的API Token，攻击者可模拟合法身份调用官方REST API接口，对AI模型发起高频推理请求。此类&quot;薅羊毛&quot;攻击将造成算力资源劫持以及消耗模型服务配额，推高企业云计算成本的风险。</p>
+</li>
+<li>
+<p>权限体系穿透攻击
+更严重的风险在于，部分应用会将管理员API密钥硬编码至前端代码。攻击者可逆向解析获取密钥后，直接访问后台管理接口实施如隐蔽通道构建和权限架构破坏等行为。</p>
+</li>
+</ol>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be9.png" alt="img">
+    <center><figcaption>图9 通过API未授权访问获取大模型应用Key</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be10.png" alt="img">
+    <center><figcaption>图10 通过API未授权访问模型swagger文档</figcaption></center>
+  </figure>
+
+</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be11.png" alt="img">
+    <center><figcaption>图11 通过获取的大模型应用Key对应用本身进行操作</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="43-模型key泄露风险">4.3 模型Key泄露风险</h2>
+<p>经研究发现，大模型应用开发框架（如LangChain、FastGPT等）在低代码编排场景中存在关键接口暴露风险。此类框架通过可视化流程（Flow）实现多模型链式调用，但若使用者未对Flow编排接口进行严格管控，攻击者可利用以下路径实施深度攻击：</p>
+<p>攻击链：</p>
+<p>阶段一：Flow元数据探测，未鉴权Flow API访问 → 响应数据分析 → 提取模型密钥/终端地址</p>
+<p>阶段二：横向权限穿透，将窃取的密钥注入自有应用，劫持原付费账户的模型调用权限</p>
+<p>阶段三：资源定向破坏，使用合法密钥发起高并发推理请求，触发模型服务商计费风控阈值或创建影子账户，结合泄露的管理密钥，在模型服务商侧注册傀儡账户实现持久化。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be12.png" alt="img">
+    <center><figcaption>图12 通过API未授权获取大模型Key</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="44-模型聊天信息泄露风险">4.4 模型聊天信息泄露风险</h2>
+<p>API未授权访问问题也可能导致模型交互数据的系统性泄露，其攻击路径主要呈现为聊天记录直提取以及LLM凭证劫持</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be13.png" alt="img">
+    <center><figcaption>图13 通过API未授权获取模型聊天记录</figcaption></center>
+  </figure>
+
+</p>
+<h2 id="45-模型训练信息泄露">4.5 模型训练信息泄露</h2>
+<p>通过API未授权访问，攻击者可以访问模型训练数据，下图为大模型应用的训练数据页面，可以看出的是通过自然语言生成SQL语句虽然给使用者带来了便利，但若不对相应接口进行鉴权，训练数据则会被暴露于外，攻击者也可根据历史指令构造恶意语义化指令从而绕过业务逻辑窃取敏感信息。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be14.png" alt="img">
+    <center><figcaption>图14 模型训练数据泄露</figcaption></center>
+  </figure>
+
+</p>
+<h1 id="五-建议防护措施">五． 建议防护措施</h1>
+<p>由于上述风险和攻击面均是由于不安全的API访问所引起，因此我们认为需要从根因解决问题，建议应用部署者进行以下防护措施：</p>
+<ol>
+<li>
+<p>强制启用OAuth 2.0/SSO等认证方案，对模型应用Web控制台实施IP白名单访问控制</p>
+</li>
+<li>
+<p>针对管理类API接口实施双因素认证，按最小权限原则划分API访问等级</p>
+</li>
+<li>
+<p>针对模型开发框架类应用建议对Flow接口实施严格鉴权，最大幅度减少其API暴露面</p>
+</li>
+<li>
+<p>针对语义绕过进行严格安全层过滤</p>
+</li>
+</ol>
+<h1 id="六绿盟科技创新研究院云上风险发现研究成果">六．绿盟科技创新研究院云上风险发现研究成果</h1>
+<p>绿盟科技创新研究院在云上风险发现和数据泄漏领域已经开展了多年的研究。借助Fusion数据泄露侦察平台，我们已监测到数万个云端暴露资产存在未授权访问的情况，包括但不限于自建仓库、公有云对象存储、云盘、OLAP/OLTP数据库、大模型组件，以及各类存储中间件等，具体研究内容可参考包括但不限于DevSecOps组件，自建仓库、公有云对象存储、云盘、OLAP/OLTP数据库，大模型组件以及各类存储中间件等，具体研究内容可参考《2023公有云安全风险分析报告》[1]，《2024上半年全球云数据泄露风险分析报告》[2]，《全球云上数据泄露风险分析简报》第一期至第五期[3-7]。</p>
+<p>Fusion是由绿盟科技创新研究院研发的一款面向数据泄露测绘的创新产品，集探测、识别、泄露数据侦察于一体，针对互联网中暴露的泛云组件进行测绘，识别组件关联的组织机构和组件风险的影响面，实现自动化的资产探测、风险发现、泄露数据分析、责任主体识别、数据泄露侦察全生命周期流程。</p>
+<p>
+  <figure>
+    <img src="/img/LLM%e6%95%b0%e6%8d%ae%e6%b3%84%e9%9c%b2%e9%a3%8e%e9%99%a9%e7%a0%94%e7%a9%b6%e7%b3%bb%e5%88%97%e4%b8%89/%e5%9b%be15.png" alt="img">
+    <center><figcaption>图15 Fusion能力全景图</figcaption></center>
+  </figure>
+
+</p>
+<p>Fusion的云上风险事件发现组件具有如下主要特色能力：</p>
+<p><strong>资产扫描探测</strong>：通过多个分布式节点对目标网段/资产进行分布式扫描探测，同时获取外部平台相关资产进行融合，利用本地指纹知识库，实现目标区域云上资产探测与指纹标记；</p>
+<p><strong>资产风险发现</strong>：通过分布式任务管理机制对目标资产进行静态版本匹配和动态PoC验证的方式，实现快速获取目标资产的脆弱性暴露情况；</p>
+<p><strong>风险资产组织定位</strong>：利用网络资产信息定位其所属地区、行业以及责任主体，进而挖掘主体间存在的隐藏供应链关系及相关风险。</p>
+<p><strong>资产泄露数据分析</strong>：针对不同组件资产的泄露文件，结合大模型相关技术对泄露数据进行分析与挖掘，实现目标资产的敏感信息获取；</p>
+<p>当今数字化迅速发展的时代，数据安全问题越来越受到广泛关注。与此同时，随着云计算技术的普及和应用，企业也不可避免面临着云上数据泄露事件的频繁发生，为了提供公众和相关行业对数据安全的认知，我们计划定期发布有关云上数据泄露的分析报告，这些报告将以月报或双月报的形式呈现，内容涵盖最新的云上数据泄露案例分析、趋势洞察、数据保护最佳实践以及专家建议等。</p>
+<p>如果读者对本文有任何意见或疑问，欢迎批评指正。如有合作意向请联系我们（邮箱<a href="mailto:chenfozhong@nsfocus.com%EF%BC%89%E3%80%82">chenfozhong@nsfocus.com）。</a></p>
+<h1 id="七-参考文献">七． 参考文献</h1>
+<p>[1] 《2023公有云安全风险分析报告》 <a href="https://book.yunzhan365.com/tkgd/qdvx/mobile/index.html">https://book.yunzhan365.com/tkgd/qdvx/mobile/index.html</a></p>
+<p>[2]《2024上半年全球云上数据泄露风险分析报告》https://book.yunzhan365.com/tkgd/cltc/mobile/index.html</p>
+<p>[3] 全球云上数据泄露风险分析简报 （第一期）https://book.yunzhan365.com/tkgd/sash/mobile/index.html</p>
+<p>[4] 全球云上数据泄露风险分析简报 （第二期）https://book.yunzhan365.com/tkgd/bxgy/mobile/index.html</p>
+<p>[5] 全球云上数据泄露风险分析简报 （第三期）https://book.yunzhan365.com/tkgd/xyih/mobile/index.html</p>
+<p>[6] 全球云上数据泄露风险分析简报 （第四期）https://book.yunzhan365.com/tkgd/xbin/mobile/index.html</p>
+<p>[7] 全球云上数据泄露风险分析简报 （第五期）https://book.yunzhan365.com/bookcase/wxjf/index.html</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2025-03-29-%E4%BB%8E%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA%E5%88%B0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%A6%82%E4%BD%95%E7%94%A8metarget%E5%92%8Ccoogo%E5%A4%8D%E7%8E%B0k8s-ingressnightmare%E6%94%BB%E5%87%BB%E9%93%BE/" data-toggle="tooltip" data-placement="top" title="从环境构建到漏洞利用：如何用Metarget和Coogo复现K8s IngressNightmare攻击链">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2025-06-09-%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E6%94%BB%E5%87%BB%E9%9D%A2%E5%88%86%E6%9E%90%E4%BA%91%E4%B8%8Allm%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9%E7%A0%94%E7%A9%B6%E7%B3%BB%E5%88%97%E5%9B%9B/" data-toggle="tooltip" data-placement="top" title="开源大模型推理软件的攻击面分析：云上LLM数据泄露风险研究系列（四）">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/llm%E6%94%BB%E5%87%BB%E9%9D%A2%E5%88%86%E6%9E%90" title="llm攻击面分析">
+                            llm攻击面分析
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/verizon" title="verizon">
+                            verizon
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E4%B8%8A%E9%A3%8E%E9%99%A9%E5%8F%91%E7%8E%B0" title="云上风险发现">
+                            云上风险发现
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8" title="大模型安全">
+                            大模型安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8" title="大模型应用">
+                            大模型应用
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA" title="威胁行为">
+                            威胁行为
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6" title="安全事件">
+                            安全事件
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F" title="数据泄漏">
+                            数据泄漏
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2" title="数据泄露">
+                            数据泄露
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>
