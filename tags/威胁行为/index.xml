@@ -6,10 +6,28 @@
     <description>Recent content in 威胁行为 on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Aug 2025 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>提示词注入：近期大模型安全漏洞案例剖析</title>
+      <link>https://puming.zone/post/2025-8-25-%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5%E8%BF%91%E6%9C%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E5%89%96%E6%9E%90/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2025-8-25-%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5%E8%BF%91%E6%9C%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E5%89%96%E6%9E%90/</guid>
+      <description>一．概述 随着大模型技术的广泛应用，由提示词注入引发的数据泄露事件正日益增多。许多新兴的攻击手法，例如通过提示词诱导AI模型执行恶意指令，甚至</description>
+    </item>
+    
+    <item>
+      <title>大模型生态的数据泄露危机：从向量数据库到AI助手的“失控链”</title>
+      <link>https://puming.zone/post/2025-8-22-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%80%81%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E5%8D%B1%E6%9C%BA%E4%BB%8E%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%B0ai%E5%8A%A9%E6%89%8B%E7%9A%84%E5%A4%B1%E6%8E%A7%E9%93%BE/</link>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2025-8-22-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%80%81%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E5%8D%B1%E6%9C%BA%E4%BB%8E%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%B0ai%E5%8A%A9%E6%89%8B%E7%9A%84%E5%A4%B1%E6%8E%A7%E9%93%BE/</guid>
+      <description>一．概述 据绿盟科技星云实验室统计，在2025年3月至6月期间，全球范围集中爆发了多起与大模型相关的重大数据泄露事件，导致大量敏感数据外泄，包</description>
+    </item>
     
     <item>
       <title>2025 Verizon DBIR解读 |  供应链攻击30%&#43;勒索软件44%：边缘设备漏洞与AI滥用催生新风险</title>
