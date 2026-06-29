@@ -6,10 +6,181 @@
     <description>Recent content in Tags on Ming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://puming.zone/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AI安全</title>
+      <link>https://puming.zone/tags/ai%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/ai%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CVE-2026-32038</title>
+      <link>https://puming.zone/tags/cve-2026-32038/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cve-2026-32038/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker安全</title>
+      <link>https://puming.zone/tags/docker%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/docker%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OpenClaw</title>
+      <link>https://puming.zone/tags/openclaw/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/openclaw/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>沙箱逃逸</title>
+      <link>https://puming.zone/tags/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络隔离绕过</title>
+      <link>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E9%9A%94%E7%A6%BB%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E7%BD%91%E7%BB%9C%E9%9A%94%E7%A6%BB%E7%BB%95%E8%BF%87/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Agentic AI</title>
+      <link>https://puming.zone/tags/agentic-ai/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/agentic-ai/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Skill投毒</title>
+      <link>https://puming.zone/tags/skill%E6%8A%95%E6%AF%92/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/skill%E6%8A%95%E6%AF%92/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>供应链安全</title>
+      <link>https://puming.zone/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>提示词注入</title>
+      <link>https://puming.zone/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CVE-2026-28363</title>
+      <link>https://puming.zone/tags/cve-2026-28363/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cve-2026-28363/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>POSIX绕过</title>
+      <link>https://puming.zone/tags/posix%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/posix%E7%BB%95%E8%BF%87/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RCE</title>
+      <link>https://puming.zone/tags/rce/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/rce/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>safeBins</title>
+      <link>https://puming.zone/tags/safebins/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/safebins/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>命令注入</title>
+      <link>https://puming.zone/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>1-Click RCE</title>
+      <link>https://puming.zone/tags/1-click-rce/</link>
+      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/1-click-rce/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CVE-2026-25253</title>
+      <link>https://puming.zone/tags/cve-2026-25253/</link>
+      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cve-2026-25253/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WebSocket</title>
+      <link>https://puming.zone/tags/websocket/</link>
+      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/websocket/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网关劫持</title>
+      <link>https://puming.zone/tags/%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81/</link>
+      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>LLM</title>
@@ -152,15 +323,6 @@
       <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/nginx-ingress/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RCE</title>
-      <link>https://puming.zone/tags/rce/</link>
-      <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/rce/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>safeBins on Ming Blog</title>
+    <link>https://puming.zone/tags/safebins/</link>
+    <description>Recent content in safeBins on Ming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Feb 2026 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://puming.zone/tags/safebins/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OpenClaw安全实战系列(二)：白名单也防不住？复盘 CVE-2026-28363 授权绕过全过程</title>
+      <link>https://puming.zone/post/2026-02-22-openclaw%E5%AE%89%E5%85%A8%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%BA%8C%E7%99%BD%E5%90%8D%E5%8D%95%E4%B9%9F%E9%98%B2%E4%B8%8D%E4%BD%8F%E5%A4%8D%E7%9B%98cve-2026-28363%E6%8E%88%E6%9D%83%E7%BB%95%E8%BF%87%E5%85%A8%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/post/2026-02-22-openclaw%E5%AE%89%E5%85%A8%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%BA%8C%E7%99%BD%E5%90%8D%E5%8D%95%E4%B9%9F%E9%98%B2%E4%B8%8D%E4%BD%8F%E5%A4%8D%E7%9B%98cve-2026-28363%E6%8E%88%E6%9D%83%E7%BB%95%E8%BF%87%E5%85%A8%E8%BF%87%E7%A8%8B/</guid>
+      <description>作者：星云实验室 浦明 关键词：Agentic AI 安全；OpenClaw 漏洞；CVE-2026-28363；命令注入 RCE；POSIX 绕过 摘要 本文</description>
+    </item>
+    
+  </channel>
+</rss>
