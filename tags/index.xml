@@ -102,6 +102,69 @@
     </item>
     
     <item>
+      <title>ClawHub</title>
+      <link>https://puming.zone/tags/clawhub/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/clawhub/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CVE-2026-25253</title>
+      <link>https://puming.zone/tags/cve-2026-25253/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/cve-2026-25253/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infostealer</title>
+      <link>https://puming.zone/tags/infostealer/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/infostealer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Moltbook</title>
+      <link>https://puming.zone/tags/moltbook/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/moltbook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RCE</title>
+      <link>https://puming.zone/tags/rce/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/rce/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vibe Coding</title>
+      <link>https://puming.zone/tags/vibe-coding/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/vibe-coding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WebSocket</title>
+      <link>https://puming.zone/tags/websocket/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/websocket/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>CVE-2026-28363</title>
       <link>https://puming.zone/tags/cve-2026-28363/</link>
       <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
@@ -116,15 +179,6 @@
       <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/posix%E7%BB%95%E8%BF%87/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RCE</title>
-      <link>https://puming.zone/tags/rce/</link>
-      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/rce/</guid>
       <description></description>
     </item>
     
@@ -156,29 +210,74 @@
     </item>
     
     <item>
-      <title>CVE-2026-25253</title>
-      <link>https://puming.zone/tags/cve-2026-25253/</link>
-      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/cve-2026-25253/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>WebSocket</title>
-      <link>https://puming.zone/tags/websocket/</link>
-      <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/websocket/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>网关劫持</title>
       <link>https://puming.zone/tags/%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81/</link>
       <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ChatGPT</title>
+      <link>https://puming.zone/tags/chatgpt/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/chatgpt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ClickHouse</title>
+      <link>https://puming.zone/tags/clickhouse/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/clickhouse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Copilot</title>
+      <link>https://puming.zone/tags/copilot/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/copilot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DeepSeek</title>
+      <link>https://puming.zone/tags/deepseek/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/deepseek/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LLM劫持</title>
+      <link>https://puming.zone/tags/llm%E5%8A%AB%E6%8C%81/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/llm%E5%8A%AB%E6%8C%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云安全</title>
+      <link>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据泄露</title>
+      <link>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</guid>
       <description></description>
     </item>
     
@@ -224,15 +323,6 @@
       <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>数据泄露</title>
-      <link>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</link>
-      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</guid>
       <description></description>
     </item>
     
@@ -422,15 +512,6 @@
       <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
       
       <guid>https://puming.zone/tags/iam/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>云安全</title>
-      <link>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</link>
-      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
-      
-      <guid>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</guid>
       <description></description>
     </item>
     

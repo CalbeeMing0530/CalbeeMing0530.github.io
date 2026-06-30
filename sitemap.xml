@@ -88,6 +88,46 @@
   </url>
   
   <url>
+    <loc>https://puming.zone/tags/clawhub/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/cve-2026-25253/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/infostealer/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/moltbook/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2026-02-28-openclaw%E8%BF%91%E6%9C%9F%E7%94%9F%E6%80%81%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E8%A7%A3%E8%AF%BB%E4%BB%8Erce%E6%BC%8F%E6%B4%9E%E5%88%B0skill%E4%BE%9B%E5%BA%94%E9%93%BE%E6%8A%95%E6%AF%92%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/rce/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/vibe-coding/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/websocket/</loc>
+    <lastmod>2026-02-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://puming.zone/tags/cve-2026-28363/</loc>
     <lastmod>2026-02-22T00:00:00+00:00</lastmod>
   </url>
@@ -99,11 +139,6 @@
   
   <url>
     <loc>https://puming.zone/tags/posix%E7%BB%95%E8%BF%87/</loc>
-    <lastmod>2026-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/rce/</loc>
     <lastmod>2026-02-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -123,23 +158,53 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/cve-2026-25253/</loc>
-    <lastmod>2026-01-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://puming.zone/post/2026-01-29-openclaw%E5%AE%89%E5%85%A8%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%89%E5%88%A9%E7%94%A8%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81%E5%AE%9E%E7%8E%B0openclaw%E6%8E%A7%E5%88%B6%E7%AB%AF1-click-rce-cve-2026-25253/</loc>
-    <lastmod>2026-01-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/websocket/</loc>
     <lastmod>2026-01-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://puming.zone/tags/%E7%BD%91%E5%85%B3%E5%8A%AB%E6%8C%81/</loc>
     <lastmod>2026-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/chatgpt/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/clickhouse/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/copilot/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/deepseek/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/llm%E5%8A%AB%E6%8C%81/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/post/2025-12-15-%E4%BB%8E%E7%8E%B0%E7%BD%91%E5%88%B0%E9%9D%B6%E5%9C%BA2025%E4%BA%91%E4%B8%8Aai%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E6%B7%B1%E5%BA%A6%E5%A4%8D%E7%9B%98/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</loc>
+    <lastmod>2025-12-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -174,11 +239,6 @@
   
   <url>
     <loc>https://puming.zone/post/2025-8-25-%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%B3%A8%E5%85%A5%E8%BF%91%E6%9C%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E5%89%96%E6%9E%90/</loc>
-    <lastmod>2025-08-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/tags/%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2/</loc>
     <lastmod>2025-08-25T00:00:00+00:00</lastmod>
   </url>
   
@@ -338,17 +398,12 @@
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/%E4%BA%91%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://puming.zone/categories/life/</loc>
+    <loc>https://puming.zone/tags/life/</loc>
     <lastmod>2024-04-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://puming.zone/tags/life/</loc>
+    <loc>https://puming.zone/categories/life/</loc>
     <lastmod>2024-04-20T00:00:00+00:00</lastmod>
   </url>
   
